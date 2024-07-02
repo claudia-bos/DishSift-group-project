@@ -345,11 +345,11 @@ Ingredient.hasMany(RecipeIngredient, {
 RecipeIngredient.belongsTo(Ingredient, { foreignKey: 'ingredientId' })
 
 // recipes table relationships
-Recipe.hasMany(Label, { 
-    foreignKey: 'LabelId',
+Recipe.hasMany(RecipeLabel, { 
+    foreignKey: 'recipeId',
     onDelete: 'CASCADE'
 })
-Label.belongsTo(Recipe, { foreignKey: 'LabelId' })
+RecipeLabel.belongsTo(Recipe, { foreignKey: 'recipeId' })
 
 Recipe.hasMany(Favorite, { 
     foreignKey: 'recipeId', 
@@ -364,9 +364,16 @@ Recipe.hasMany(Rating, {
 Rating.belongsTo(Recipe, { foreignKey: 'recipeId' })
 
 Recipe.hasMany(RecipeIngredient, { 
-    foreignKey: 'recipe_ingredient_id',
+    foreignKey: 'recipeIngredientId',
     onDelete: 'CASCADE'
- })
+})
+
+// recipe_labels table relationships
+RecipeLabel.hasMany(Label, {
+    foreignKey: 'labelId',
+    onDelete: 'CASCADE'
+})
+Label.belongsTo(RecipeLabel, { foreignKey: 'labelId' })
 
 if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
     console.log('Syncing database...')
