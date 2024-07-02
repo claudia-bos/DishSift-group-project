@@ -364,9 +364,10 @@ Recipe.hasMany(Rating, {
 Rating.belongsTo(Recipe, { foreignKey: 'recipeId' })
 
 Recipe.hasMany(RecipeIngredient, { 
-    foreignKey: 'recipeIngredientId',
+    foreignKey: 'recipeId',
     onDelete: 'CASCADE'
 })
+RecipeIngredient.belongsTo(Recipe, { foreignKey: 'recipeId' })
 
 // recipe_labels table relationships
 RecipeLabel.hasMany(Label, {
