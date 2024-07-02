@@ -144,7 +144,7 @@ Ingredient.init(
             allowNull: false
         },
         quantity: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.NUMBER,
             allowNull: false
         },
         measure: {
@@ -152,7 +152,7 @@ Ingredient.init(
             allowNull: false
         },
         weight: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.NUMBER,
             allowNull: false
         }
     },
@@ -204,7 +204,7 @@ Recipe.init(
             allowNull: false
         },
         yield: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.NUMBER,
             allowNull: false
         },
         calories: {
@@ -216,7 +216,7 @@ Recipe.init(
             allowNull: false
         },
         totalTime: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.NUMBER,
             allowNull: false
         },
         mealType: {
