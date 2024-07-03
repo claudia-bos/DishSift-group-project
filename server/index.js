@@ -7,13 +7,13 @@ import morgan from "morgan";
 import ViteExpress from "vite-express";
 import config from "../config/config.js";
 import "dotenv/config";
-// import handlerFunctions from "./controller.js";
+import handlerFunctions from "./controller.js";
 
 /////////////////////////////////////////////////////////////////////////////
 //  Express instance and Middleware
 /////////////////////////////////////////////////////////////////////////////
 const app = express();
-const port = config.SOCKET_PORT;
+const port = config.SERVER_PORT;
 ViteExpress.config({ printViteDevServerHost: true });
 
 app.use(morgan("dev"));
@@ -30,15 +30,13 @@ app.use(
 /////////////////////////////////////////////////////////////////////////////
 //  Endpoints
 /////////////////////////////////////////////////////////////////////////////
-// const {
-//   getDefaultSabers,
-// } = handlerFunctions;
+const { register } = handlerFunctions;
 
-// app.get('/api/login', getDefaultSabers)
+app.post("/api/register", register);
 
 /////////////////////////////////////////////////////////////////////////////
 //  Config server on port
 /////////////////////////////////////////////////////////////////////////////
 ViteExpress.listen(app, port, () =>
-  console.log(`Execute port 66! http://localhost:${port}`)
+  console.log(`Execute port ${port}! http://localhost:${port}`)
 );
