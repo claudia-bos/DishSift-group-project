@@ -1,10 +1,10 @@
 import { Model, DataTypes } from "sequelize"
 import util from "util"
 import url from "url"
-import connectToDB from "./db"
-import config from "../../config/config"
+import connectToDB from "./db.js"
+import config from "../config/config.js"
 
-export const db = await connectToDB(`postgresql:///${config.DB_NAME}`)
+const db = await connectToDB(`postgresql:///${config.DB_NAME}`)
 
 export class User extends Model {
     [util.inspect.custom]() {
@@ -144,7 +144,7 @@ Ingredient.init(
             allowNull: false
         },
         quantity: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.FLOAT,
             allowNull: false
         },
         measure: {
@@ -152,7 +152,7 @@ Ingredient.init(
             allowNull: false
         },
         weight: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.FLOAT,
             allowNull: false
         }
     },
@@ -204,7 +204,7 @@ Recipe.init(
             allowNull: false
         },
         yield: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.FLOAT,
             allowNull: false
         },
         calories: {
@@ -216,7 +216,7 @@ Recipe.init(
             allowNull: false
         },
         totalTime: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.FLOAT,
             allowNull: false
         },
         mealType: {
