@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 
-const Login = () => {
-    const [email, setEmail] = useState('');
+const Login = ({ closePopup }) => {
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
 
@@ -9,6 +9,8 @@ const Login = () => {
         e.preventDefault()
 
         console.log('user Log in');
+
+        closePopup();
     };
 
 
@@ -20,14 +22,14 @@ const Login = () => {
             <h2>Login</h2>
             
             <form onSubmit={handleSubmit}>
-                <label>Email:</label>
+                <label>Username:</label>
                 <input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type='email'
-                    id='email'
-                    name='email'
-                    placeholder='youreamil@gmail.com'
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    type='username'
+                    id='username'
+                    name='username'
+                    placeholder='Jhon11'
                     required
                 />
 
@@ -44,6 +46,7 @@ const Login = () => {
 
                 <button type='submit'>Login</button>
            </form>
+           <button onClick={closePopup}>Close</button>
 
         </div>
     </div>
