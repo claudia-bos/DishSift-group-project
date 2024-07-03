@@ -13,7 +13,7 @@ import handlerFunctions from "./controller.js";
 //  Express instance and Middleware
 /////////////////////////////////////////////////////////////////////////////
 const app = express();
-const port = config.SOCKET_PORT;
+const port = config.SERVER_PORT;
 ViteExpress.config({ printViteDevServerHost: true });
 
 app.use(morgan("dev"));
@@ -38,5 +38,5 @@ app.post("/api/register", register);
 //  Config server on port
 /////////////////////////////////////////////////////////////////////////////
 ViteExpress.listen(app, port, () =>
-  console.log(`Execute port 66! http://localhost:${port}`)
+  console.log(`Execute port ${port}! http://localhost:${port}`)
 );
