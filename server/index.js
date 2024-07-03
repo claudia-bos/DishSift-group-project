@@ -7,7 +7,7 @@ import morgan from "morgan";
 import ViteExpress from "vite-express";
 import config from "../config/config.js";
 import "dotenv/config";
-// import handlerFunctions from "./controller.js";
+import handlerFunctions from "./controller.js";
 
 /////////////////////////////////////////////////////////////////////////////
 //  Express instance and Middleware
@@ -30,11 +30,9 @@ app.use(
 /////////////////////////////////////////////////////////////////////////////
 //  Endpoints
 /////////////////////////////////////////////////////////////////////////////
-// const {
-//   getDefaultSabers,
-// } = handlerFunctions;
+const { register } = handlerFunctions;
 
-// app.get('/api/login', getDefaultSabers)
+app.post("/api/register", register);
 
 /////////////////////////////////////////////////////////////////////////////
 //  Config server on port
