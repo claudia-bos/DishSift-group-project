@@ -5,6 +5,7 @@ import express from "express";
 import session from "express-session";
 import morgan from "morgan";
 import ViteExpress from "vite-express";
+import config from "../config/config.js";
 import "dotenv/config";
 // import handlerFunctions from "./controller.js";
 
@@ -12,7 +13,7 @@ import "dotenv/config";
 //  Express instance and Middleware
 /////////////////////////////////////////////////////////////////////////////
 const app = express();
-const port = "66";
+const port = config.SOCKET_PORT;
 ViteExpress.config({ printViteDevServerHost: true });
 
 app.use(morgan("dev"));
