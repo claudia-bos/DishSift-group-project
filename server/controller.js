@@ -1,4 +1,4 @@
-import { 
+import db, { 
   User, 
   Favorite, 
   Rating, 
@@ -8,8 +8,7 @@ import {
   Recipe, 
   RecipeIngredient, 
   Label, 
-  RecipeLabel, db } from "../database/seeding/model.js";
-  // import db from "../database/seeding/model.js";
+  RecipeLabel } from "../database/seeding/model.js";
 
 const handlerFunctions = {
   register: async (req, res) => {
