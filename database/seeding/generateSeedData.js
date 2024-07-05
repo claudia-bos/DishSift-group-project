@@ -1,48 +1,25 @@
-import db, {
-  User,
-  Favorite,
-  Rating,
-  Pantry,
-  Food,
-  Ingredient,
-  Recipe,
-  RecipeIngredient,
-  Label,
-  RecipeLabel,
-} from "../model.js";
 import firstRecipeData from "./edaman_get_recipes_v2_no_query.json" assert { type: "json" };
-import { writeFile } from "fs/promises";
 import { createWriteStream } from "fs";
 import JSONStream from "JSONStream";
 import axios from "axios";
 
-
-
 let iterations = 0;
 
 // total number of recipes
-// const count = firstRecipeData.count;
-const count = 600;
+const count = firstRecipeData.count;
 
-let writeStream = createWriteStream(`./database/seeding/recipeJSONs/all_recipes_${iterations}.json`);
+let writeStream = createWriteStream(
+  `./database/seeding/recipeJSONs/all_recipes_${iterations}.json`
+);
 let jsonStream = JSONStream.stringify();
 jsonStream.pipe(writeStream);
 
 const populateJSON = async (currentRecipeBatch) => {
-  // array to collect all recipes
-  const allRecipes = [];
+  // array to hold recipes from a singe API response
+  const batchRecipes = [];
+
   console.log("currentRecipeBatch.to: ", currentRecipeBatch.to);
   if (currentRecipeBatch.to >= count) {
-    // const seedData = JSON.stringify(allRecipes, null, 2);
-    // try {
-    //   await writeFile("./database/seeding/all_recipes.json", seedData);
-    //   console.log("File has been written successfully");
-    //   return;
-    // } catch (err) {
-    //   console.log("Error writing file:", err);
-    //   return;
-    // }
-
     jsonStream.end();
 
     writeStream.on("finish", () => {
@@ -59,10 +36,10 @@ const populateJSON = async (currentRecipeBatch) => {
   iterations++;
   console.log("iterations:", iterations);
   currentRecipeBatch.hits.map((el) => {
-    allRecipes.push(el);
+    batchRecipes.push(el);
   });
 
-  allRecipes.forEach((recipe) => {
+  batchRecipes.forEach((recipe) => {
     jsonStream.write(recipe);
   });
 
@@ -82,9 +59,11 @@ const populateJSON = async (currentRecipeBatch) => {
     writeStream.on("finish", () => {
       console.log("Large JSON file has been written successfully.");
     });
-    writeStream = createWriteStream(`./database/seeding/recipeJSONs/all_recipes_${iterations / 10}.json`)
+    writeStream = createWriteStream(
+      `./database/seeding/recipeJSONs/all_recipes_${iterations / 20}.json`
+    );
     jsonStream = JSONStream.stringify();
-    jsonStream.pipe(writeStream)
+    jsonStream.pipe(writeStream);
   }
 
   // time delay here
