@@ -1,4 +1,15 @@
-import { Favorite } from "../database/seeding/model";
+import { 
+  User, 
+  Favorite, 
+  Rating, 
+  Pantry, 
+  Food, 
+  Ingredient, 
+  Recipe, 
+  RecipeIngredient, 
+  Label, 
+  RecipeLabel, db } from "../database/seeding/model.js";
+  // import db from "../database/seeding/model.js";
 
 const handlerFunctions = {
   register: async (req, res) => {
@@ -146,7 +157,7 @@ const handlerFunctions = {
    //////////////////////////////////////////////
   //functions to handle user's favorite recipes//
   //////////////////////////////////////////////
-  
+
   addFavorite: async (req, res) => {
     const { userId, recipeId } = req.body;
     try {
