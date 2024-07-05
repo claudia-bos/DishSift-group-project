@@ -16,8 +16,7 @@ import { createWriteStream } from "fs";
 import JSONStream from "JSONStream";
 import axios from "axios";
 
-// array to collect all recipes
-const allRecipes = [];
+
 
 let iterations = 0;
 
@@ -25,11 +24,13 @@ let iterations = 0;
 // const count = firstRecipeData.count;
 const count = 600;
 
-let writeStream = createWriteStream(`./database/seeding/recipeJSONs/all_recipes${iterations}.json`);
-const jsonStream = JSONStream.stringify();
+let writeStream = createWriteStream(`./database/seeding/recipeJSONs/all_recipes_${iterations}.json`);
+let jsonStream = JSONStream.stringify();
 jsonStream.pipe(writeStream);
 
 const populateJSON = async (currentRecipeBatch) => {
+  // array to collect all recipes
+  const allRecipes = [];
   console.log("currentRecipeBatch.to: ", currentRecipeBatch.to);
   if (currentRecipeBatch.to >= count) {
     // const seedData = JSON.stringify(allRecipes, null, 2);
@@ -76,8 +77,13 @@ const populateJSON = async (currentRecipeBatch) => {
   });
   console.log("nextUrl:", nextUrl);
 
-  if (iterations % 10 === 0) {
-    writeStream = createWriteStream(`./database/seeding/recipeJSONs/all_recipes${iterations / 10}.json`)
+  if (iterations % 20 === 0) {
+    jsonStream.end();
+    writeStream.on("finish", () => {
+      console.log("Large JSON file has been written successfully.");
+    });
+    writeStream = createWriteStream(`./database/seeding/recipeJSONs/all_recipes_${iterations / 10}.json`)
+    jsonStream = JSONStream.stringify();
     jsonStream.pipe(writeStream)
   }
 
