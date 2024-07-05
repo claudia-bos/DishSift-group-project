@@ -1,10 +1,10 @@
 import { Model, DataTypes } from "sequelize"
 import util from "util"
 import url from "url"
-import connectToDB from "./db"
-import config from "../../config/config"
+import connectToDB from "./db.js"
+import config from "../../config/config.js"
 
-export const db = await connectToDB(`postgresql:///${config.DB_NAME}`)
+const db = await connectToDB(`postgresql:///${config.DB_NAME}`)
 
 export class User extends Model {
     [util.inspect.custom]() {
