@@ -13,17 +13,66 @@ import db, {
 import recipeData0 from "./recipeJSONs/all_recipes_0.json" assert { type: "json" }
 import recipeData1 from "./recipeJSONs/all_recipes_1.json" assert { type: "json" }
 import recipeData2 from "./recipeJSONs/all_recipes_2.json" assert { type: "json" }
+import recipeData3 from "./recipeJSONs/all_recipes_3.json" assert { type: "json" }
+import recipeData4 from "./recipeJSONs/all_recipes_4.json" assert { type: "json" }
+import recipeData5 from "./recipeJSONs/all_recipes_5.json" assert { type: "json" }
+import recipeData6 from "./recipeJSONs/all_recipes_6.json" assert { type: "json" }
+import recipeData7 from "./recipeJSONs/all_recipes_7.json" assert { type: "json" }
+import recipeData8 from "./recipeJSONs/all_recipes_8.json" assert { type: "json" }
+import recipeData9 from "./recipeJSONs/all_recipes_9.json" assert { type: "json" }
+import recipeData10 from "./recipeJSONs/all_recipes_10.json" assert { type: "json" }
+import recipeData11 from "./recipeJSONs/all_recipes_11.json" assert { type: "json" }
+import recipeData12 from "./recipeJSONs/all_recipes_12.json" assert { type: "json" }
+import recipeData13 from "./recipeJSONs/all_recipes_13.json" assert { type: "json" }
+import recipeData14 from "./recipeJSONs/all_recipes_14.json" assert { type: "json" }
+import recipeData15 from "./recipeJSONs/all_recipes_15.json" assert { type: "json" }
+import recipeData16 from "./recipeJSONs/all_recipes_16.json" assert { type: "json" }
+import recipeData17 from "./recipeJSONs/all_recipes_17.json" assert { type: "json" }
+import recipeData18 from "./recipeJSONs/all_recipes_18.json" assert { type: "json" }
+import recipeData19 from "./recipeJSONs/all_recipes_19.json" assert { type: "json" }
+import recipeData20 from "./recipeJSONs/all_recipes_20.json" assert { type: "json" }
+import recipeData21 from "./recipeJSONs/all_recipes_21.json" assert { type: "json" }
+import recipeData22 from "./recipeJSONs/all_recipes_22.json" assert { type: "json" }
+import recipeData23 from "./recipeJSONs/all_recipes_23.json" assert { type: "json" }
+import recipeData24 from "./recipeJSONs/all_recipes_24.json" assert { type: "json" }
 import userData from "./tableJSONs/users.json" assert { type: "json" }
 import favoriteData from "./tableJSONs/favorites.json" assert { type: "json" }
 import ratingData from "./tableJSONs/ratings.json" assert { type: "json" }
 import pantryData from "./tableJSONs/pantries.json" assert { type: "json" }
+
 
 console.log('Syncing database...')
 await db.sync({force: true})
 console.log('Seeding database...')
 
 // spread all recipes into a single array
-const allRecipes = [...recipeData0, ...recipeData1, ...recipeData2]
+const allRecipes = [
+        ...recipeData0,
+        ...recipeData1,
+        ...recipeData2,
+        ...recipeData3
+        // ...recipeData4,
+        // ...recipeData5,
+        // ...recipeData6,
+        // ...recipeData7,
+        // ...recipeData8,
+        // ...recipeData9,
+        // ...recipeData10,
+        // ...recipeData11,
+        // ...recipeData12,
+        // ...recipeData13,
+        // ...recipeData14,
+        // ...recipeData15,
+        // ...recipeData16,
+        // ...recipeData17,
+        // ...recipeData18,
+        // ...recipeData19,
+        // ...recipeData20,
+        // ...recipeData21,
+        // ...recipeData22,
+        // ...recipeData23,
+        // ...recipeData24
+    ]
 
 const seedDataBase = async () => {
     

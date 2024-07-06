@@ -13,7 +13,7 @@ import "dotenv/config";
 //  Express instance and Middleware
 /////////////////////////////////////////////////////////////////////////////
 const app = express();
-const port = config.SOCKET_PORT;
+const port = config.SERVER_PORT;
 ViteExpress.config({ printViteDevServerHost: true });
 
 app.use(morgan("dev"));
