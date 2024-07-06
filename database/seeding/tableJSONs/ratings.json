@@ -1,0 +1,14 @@
+[
+    {
+        "userId": 1,
+        "recipeId": 1,
+        "comment": "This is just a test comment, pay it no mind.",
+        "score": 5
+    },
+    {
+        "userId": 2,
+        "recipeId": 1,
+        "comment": "I am commenting without leaving a score",
+        "score": null
+    }
+]
