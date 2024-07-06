@@ -67,6 +67,8 @@ const populateJSON = async (currentRecipeBatch) => {
   });
 
   const nextUrl = currentRecipeBatch._links.next.href;
+  nextUrl.replace(/(\&ingr\=\-99|\&type\=public)/g, '')
+
   const res = await axios.get(nextUrl, {
     params: {
       app_id: process.env.EDAMAM_APP_ID,
