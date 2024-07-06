@@ -7,7 +7,7 @@ import morgan from "morgan";
 import ViteExpress from "vite-express";
 import config from "../config/config.js";
 import "dotenv/config";
-// import handlerFunctions from "./controller.js";
+import handlerFunctions from "./controller.js";
 
 /////////////////////////////////////////////////////////////////////////////
 //  Express instance and Middleware
@@ -30,15 +30,33 @@ app.use(
 /////////////////////////////////////////////////////////////////////////////
 //  Endpoints
 /////////////////////////////////////////////////////////////////////////////
-// const {
-//   getDefaultSabers,
-// } = handlerFunctions;
+const { 
+  register, 
+  login, 
+  sessionCheck, 
+  logout, 
+  updateAccount, 
+  deleteAccount, 
+  addFavorite, 
+  getFavorites, 
+  removeFavorite
+} = handlerFunctions;
 
-// app.get('/api/login', getDefaultSabers)
+app.post("/api/register", register);
+app.post("/api/login", login);
+app.get("/api/session-check", sessionCheck);
+app.get("/api/logout", logout);
+app.put("/api/profile", updateAccount);
+app.delete("/api/profile", deleteAccount);
+
+app.post("/api/favorites", addFavorite);
+app.get("/api/getFavorites", getFavorites);
+app.delete("/api/favorites/:favoriteId", removeFavorite);
+
 
 /////////////////////////////////////////////////////////////////////////////
 //  Config server on port
 /////////////////////////////////////////////////////////////////////////////
 ViteExpress.listen(app, port, () =>
-  console.log(`Execute port 66! http://localhost:${port}`)
+  console.log(`Execute port ${port}! http://localhost:${port}`)
 );
