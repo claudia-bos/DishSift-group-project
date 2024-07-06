@@ -45,40 +45,40 @@ console.log('Syncing database...')
 await db.sync({force: true})
 console.log('Seeding database...')
 
-// spread all recipes into a single array
+// multidimensional array so that we can seed one array at a time 
+// and avoid any timeouts when seeding the recipes table
 const allRecipes = [
-        ...recipeData0,
-        ...recipeData1,
-        ...recipeData2,
-        ...recipeData3
-        // ...recipeData4,
-        // ...recipeData5,
-        // ...recipeData6,
-        // ...recipeData7,
-        // ...recipeData8,
-        // ...recipeData9,
-        // ...recipeData10,
-        // ...recipeData11,
-        // ...recipeData12,
-        // ...recipeData13,
-        // ...recipeData14,
-        // ...recipeData15,
-        // ...recipeData16,
-        // ...recipeData17,
-        // ...recipeData18,
-        // ...recipeData19,
-        // ...recipeData20,
-        // ...recipeData21,
-        // ...recipeData22,
-        // ...recipeData23,
-        // ...recipeData24
+        recipeData0,
+        recipeData1,
+        recipeData2,
+        recipeData3,
+        recipeData4,
+        recipeData5,
+        recipeData6,
+        recipeData7,
+        recipeData8,
+        recipeData9,
+        recipeData10,
+        recipeData11,
+        recipeData12,
+        recipeData13,
+        recipeData14,
+        recipeData15,
+        recipeData16,
+        recipeData17,
+        recipeData18,
+        recipeData19,
+        recipeData20,
+        recipeData21,
+        recipeData22,
+        recipeData23,
+        recipeData24
     ]
 
 const seedDataBase = async () => {
     
-
-
-        const recipesInDB = await Promise.all(allRecipes.map(async (el) => {
+    for (let i = 0; i < allRecipes.length; i++) {
+        const recipesInDB = await Promise.all(allRecipes[i].map(async (el) => {
             let { label, images, source, url, dietLabels, healthLabels, ingredients, calories, totalWeight, totalTime, mealType, dishType } = el.recipe
             const recipeYield = el.recipe.yield
             const thumbnailImage = images.THUMBNAIL.url
@@ -87,7 +87,7 @@ const seedDataBase = async () => {
             const largeImage = images?.LARGE?.url ?? null
             mealType = mealType[0]
             dishType = dishType?.[0] ?? null
-            
+                
             const newRecipe = await Recipe.create({
                 label: label,
                 thumbnailImage: thumbnailImage,
@@ -103,69 +103,95 @@ const seedDataBase = async () => {
                 mealType: mealType,
                 dishType: dishType
             })
-        
-            // combine and map over labels
+            
+            // spread dietLabels and healthLabels into a single array
+            // and create labels table and recipe labels table
             const allLabels = [...dietLabels, ...healthLabels]
             const labelsInDB = allLabels.map(async (el) => {
                 const newLabel = await Label.findOrCreate({
                     where: { labelName: el }
                 })
-        
+            
                 const newRecipeLabel = await RecipeLabel.create({
                     recipeId: newRecipe.recipeId,
                     labelId: newLabel.labelId
                 })
             })
-        
-            // create food and ingredient related tables
-            const foodsInDB = ingredients.map(async (el) => {
-                const foodName = el.food.replace(/-/gi, " ").toLowerCase()
-                const newFood = await Food.findOrCreate({
-                    where: { foodName: foodName },
-                    defaults: {
-                        foodCategory: el.foodCategory,
-                        image: el.image
-                    }
-                })
-        
-                const newIngredient = await Ingredient.create({
-                    text: el.text,
-                    quantity: el.quantity,
-                    measure: el.measure,
-                    weight: el.weight,
-                    foodId: newFood[0].foodId
-                })
-        
-                const newRecipeIngredient = await RecipeIngredient.create({
-                    ingredientId: newIngredient.ingredientId,
-                    recipeId: newRecipe.recipeId
-                })
-            }) 
-        })
-    )
+            
+                // create food and ingredient related tables
+                const foodsInDB = ingredients.map(async (el) => {
+                    const foodName = el.food.replace(/-/gi, " ").toLowerCase()
+                    const newFood = await Food.findOrCreate({
+                        where: { foodName: foodName },
+                        defaults: {
+                            foodCategory: el.foodCategory,
+                            image: el.image
+                        }
+                    })
+            
+                    const newIngredient = await Ingredient.create({
+                        text: el.text,
+                        quantity: el.quantity,
+                        measure: el.measure,
+                        weight: el.weight,
+                        foodId: newFood[0].foodId
+                    })
+            
+                    const newRecipeIngredient = await RecipeIngredient.create({
+                        ingredientId: newIngredient.ingredientId,
+                        recipeId: newRecipe.recipeId
+                    })
+                }) 
+            })
+        )
+    }
 
     // create user table
     const usersInDB = await Promise.all(userData.map(async (el) => {
-        console.log('user seeding')
+        console.log('Users seeding...')
         const newUser = await User.create({
             username: el.username,
             password: el.password
         })
-        console.log('user done seeding')
+        console.log('Users done seeding!')
         return newUser
     }))
 
-    // create user table
-        // create pantries table
-        const pantriesInDB = await Promise.all(pantryData.map(async (el) => {
-            console.log('pantry seeding')
-            const newPantry = await Pantry.create({
-                userId: el.userId,
-                foodId: el.foodId
-            })
-            console.log('pantry done seeding')
-            return newPantry
-        }))
+    // create pantries table
+    const pantriesInDB = await Promise.all(pantryData.map(async (el) => {
+        console.log('Pantry seeding...')
+        const newPantry = await Pantry.create({
+            userId: el.userId,
+            foodId: el.foodId
+        })
+        console.log('Pantry done seeding!')
+        return newPantry
+    }))
+    
+    // create favorites table
+    const favoritesInDB = await Promise.all(favoriteData.map(async (el) => {
+        console.log('Favorites seeding...')
+        const newFavorite = await Favorite.create({
+            userId: el.userId,
+            recipeId: el.recipeId
+        })
+        console.log('Favorites done seeding!')
+        return newFavorite
+    }))
+
+    // create ratings table
+    const ratingsInDB = await Promise.all(ratingData.map(async (el) => {
+        console.log('Ratings seeding...')
+        const newRating = await Rating.create({
+            userId: el.userId,
+            recipeId: el.recipeId,
+            comment: el.comment,
+            score: el.score
+        })
+        console.log('Ratings done seeding!')
+    }))
+
+    console.log('Successfully seeded database!')
 }
 
 seedDataBase();
