@@ -20,12 +20,13 @@ User.init(
             primaryKey: true
         },
         username: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true,
+            unique: true
         },
         password: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         }
     },
     {
@@ -66,6 +67,14 @@ Rating.init(
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
+        },
+        comment: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
+        score: {
+            type: DataTypes.INTEGER,
+            allowNull: true // null if user leaves a comment without a rating
         }
     },
     {
@@ -108,16 +117,18 @@ Food.init(
             primaryKey: true
         },
         foodName: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true,
+            unique: true,
+            ignoreDuplicates: true
         },
         foodCategory: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         image: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         }
     },
     {
@@ -140,20 +151,20 @@ Ingredient.init(
             primaryKey: true
         },
         text: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         quantity: {
             type: DataTypes.FLOAT,
-            allowNull: false
+            allowNull: true
         },
         measure: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         weight: {
             type: DataTypes.FLOAT,
-            allowNull: false
+            allowNull: true
         }
     },
     {
@@ -175,57 +186,57 @@ Recipe.init(
             primaryKey: true,
             autoIncrement: true
         },
-        url: {
-            type: DataTypes.STRING,
-            allowNull: false
+        label: {
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         thumbnailImage: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         smallImage: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         regularImage: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         largeImage: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         sourceName: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         sourceUrl: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         yield: {
             type: DataTypes.FLOAT,
-            allowNull: false
+            allowNull: true
         },
         calories: {
             type: DataTypes.FLOAT,
-            allowNull: false
+            allowNull: true
         },
         totalWeight: {
             type: DataTypes.FLOAT,
-            allowNull: false
+            allowNull: true
         },
         totalTime: {
             type: DataTypes.FLOAT,
-            allowNull: false
+            allowNull: true
         },
         mealType: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         dishType: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true
         }
     },
     {
@@ -268,8 +279,9 @@ Label.init(
             autoIncrement: true
         },
         labelName: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.TEXT,
+            allowNull: true,
+            unique: true
         }
     },
     {
@@ -318,15 +330,15 @@ User.hasMany(Favorite, {
 Favorite.belongsTo(User, { foreignKey: 'userId' })
 
 // pantries table relationships
-Pantry.hasMany(Food, { 
-    primaryKey: 'foodId',
+Pantry.hasOne(Food, { 
+    foreignKey: 'foodId',
     onDelete: 'CASCADE'
  })
 Food.belongsTo(Pantry, { foreignKey: 'foodId' })
 
  // foods table relationships
 Food.hasMany(Pantry, { 
-    primaryKey: 'foodId', 
+    foreignKey: 'foodId', 
     onDelete: 'CASCADE'
 })
 Pantry.belongsTo(Food, { foreignKey: 'foodId' })

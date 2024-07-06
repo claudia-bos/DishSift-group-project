@@ -60,6 +60,7 @@ const populateJSON = async (currentRecipeBatch) => {
     count = res.data.count;
     console.log("Available recipes count:", count);
 
+
     if (iterations % 20 === 0) {
       jsonStream.end();
       writeStream.on("finish", () => {
