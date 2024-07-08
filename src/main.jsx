@@ -9,22 +9,25 @@ import {
 import App from "./App.jsx";
 import HomePage from "./pages/HomePage.jsx";
 // import './index.css'
-import Register from './components/register/Register.jsx';
-import PantryPage from './pages/PantryPage.jsx'
-
+import Register from "./components/register/Register.jsx";
+import PantryPage from "./pages/PantryPage.jsx";
+import { Provider } from "react-redux";
+import store from "./redux/store.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<App />}>
-      <Route index element ={<HomePage />} />
-      <Route path='register' element={<Register />} />
+    <Route path="/" element={<App />}>
+      <Route index element={<HomePage />} />
+      <Route path="register" element={<Register />} />
       <Route path="pantry-page" element={<PantryPage />} />
-   </Route>
+    </Route>
   )
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

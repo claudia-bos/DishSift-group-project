@@ -12,17 +12,28 @@ import db, {
 } from "../database/model.js";
 
 const handlerFunctions = {
+  /**
+   * A POST endpoint to register a new user. Will create the user
+   *   if the given username doesn't already exist in the database.
+   *   If the username is already in the database, will not add to
+   *   database and will respond with an appropriate message.
+   */
   register: async (req, res) => {
     const { username, password } = req.body;
+    console.log("Register:", req.body);
 
     if (await User.findOne({ where: { username: username } })) {
+      const alreadyExistsMessage = `Username '${username}', already exists`;
+      console.log(alreadyExistsMessage);
       res.send({
-        message: "username already exists",
+        message: alreadyExistsMessage,
         success: false,
       });
       return;
     }
 
+    const createdMessage = `Created user ${username}`;
+    console.log(createdMessage);
     const newUser = await User.create({
       username: username,
       password: password,
@@ -31,7 +42,7 @@ const handlerFunctions = {
     req.session.userId = newUser.userId;
 
     res.send({
-      message: "user created",
+      message: createdMessage,
       success: true,
       userId: newUser.userId,
     });
@@ -223,57 +234,57 @@ const handlerFunctions = {
 
   // get all foods
   getAllFoods: async (req, res) => {
-    const allFoods = await Food.findAll()
+    const allFoods = await Food.findAll();
 
-    console.log('allFoods:', allFoods)
+    console.log("allFoods:", allFoods);
 
-    res.status(200).send(allFoods)
+    res.status(200).send(allFoods);
   },
 
   // get user pantry items
   getUserPantryFoods: async (req, res) => {
-    const { id } = req.params
-    console.log('id:', id)
+    const { id } = req.params;
+    console.log("id:", id);
 
     const userPantryFoods = await Food.findAll({
       include: [
         {
           model: Pantry,
-          where: { userId: id }
-        }
-      ]
-    })
+          where: { userId: id },
+        },
+      ],
+    });
 
-    res.status(200).send(userPantryFoods)
+    res.status(200).send(userPantryFoods);
   },
 
   // add to pantry
   addFoodToPantry: async (req, res) => {
-    const { userId, foodId } = req.body
+    const { userId, foodId } = req.body;
 
-    const newPantryFood = await Pantry.create({userId, foodId})
+    const newPantryFood = await Pantry.create({ userId, foodId });
 
-    res.status(200).send(newPantryFood)
+    res.status(200).send(newPantryFood);
   },
 
   // remove from pantry
   removeFoodFromPantry: async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
 
-    console.log('foodId:', id)
+    console.log("foodId:", id);
 
     await Pantry.destroy({
-      where: { foodId: id }
-    })
+      where: { foodId: id },
+    });
 
-    res.status(200).send("Successfully removed food")
+    res.status(200).send("Successfully removed food");
   },
 
   // get recipes by user pantry items
   getRecipesByUserPantry: async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
 
-    console.log('id:', id)
+    console.log("id:", id);
 
     const pantryRecipes = await Recipe.findAll({
       include: [
@@ -291,22 +302,22 @@ const handlerFunctions = {
                   include: [
                     {
                       model: Pantry,
-                      where: { userId: id }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                      where: { userId: id },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
       ],
       subQuery: false,
       distinct: true,
-    })
+    });
 
     // console.log('pantryRecipes:', pantryRecipes)
 
-    res.status(200).send(pantryRecipes)
+    res.status(200).send(pantryRecipes);
   },
 
   // get all ingredients
@@ -318,7 +329,6 @@ const handlerFunctions = {
   // get all labels
 
   // get recipe labels
-
 };
 
 export default handlerFunctions;
