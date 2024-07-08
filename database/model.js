@@ -330,11 +330,11 @@ User.hasMany(Favorite, {
 Favorite.belongsTo(User, { foreignKey: 'userId' })
 
 // pantries table relationships
-Pantry.hasOne(Food, { 
-    foreignKey: 'foodId',
-    onDelete: 'CASCADE'
- })
-Food.belongsTo(Pantry, { foreignKey: 'foodId' })
+// Pantry.hasMany(Food, { 
+//     foreignKey: 'foodId',
+//     onDelete: 'CASCADE'
+//  })
+// Food.belongsTo(Pantry, { foreignKey: 'foodId' })
 
  // foods table relationships
 Food.hasMany(Pantry, { 

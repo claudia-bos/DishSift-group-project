@@ -39,7 +39,12 @@ const {
   deleteAccount, 
   addFavorite, 
   getFavorites, 
-  removeFavorite
+  removeFavorite,
+  getAllFoods,
+  getUserPantryFoods,
+  addFoodToPantry,
+  removeFoodFromPantry,
+  getRecipesByUserPantry
 } = handlerFunctions;
 
 app.post("/api/register", register);
@@ -52,6 +57,12 @@ app.delete("/api/profile", deleteAccount);
 app.post("/api/favorites", addFavorite);
 app.get("/api/getFavorites", getFavorites);
 app.delete("/api/favorites/:favoriteId", removeFavorite);
+
+app.get("/api/pantry/recipes/:id", getRecipesByUserPantry)
+app.get("/api/pantry/foods/all", getAllFoods)
+app.get("/api/pantry/foods/:id", getUserPantryFoods)
+app.post("/api/pantry/add", addFoodToPantry)
+app.delete("/api/pantry/delete/:id", removeFoodFromPantry)
 
 
 /////////////////////////////////////////////////////////////////////////////

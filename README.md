@@ -31,5 +31,4 @@
 | ------------------- | ------------------------------------------ |
 | `npm run db:create` | Create database                            |
 | `npm run db:seed`   | Seed the database                          |
-| `npm run db:sync`   | Sync the DB                                |
-| `npm run db:drop`   | Drop the DB (includes confirmation prompt) |
+| `npm run db:drop`   | Drop the DB                                |

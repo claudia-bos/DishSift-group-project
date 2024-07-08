@@ -210,6 +210,115 @@ const handlerFunctions = {
       res.status(500).json({ message: "Error removing favorite", error });
     }
   },
+
+  // create rating
+
+  // edit rating
+
+  // delete rating
+
+  // get recipe ratings
+
+  // get user's ratings
+
+  // get all foods
+  getAllFoods: async (req, res) => {
+    const allFoods = await Food.findAll()
+
+    console.log('allFoods:', allFoods)
+
+    res.status(200).send(allFoods)
+  },
+
+  // get user pantry items
+  getUserPantryFoods: async (req, res) => {
+    const { id } = req.params
+    console.log('id:', id)
+
+    const userPantryFoods = await Food.findAll({
+      include: [
+        {
+          model: Pantry,
+          where: { userId: id }
+        }
+      ]
+    })
+
+    res.status(200).send(userPantryFoods)
+  },
+
+  // add to pantry
+  addFoodToPantry: async (req, res) => {
+    const { userId, foodId } = req.body
+
+    const newPantryFood = await Pantry.create({userId, foodId})
+
+    res.status(200).send(newPantryFood)
+  },
+
+  // remove from pantry
+  removeFoodFromPantry: async (req, res) => {
+    const { id } = req.params
+
+    console.log('foodId:', id)
+
+    await Pantry.destroy({
+      where: { foodId: id }
+    })
+
+    res.status(200).send("Successfully removed food")
+  },
+
+  // get recipes by user pantry items
+  getRecipesByUserPantry: async (req, res) => {
+    const { id } = req.params
+
+    console.log('id:', id)
+
+    const pantryRecipes = await Recipe.findAll({
+      include: [
+        {
+          model: RecipeIngredient,
+          required: true,
+          include: [
+            {
+              model: Ingredient,
+              required: true,
+              include: [
+                {
+                  model: Food,
+                  required: true,
+                  include: [
+                    {
+                      model: Pantry,
+                      where: { userId: id }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+      ],
+      subQuery: false,
+      distinct: true,
+    })
+
+    // console.log('pantryRecipes:', pantryRecipes)
+
+    res.status(200).send(pantryRecipes)
+  },
+
+  // get all ingredients
+
+  // get all recipes
+
+  // get all recipe ingredients
+
+  // get all labels
+
+  // get recipe labels
+
 };
 
 export default handlerFunctions;
