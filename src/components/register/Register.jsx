@@ -1,17 +1,16 @@
+// delete later
 import React, { useState } from 'react'
 
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = ('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit =  (e) => {
         e.preventDefault();
-
-    }
-
-
+        
+    };
 
   return (
 

@@ -20,7 +20,7 @@ const Header = () => {
     <header>
         <div>
             <div>
-                <input type='text' placeholder='Search for "Chicken Recipes"'/>
+                <input type='text' placeholder='Search for "Tacos"'/>
                 <button type='submit'>Search</button>
             </div>
             <div>
@@ -29,7 +29,7 @@ const Header = () => {
                 </Link>
             </div>
             <nav>
-                <Link to='/SearchPage'>Find Recipe</Link>
+                <Link to='/pantry-page'>Find Recipe</Link>
                 <br/>
                 <span onClick={handleLoginClick}>Log in</span>
                 <br/>
