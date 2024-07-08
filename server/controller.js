@@ -304,7 +304,7 @@ const handlerFunctions = {
       distinct: true,
     })
 
-    console.log('pantryRecipes:', pantryRecipes)
+    // console.log('pantryRecipes:', pantryRecipes)
 
     res.status(200).send(pantryRecipes)
   },
