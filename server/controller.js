@@ -8,7 +8,7 @@ import db, {
   Recipe, 
   RecipeIngredient, 
   Label, 
-  RecipeLabel } from "../database/seeding/model.js";
+  RecipeLabel } from "../database/model.js";
 
 const handlerFunctions = {
   register: async (req, res) => {
@@ -211,6 +211,36 @@ const handlerFunctions = {
       res.status(500).json({ message: 'Error removing favorite', error });
     }
   },
+
+  // create rating
+
+  // edit rating
+
+  // delete rating
+
+  // get recipe ratings
+
+  // get user's ratings
+
+  // get user pantry items
+
+  // add to pantry
+
+  // remove from pantry
+
+  // get recipes by user pantry items
+
+  // get all foods
+
+  // get all ingredients
+
+  // get all recipes
+
+  // get all recipe ingredients
+
+  // get all labels
+
+  // get recipe labels
 
 };
 
