@@ -1,34 +1,30 @@
-import React, {useState} from 'react'
+// delete later
+import React, { useState } from 'react'
 
-const Login = ({ closePopup }) => {
+
+const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        console.log('user Log in');
-
-        closePopup();
+    const handleSubmit =  (e) => {
+        e.preventDefault();
+        
     };
-
-
 
   return (
 
     <div>
         <div>
-            <h2>Login</h2>
-            
+            <h2>Sign Up</h2>
             <form onSubmit={handleSubmit}>
                 <label>Username:</label>
                 <input
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     type='username'
-                    id='username'
                     name='username'
+                    id='username'
                     placeholder='Jhon11'
                     required
                 />
@@ -38,19 +34,27 @@ const Login = ({ closePopup }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type='password'
-                    id='password'
                     name='password'
-                    placeholder='********'
+                    id='password'
+                    placeholder='*******'
                     required
                 />
 
-                <button type='submit'>Login</button>
-           </form>
-           <button onClick={closePopup}>Close</button>
+                <label>Confirm Password:</label>
+                <input
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    type='password'
+                    required
+                />
+
+                <button type='submit'>Sign Up</button>
+
+            </form>
 
         </div>
     </div>
   )
 }
 
-export default Login
+export default Register
