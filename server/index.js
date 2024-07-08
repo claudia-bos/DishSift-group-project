@@ -39,7 +39,8 @@ const {
   deleteAccount, 
   addFavorite, 
   getFavorites, 
-  removeFavorite
+  removeFavorite,
+  getRecipesByUserPantry
 } = handlerFunctions;
 
 app.post("/api/register", register);
@@ -52,6 +53,8 @@ app.delete("/api/profile", deleteAccount);
 app.post("/api/favorites", addFavorite);
 app.get("/api/getFavorites", getFavorites);
 app.delete("/api/favorites/:favoriteId", removeFavorite);
+
+app.get("/api/test/:id", getRecipesByUserPantry)
 
 
 /////////////////////////////////////////////////////////////////////////////

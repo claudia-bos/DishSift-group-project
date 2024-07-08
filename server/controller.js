@@ -228,6 +228,44 @@ const handlerFunctions = {
   // remove from pantry
 
   // get recipes by user pantry items
+  getRecipesByUserPantry: async (req, res) => {
+    const { id } = req.params
+
+    console.log('id:', id)
+
+    const pantryRecipes = await Recipe.findAll({
+      include: [
+        {
+          model: RecipeIngredient,
+          required: true,
+          include: [
+            {
+              model: Ingredient,
+              required: true,
+              include: [
+                {
+                  model: Food,
+                  required: true,
+                  include: [
+                    {
+                      model: Pantry,
+                      where: { userId: id }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+      ],
+      subQuery: false,
+      distinct: true,
+    })
+
+    console.log('pantryRecipes:', pantryRecipes)
+
+    res.status(200).send(pantryRecipes)
+  },
 
   // get all foods
 
