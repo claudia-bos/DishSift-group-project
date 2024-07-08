@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
-
-=======
 // delete later
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
->>>>>>> main
 
 const Register = () => {
   const [username, setUsername] = useState("");
