@@ -8,7 +8,7 @@ import db, {
   Recipe, 
   RecipeIngredient, 
   Label, 
-  RecipeLabel } from "../database/seeding/model.js";
+  RecipeLabel } from "../database/model.js";
 
 const handlerFunctions = {
   register: async (req, res) => {

@@ -4,7 +4,8 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import App from './App.jsx'
 import HomePage from './pages/HomePage.jsx'
 // import './index.css'
-import Register from './components/register/Register.jsx'
+import Register from './components/register/Register.jsx';
+import PantryPage from './pages/PantryPage.jsx'
 
 
 const router = createBrowserRouter(
@@ -12,6 +13,7 @@ const router = createBrowserRouter(
     <Route path='/' element={<App />}>
       <Route index element ={<HomePage />} />
       <Route path='register' element={<Register />} />
+      <Route path="pantry-page" element={<PantryPage />} />
    </Route>
   )
 )
