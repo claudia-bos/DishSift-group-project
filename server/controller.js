@@ -227,7 +227,10 @@ const handlerFunctions = {
 
     console.log('allFoods:', allFoods)
 
-    res.status(200).send(allFoods)
+    res.status(200).send({
+      message: "finding base on food",
+      foods: allFoods, 
+    })
   },
 
   // get user pantry items
