@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Header = () => {
     const [showLogin, setShowLogin] = useState(false);
+    const [dropdownVisible, setDropdownVisible] = useState(false)
 
     const handleLoginClick = () => {
         setShowLogin(true);
@@ -13,6 +14,10 @@ const Header = () => {
         setShowLogin(false);
     }
 
+    const handleDropdownToggle = () => {
+        setDropdownVisible(!dropdownVisible);
+    }
+
 
 
   return (
@@ -20,16 +25,21 @@ const Header = () => {
     <header>
         <div>
             <div>
-                <input type='text' placeholder='Search for "Tacos"'/>
-                <button type='submit'>Search</button>
-            </div>
-            <div>
                 <Link to='/'>
                     <h1>Dishsift</h1>
                 </Link>
             </div>
             <nav>
-                <Link to='/pantry-page'>Find Recipe</Link>
+                <div>
+                    <span onClick={handleDropdownToggle}>Recipes</span>
+                    {dropdownVisible && (
+                        <div>
+                            <Link to='/search-page'>All Recipes</Link>
+                            <br/>
+                            <Link to='/pantry-page'>Pantry Recipes</Link>
+                        </div>
+                    )}
+                </div>
                 <br/>
                 <span onClick={handleLoginClick}>Log in</span>
                 <br/>
