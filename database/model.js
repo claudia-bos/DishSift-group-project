@@ -382,11 +382,11 @@ Recipe.hasMany(RecipeIngredient, {
 RecipeIngredient.belongsTo(Recipe, { foreignKey: 'recipeId' })
 
 // recipe_labels table relationships
-RecipeLabel.hasMany(Label, {
+Label.hasMany(RecipeLabel, {
     foreignKey: 'labelId',
     onDelete: 'CASCADE'
 })
-Label.belongsTo(RecipeLabel, { foreignKey: 'labelId' })
+RecipeLabel.belongsTo(Label, { foreignKey: 'labelId' })
 
 if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
     console.log('Syncing database...')

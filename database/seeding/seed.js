@@ -111,10 +111,9 @@ const seedDataBase = async () => {
                 const newLabel = await Label.findOrCreate({
                     where: { labelName: el }
                 })
-            
                 const newRecipeLabel = await RecipeLabel.create({
                     recipeId: newRecipe.recipeId,
-                    labelId: newLabel.labelId
+                    labelId: newLabel[0].labelId
                 })
             })
             

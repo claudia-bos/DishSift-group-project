@@ -10,7 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "db:create": "createdb dish_sift",
-    "db:drop": "drobdb --if-exists dish_sift",
+    "db:drop": "dropdb --if-exists dish_sift",
     "db:seed": "node database/seeding/seed.js"
   },
   "dependencies": {
