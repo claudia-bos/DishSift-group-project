@@ -244,65 +244,64 @@ const handlerFunctions = {
 
   // create rating
   createNewRating: async (req, res) => {
-    const { userId, recipeId, comment, score } = req.body
+    const { userId, recipeId, comment, score } = req.body;
 
     const newRating = await Rating.create({
       userId: userId,
       recipeId: recipeId,
       comment: comment,
       score: score,
-    })
+    });
 
-    res.status(200).send(newRating)
+    res.status(200).send(newRating);
   },
 
   // edit rating
   editRating: async (req, res) => {
-    const {id} = req.params
-    const { comment, score } = req.body
+    const { id } = req.params;
+    const { comment, score } = req.body;
 
-    const ratingToEdit = await Rating.findByPk(id)
+    const ratingToEdit = await Rating.findByPk(id);
 
-    ratingToEdit.comment = comment
-    ratingToEdit.score = score
+    ratingToEdit.comment = comment;
+    ratingToEdit.score = score;
 
-    await ratingToEdit.save()
+    await ratingToEdit.save();
 
-
-    res.status(200).send(ratingToEdit)
+    res.status(200).send(ratingToEdit);
   },
 
   // delete rating
   deleteRating: async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params;
 
     await Rating.destroy({
-      where: { ratingId: id }
-    })
+      where: { ratingId: id },
+    });
 
-    res.status(200).send("Rating has been deleted")
+    res.status(200).send("Rating has been deleted");
   },
 
   // get recipe ratings
   getRatingsByRecipeId: async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params;
 
     const recipeRatings = await Rating.findAll({
-      where: { recipeId: id }
-    })
+      where: { recipeId: id },
+    });
 
-    res.status(200).send(recipeRatings)
+    res.status(200).send(recipeRatings);
   },
 
   // get user's ratings
   getRatingsByUserId: async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params;
 
     const userRatings = await Rating.findAll({
-      where: { userId: id }
-    })
+      where: { userId: id },
+    });
 
-    res.status(200).send(userRatings)
+    res.status(200).send(userRatings);
   },
 
   // get all foods
@@ -313,8 +312,8 @@ const handlerFunctions = {
 
     res.status(200).send({
       message: "finding base on food",
-      foods: allFoods, 
-    })
+      foods: allFoods,
+    });
   },
 
   // get user pantry items
@@ -358,17 +357,15 @@ const handlerFunctions = {
 
   // get recipes by user pantry items
   getRecipesByUserPantry: async (req, res) => {
-    const { id, pageNum } = req.params
+    const { id, pageNum } = req.params;
 
-    console.log('id:', id)
-    console.log('pageNum:', pageNum)
+    console.log("id:", id);
+    console.log("pageNum:", pageNum);
 
     const pantryRecipes = await Recipe.findAll({
       offset: pageNum * 20,
       limit: 20,
-      order: [
-        ['recipeId', 'ASC']
-      ],
+      order: [["recipeId", "ASC"]],
       include: [
         {
           model: RecipeIngredient,
@@ -389,12 +386,12 @@ const handlerFunctions = {
                       model: Pantry,
                       where: { userId: id },
                       attributes: [],
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
       ],
       subQuery: false,
@@ -408,81 +405,77 @@ const handlerFunctions = {
 
   // get all recipes
   getAllRecipes: async (req, res) => {
-    const { pageNum } = req.params
-    const allRecipes = await Recipe.findAll({ 
-      offset: pageNum * 20, 
+    const { pageNum } = req.params;
+    const allRecipes = await Recipe.findAll({
+      offset: pageNum * 20,
       limit: 20,
-      order: [
-        ['recipeId', 'ASC']
-      ]
-    })
+      order: [["recipeId", "ASC"]],
+    });
 
     // console.log('allRecipes:', allRecipes)
 
-    res.status(200).send(allRecipes)
+    res.status(200).send(allRecipes);
   },
 
   // get recipe by recipe id
   getRecipeByRecipeId: async (req, res) => {
-    const { id } = req.params
-    const recipe = await Recipe.findByPk(id)
+    const { id } = req.params;
+    const recipe = await Recipe.findByPk(id);
 
-    res.status(200).send(recipe)
+    res.status(200).send(recipe);
   },
 
   // get recipe ingredients by recipe id
   getRecipeIngredientsByRecipeId: async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
 
     const recipeIngredients = await Ingredient.findAll({
       include: [
         {
           model: RecipeIngredient,
           where: { recipeId: id },
-          attributes: []
-        }
-      ]
-    })
+          attributes: [],
+        },
+      ],
+    });
 
-    res.status(200).send(recipeIngredients)
+    res.status(200).send(recipeIngredients);
   },
 
   // get recipe labels by recipe id
   getRecipeLabelsByRecipeId: async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
 
-    console.log('id:', id)
+    console.log("id:", id);
 
     const recipeLabels = await Label.findAll({
       include: [
         {
           model: RecipeLabel,
           where: { recipeId: id },
-          attributes: []
-        }
-      ]
-    })
+          attributes: [],
+        },
+      ],
+    });
 
-    console.log('recipeLabels:', recipeLabels)
+    console.log("recipeLabels:", recipeLabels);
 
-    res.status(200).send(recipeLabels)
+    res.status(200).send(recipeLabels);
   },
 
   // recipe caroussels
   highestRatedCaroussel: async (req, res) => {
     const highestRatedRecipeIds = await Rating.findAll({
       attributes: [
-        'recipeId',
-        [Sequelize.fn('AVG', Sequelize.col('score')), 'averageScore']
+        "recipeId",
+        [Sequelize.fn("AVG", Sequelize.col("score")), "averageScore"],
       ],
-      order: [
-        ['averageScore', 'DESC']
-      ],
-      group: ['recipeId'],
-      limit: 5
-    })
-    res.status(200).send(highestRatedRecipeIds)
-  }
+      order: [["averageScore", "DESC"]],
+      group: ["recipeId"],
+      limit: 5,
+    });
+    res.status(200).send(highestRatedRecipeIds);
+  },
 };
 
 export default handlerFunctions;
