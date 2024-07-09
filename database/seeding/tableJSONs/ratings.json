@@ -1,14 +1,386 @@
 [
-    {
-        "userId": 1,
-        "recipeId": 1,
-        "comment": "This is just a test comment, pay it no mind.",
-        "score": 5
-    },
-    {
-        "userId": 2,
-        "recipeId": 1,
-        "comment": "I am commenting without leaving a score",
-        "score": null
-    }
+  {
+    "userId": 1,
+    "recipeId": 1,
+    "comment": "This is just a test comment, pay it no mind.",
+    "score": 5
+  },
+  {
+    "userId": 2,
+    "recipeId": 1,
+    "comment": "I am commenting without leaving a score",
+    "score": null
+  },
+  {
+    "userId": 1,
+    "recipeId": 2,
+    "comment": "Great recipe, my family loved it!",
+    "score": 4
+  },
+  {
+    "userId": 1,
+    "recipeId": 3,
+    "comment": "Pretty good, but could use more spices.",
+    "score": 3
+  },
+  {
+    "userId": 2,
+    "recipeId": 3,
+    "comment": "I found this recipe a bit bland.",
+    "score": 2
+  },
+  {
+    "userId": 2,
+    "recipeId": 4,
+    "comment": "Delicious and easy to make.",
+    "score": 5
+  },
+  {
+    "userId": 2,
+    "recipeId": 5,
+    "comment": "This recipe is okay, not my favorite.",
+    "score": 3
+  },
+  {
+    "userId": 3,
+    "recipeId": 3,
+    "comment": "My kids loved it!",
+    "score": 4
+  },
+  {
+    "userId": 3,
+    "recipeId": 4,
+    "comment": "Too salty for my taste.",
+    "score": 2
+  },
+  {
+    "userId": 3,
+    "recipeId": 5,
+    "comment": "Perfect for a quick dinner.",
+    "score": 5
+  },
+  {
+    "userId": 3,
+    "recipeId": 6,
+    "comment": "I will definitely make this again.",
+    "score": 5
+  },
+  {
+    "userId": 4,
+    "recipeId": 4,
+    "comment": "Not bad, but I had better.",
+    "score": 3
+  },
+  {
+    "userId": 4,
+    "recipeId": 6,
+    "comment": "My whole family enjoyed it.",
+    "score": 4
+  },
+  {
+    "userId": 4,
+    "recipeId": 7,
+    "comment": "Easy to follow and tasty.",
+    "score": 4
+  },
+  {
+    "userId": 4,
+    "recipeId": 8,
+    "comment": "A bit too complicated for me.",
+    "score": 3
+  },
+  {
+    "userId": 5,
+    "recipeId": 5,
+    "comment": "Good recipe, I recommend it.",
+    "score": 4
+  },
+  {
+    "userId": 5,
+    "recipeId": 7,
+    "comment": "It was just okay.",
+    "score": 3
+  },
+  {
+    "userId": 5,
+    "recipeId": 9,
+    "comment": "Very tasty, I will make it again.",
+    "score": 5
+  },
+  {
+    "userId": 6,
+    "recipeId": 6,
+    "comment": "Not my favorite.",
+    "score": 2
+  },
+  {
+    "userId": 6,
+    "recipeId": 8,
+    "comment": "My friends loved it.",
+    "score": 4
+  },
+  {
+    "userId": 6,
+    "recipeId": 10,
+    "comment": "A bit too sweet for me.",
+    "score": 3
+  },
+  {
+    "userId": 6,
+    "recipeId": 11,
+    "comment": "Perfect for a family dinner.",
+    "score": 5
+  },
+  {
+    "userId": 7,
+    "recipeId": 7,
+    "comment": "Easy and delicious.",
+    "score": 4
+  },
+  {
+    "userId": 7,
+    "recipeId": 9,
+    "comment": "Just okay.",
+    "score": 3
+  },
+  {
+    "userId": 7,
+    "recipeId": 12,
+    "comment": "A bit bland for my taste.",
+    "score": 2
+  },
+  {
+    "userId": 8,
+    "recipeId": 8,
+    "comment": "I will make this again for sure.",
+    "score": 5
+  },
+  {
+    "userId": 8,
+    "recipeId": 10,
+    "comment": "Good recipe, but a bit too spicy.",
+    "score": 3
+  },
+  {
+    "userId": 8,
+    "recipeId": 13,
+    "comment": "Simple and tasty.",
+    "score": 4
+  },
+  {
+    "userId": 9,
+    "recipeId": 9,
+    "comment": "Not bad, but I expected more.",
+    "score": 3
+  },
+  {
+    "userId": 9,
+    "recipeId": 11,
+    "comment": "Delicious and easy to follow.",
+    "score": 4
+  },
+  {
+    "userId": 9,
+    "recipeId": 15,
+    "comment": "Just okay, nothing special.",
+    "score": 3
+  },
+  {
+    "userId": 10,
+    "recipeId": 10,
+    "comment": "This is a new favorite!",
+    "score": 5
+  },
+  {
+    "userId": 10,
+    "recipeId": 12,
+    "comment": "Good, but could use more flavor.",
+    "score": 3
+  },
+  {
+    "userId": 10,
+    "recipeId": 16,
+    "comment": "Perfect for a quick meal.",
+    "score": 4
+  },
+  {
+    "userId": 11,
+    "recipeId": 11,
+    "comment": "A bit too salty for my taste.",
+    "score": 2
+  },
+  {
+    "userId": 11,
+    "recipeId": 13,
+    "comment": "This recipe was a hit at my party.",
+    "score": 5
+  },
+  {
+    "userId": 11,
+    "recipeId": 17,
+    "comment": "Not bad, but I've had better.",
+    "score": 3
+  },
+  {
+    "userId": 12,
+    "recipeId": 12,
+    "comment": "Easy to follow and delicious.",
+    "score": 4
+  },
+  {
+    "userId": 12,
+    "recipeId": 14,
+    "comment": "My family loved it!",
+    "score": 5
+  },
+  {
+    "userId": 12,
+    "recipeId": 18,
+    "comment": "A bit too bland for my taste.",
+    "score": 2
+  },
+  {
+    "userId": 13,
+    "recipeId": 13,
+    "comment": "This is my new go-to recipe.",
+    "score": 5
+  },
+  {
+    "userId": 13,
+    "recipeId": 15,
+    "comment": "Good, but nothing special.",
+    "score": 3
+  },
+  {
+    "userId": 13,
+    "recipeId": 19,
+    "comment": "Perfect for a quick meal.",
+    "score": 4
+  },
+  {
+    "userId": 14,
+    "recipeId": 14,
+    "comment": "A bit too spicy for my taste.",
+    "score": 3
+  },
+  {
+    "userId": 14,
+    "recipeId": 16,
+    "comment": "Very tasty, will make again.",
+    "score": 4
+  },
+  {
+    "userId": 14,
+    "recipeId": 20,
+    "comment": "Just okay, not my favorite.",
+    "score": 3
+  },
+  {
+    "userId": 15,
+    "recipeId": 15,
+    "comment": "This was a hit with my family.",
+    "score": 5
+  },
+  {
+    "userId": 15,
+    "recipeId": 17,
+    "comment": "Not bad, but I've had better.",
+    "score": 3
+  },
+  {
+    "userId": 15,
+    "recipeId": 21,
+    "comment": "Easy and delicious.",
+    "score": 4
+  },
+  {
+    "userId": 16,
+    "recipeId": 16,
+    "comment": "A bit too complicated for me.",
+    "score": 2
+  },
+  {
+    "userId": 16,
+    "recipeId": 18,
+    "comment": "My family loved it.",
+    "score": 5
+  },
+  {
+    "userId": 16,
+    "recipeId": 23,
+    "comment": "Good, but nothing special.",
+    "score": 3
+  },
+  {
+    "userId": 17,
+    "recipeId": 17,
+    "comment": "Perfect for a quick dinner.",
+    "score": 4
+  },
+  {
+    "userId": 17,
+    "recipeId": 19,
+    "comment": "A bit too salty for my taste.",
+    "score": 2
+  },
+  {
+    "userId": 17,
+    "recipeId": 24,
+    "comment": "This recipe was a hit at my party.",
+    "score": 5
+  },
+  {
+    "userId": 18,
+    "recipeId": 18,
+    "comment": "Very tasty, will make again.",
+    "score": 4
+  },
+  {
+    "userId": 18,
+    "recipeId": 20,
+    "comment": "Just okay, not my favorite.",
+    "score": 3
+  },
+  {
+    "userId": 18,
+    "recipeId": 26,
+    "comment": "Easy and delicious.",
+    "score": 4
+  },
+  {
+    "userId": 19,
+    "recipeId": 19,
+    "comment": "This was a hit with my family.",
+    "score": 5
+  },
+  {
+    "userId": 19,
+    "recipeId": 21,
+    "comment": "Not bad, but I've had better.",
+    "score": 3
+  },
+  {
+    "userId": 19,
+    "recipeId": 28,
+    "comment": "Easy to follow and delicious.",
+    "score": 4
+  },
+  {
+    "userId": 20,
+    "recipeId": 20,
+    "comment": "A bit too complicated for me.",
+    "score": 2
+  },
+  {
+    "userId": 20,
+    "recipeId": 22,
+    "comment": "My family loved it.",
+    "score": 5
+  },
+  {
+    "userId": 20,
+    "recipeId": 30,
+    "comment": "Good, but nothing special.",
+    "score": 3
+  }
 ]
