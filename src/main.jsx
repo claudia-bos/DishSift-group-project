@@ -9,17 +9,11 @@ import {
 import App from "./App.jsx";
 import HomePage from "./pages/HomePage.jsx";
 // import './index.css'
-<<<<<<< HEAD
-import Register from './components/register/Register.jsx';
-import PantryPage from './pages/PantryPage.jsx'
-import SearchPage from './pages/SearchPage.jsx'
-
-=======
 import Register from "./components/register/Register.jsx";
 import PantryPage from "./pages/PantryPage.jsx";
+import SearchPage from './pages/SearchPage.jsx'
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
->>>>>>> main
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,12 +21,8 @@ const router = createBrowserRouter(
       <Route index element={<HomePage />} />
       <Route path="register" element={<Register />} />
       <Route path="pantry-page" element={<PantryPage />} />
-<<<<<<< HEAD
       <Route path="search-page" element={<SearchPage />} />
    </Route>
-=======
-    </Route>
->>>>>>> main
   )
 );
 

@@ -1,51 +1,25 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState }from 'react';
 import IngredientForm from '../components/ingredientform/IngredientForm';
 import axios from 'axios';
 
-
-// TODO: Update the pantry recipe endpoint to fetch the data correctly in the pantrypage
+// TODO: Update with the correct API , it might need other changes in order to make it work
 const PantryPage = () => {
     const [recipes, setRecipes] = useState([]);
     const [showResults, setShowResults] = useState(false);
-    const [userId, setUserId] = useState(null);
 
-
-
-    useEffect(() => {
-        const fetchUserId = async () => {
-            try {
-                const response = await axios.get('/api/session-check');
-                if (response.data.success) {
-                    setUserId(response.data.userId);
-                } else {
-                    // Redirect to login if no user is logged in
-                    window.location.href = '/login';
-                }
-            } catch (error) {
-                console.error('Error checking session:', error);
-            }
-        };
-
-        fetchUserId();
-    }, []);
-
-
-   const handleGenerateRecipes = async (ingredients) => {
-        if (!userId) return;
-
+    const handleGenerateRecipes = async (ingredients) => {
         try {
-            const response = await axios.get(`/api/pantry/recipes/{userId}`, {
+            const response = await axios.get('http://www.edamam.com', {
                 params: {
-                    ingredients: ingredients.join(','),
-                },
+                    ingredients: ingredients.join(',')
+                }
             });
-            setRecipes(response.data);
+            setRecipes(response.data.recipes);
         } catch (error) {
             console.error('Error fetching recipes:', error);
         }
-        setShowResults(true);
+        setShowResults(true); // Show results after fetching recipes
     };
-
 
     return (
         <div>
@@ -58,7 +32,6 @@ const PantryPage = () => {
                             {recipes.map((recipe) => (
                                 <div key={recipe.recipeId}>
                                     <h3>{recipe.label}</h3>
-                                    <h3>{recipe.smallImage}</h3>
                                 </div>
                             ))}
                         </div>
@@ -70,5 +43,6 @@ const PantryPage = () => {
         </div>
     );
 };
+
 
 export default PantryPage
