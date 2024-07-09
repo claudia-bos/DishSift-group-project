@@ -13,31 +13,54 @@ import db, {
 import { Sequelize } from "sequelize";
 
 const handlerFunctions = {
+  /**
+   * A POST endpoint to register a new user. Will create the user
+   *   if the given username doesn't already exist in the database.
+   *   If the username is already in the database, will not add to
+   *   database and will respond with an appropriate message.
+   */
   register: async (req, res) => {
-    const { username, password } = req.body;
+    try {
+      const { username, password } = req.body;
+      console.log("Register:", req.body);
 
-    if (await User.findOne({ where: { username: username } })) {
-      res.send({
-        message: "username already exists",
-        success: false,
+      if (await User.findOne({ where: { username: username } })) {
+        const alreadyExistsMessage = `Username '${username}', already exists`;
+        console.log(alreadyExistsMessage);
+        res.send({
+          message: alreadyExistsMessage,
+          success: false,
+        });
+        return;
+      }
+
+      const createdMessage = `Created user ${username}`;
+      console.log(createdMessage);
+      const newUser = await User.create({
+        username: username,
+        password: password,
       });
-      return;
+
+      req.session.userId = newUser.userId;
+
+      res.send({
+        message: createdMessage,
+        success: true,
+        userId: newUser.userId,
+      });
+    } catch (error) {
+      console.log("Registration failed:", error);
+      res.status(500).send({
+        message: "Registration failed",
+        success: false,
+        error: error.message,
+      });
     }
-
-    const newUser = await User.create({
-      username: username,
-      password: password,
-    });
-
-    req.session.userId = newUser.userId;
-
-    res.send({
-      message: "user created",
-      success: true,
-      userId: newUser.userId,
-    });
   },
 
+  /**
+   * A POST endpoint to login a user.
+   */
   login: async (req, res) => {
     const { username, password } = req.body;
 
@@ -45,31 +68,38 @@ const handlerFunctions = {
       const user = await User.findOne({ where: { username } });
 
       if (!user) {
-        console.log("User not found");
-        return res.status(404).send({
-          message: "User not found",
+        const userNotFoundMessage = `User '${username}' not found`;
+        console.log(userNotFoundMessage);
+        return res.status(200).send({
+          message: userNotFoundMessage,
           success: false,
         });
       }
-      console.log("User found:", user);
 
+      console.log(`User '${username}' found`);
+
+      // Check that password in DB matches the given one
       const isMatch = user.password === password;
 
       if (!isMatch) {
-        console.log("Wrong password");
-        return res.status(400).send({
-          message: "Wrong password",
+        const wrongPasswordMessage = `Wrong password for user '${username}'`;
+        console.log(wrongPasswordMessage);
+        return res.status(200).send({
+          message: wrongPasswordMessage,
           success: false,
         });
       }
 
+      // Login success so set session value for user
       req.session.user = {
         userId: user.userId,
         username: user.username,
       };
 
+      const loginSuccessMessage = `Login successful for user '${username}'`;
+      console.log(loginSuccessMessage);
       res.status(200).send({
-        message: "Login successful",
+        message: loginSuccessMessage,
         success: true,
         user: req.session.user,
       });
@@ -277,50 +307,53 @@ const handlerFunctions = {
 
   // get all foods
   getAllFoods: async (req, res) => {
-    const allFoods = await Food.findAll()
+    const allFoods = await Food.findAll();
 
-    console.log('allFoods:', allFoods)
+    console.log("allFoods:", allFoods);
 
-    res.status(200).send(allFoods)
+    res.status(200).send({
+      message: "finding base on food",
+      foods: allFoods, 
+    })
   },
 
   // get user pantry items
   getUserPantryFoods: async (req, res) => {
-    const { id } = req.params
-    console.log('id:', id)
+    const { id } = req.params;
+    console.log("id:", id);
 
     const userPantryFoods = await Food.findAll({
       include: [
         {
           model: Pantry,
-          where: { userId: id }
-        }
-      ]
-    })
+          where: { userId: id },
+        },
+      ],
+    });
 
-    res.status(200).send(userPantryFoods)
+    res.status(200).send(userPantryFoods);
   },
 
   // add to pantry
   addFoodToPantry: async (req, res) => {
-    const { userId, foodId } = req.body
+    const { userId, foodId } = req.body;
 
-    const newPantryFood = await Pantry.create({userId, foodId})
+    const newPantryFood = await Pantry.create({ userId, foodId });
 
-    res.status(200).send(newPantryFood)
+    res.status(200).send(newPantryFood);
   },
 
   // remove from pantry
   removeFoodFromPantry: async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
 
-    console.log('foodId:', id)
+    console.log("foodId:", id);
 
     await Pantry.destroy({
-      where: { foodId: id }
-    })
+      where: { foodId: id },
+    });
 
-    res.status(200).send("Successfully removed food")
+    res.status(200).send("Successfully removed food");
   },
 
   // get recipes by user pantry items
@@ -366,12 +399,11 @@ const handlerFunctions = {
       ],
       subQuery: false,
       distinct: true,
-      
-    })
+    });
 
     // console.log('pantryRecipes:', pantryRecipes)
 
-    res.status(200).send(pantryRecipes)
+    res.status(200).send(pantryRecipes);
   },
 
   // get all recipes
