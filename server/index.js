@@ -68,7 +68,7 @@ app.get("/api/getFavorites", getFavorites);
 app.delete("/api/favorites/:favoriteId", removeFavorite);
 
 // pantry endpoints
-app.get("/api/pantry/recipes/:id", getRecipesByUserPantry)
+app.get("/api/pantry/recipes/:id/:pageNum", getRecipesByUserPantry)
 app.get("/api/pantry/foods/all", getAllFoods)
 app.get("/api/pantry/foods/:id", getUserPantryFoods)
 app.post("/api/pantry/add", addFoodToPantry)

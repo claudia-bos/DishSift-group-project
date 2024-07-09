@@ -325,11 +325,17 @@ const handlerFunctions = {
 
   // get recipes by user pantry items
   getRecipesByUserPantry: async (req, res) => {
-    const { id } = req.params
+    const { id, pageNum } = req.params
 
     console.log('id:', id)
+    console.log('pageNum:', pageNum)
 
     const pantryRecipes = await Recipe.findAll({
+      offset: pageNum * 20,
+      limit: 20,
+      order: [
+        ['recipeId', 'ASC']
+      ],
       include: [
         {
           model: RecipeIngredient,
@@ -360,6 +366,7 @@ const handlerFunctions = {
       ],
       subQuery: false,
       distinct: true,
+      
     })
 
     // console.log('pantryRecipes:', pantryRecipes)

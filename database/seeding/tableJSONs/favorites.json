@@ -4,6 +4,34 @@
         "recipeId": 1
     },
     {
+        "userId": 1,
+        "recipeId": 16
+    },
+    {
+        "userId": 1,
+        "recipeId": 25
+    },
+    {
+        "userId": 1,
+        "recipeId": 80
+    },
+    {
+        "userId": 1,
+        "recipeId": 178
+    },
+    {
+        "userId": 1,
+        "recipeId": 291
+    },
+    {
+        "userId": 1,
+        "recipeId": 420
+    },
+    {
+        "userId": 1,
+        "recipeId": 900
+    },
+    {
         "userId": 2,
         "recipeId": 1
     }
