@@ -422,6 +422,14 @@ const handlerFunctions = {
     res.status(200).send(allRecipes)
   },
 
+  // get recipe by recipe id
+  getRecipeByRecipeId: async (req, res) => {
+    const { id } = req.params
+    const recipe = await Recipe.findByPk(id)
+
+    res.status(200).send(recipe)
+  },
+
   // get recipe ingredients by recipe id
   getRecipeIngredientsByRecipeId: async (req, res) => {
     const { id } = req.params

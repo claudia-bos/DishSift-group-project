@@ -46,6 +46,7 @@ const {
   removeFoodFromPantry,
   getRecipesByUserPantry,
   getAllRecipes,
+  getRecipeByRecipeId,
   getRecipeIngredientsByRecipeId,
   getRecipeLabelsByRecipeId,
   createNewRating,
@@ -75,6 +76,7 @@ app.post("/api/pantry/add", addFoodToPantry)
 app.delete("/api/pantry/delete/:id", removeFoodFromPantry)
 
 app.get("/api/recipes/all/:pageNum", getAllRecipes)
+app.get("/api/recipes/:id", getRecipeByRecipeId)
 
 app.get("/api/recipes/ingredients/:id", getRecipeIngredientsByRecipeId)
 app.get("/api/recipes/labels/:id", getRecipeLabelsByRecipeId)
