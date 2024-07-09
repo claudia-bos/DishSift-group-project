@@ -19,35 +19,47 @@ const handlerFunctions = {
    *   database and will respond with an appropriate message.
    */
   register: async (req, res) => {
-    const { username, password } = req.body;
-    console.log("Register:", req.body);
+    try {
+      const { username, password } = req.body;
+      console.log("Register:", req.body);
 
-    if (await User.findOne({ where: { username: username } })) {
-      const alreadyExistsMessage = `Username '${username}', already exists`;
-      console.log(alreadyExistsMessage);
-      res.send({
-        message: alreadyExistsMessage,
-        success: false,
+      if (await User.findOne({ where: { username: username } })) {
+        const alreadyExistsMessage = `Username '${username}', already exists`;
+        console.log(alreadyExistsMessage);
+        res.send({
+          message: alreadyExistsMessage,
+          success: false,
+        });
+        return;
+      }
+
+      const createdMessage = `Created user ${username}`;
+      console.log(createdMessage);
+      const newUser = await User.create({
+        username: username,
+        password: password,
       });
-      return;
+
+      req.session.userId = newUser.userId;
+
+      res.send({
+        message: createdMessage,
+        success: true,
+        userId: newUser.userId,
+      });
+    } catch (error) {
+      console.log("Registration failed:", error);
+      res.status(500).send({
+        message: "Registration failed",
+        success: false,
+        error: error.message,
+      });
     }
-
-    const createdMessage = `Created user ${username}`;
-    console.log(createdMessage);
-    const newUser = await User.create({
-      username: username,
-      password: password,
-    });
-
-    req.session.userId = newUser.userId;
-
-    res.send({
-      message: createdMessage,
-      success: true,
-      userId: newUser.userId,
-    });
   },
 
+  /**
+   * A POST endpoint to login a user.
+   */
   login: async (req, res) => {
     const { username, password } = req.body;
 
@@ -55,31 +67,38 @@ const handlerFunctions = {
       const user = await User.findOne({ where: { username } });
 
       if (!user) {
-        console.log("User not found");
-        return res.status(404).send({
-          message: "User not found",
+        const userNotFoundMessage = `User '${username}' not found`;
+        console.log(userNotFoundMessage);
+        return res.status(200).send({
+          message: userNotFoundMessage,
           success: false,
         });
       }
-      console.log("User found:", user);
 
+      console.log(`User '${username}' found`);
+
+      // Check that password in DB matches the given one
       const isMatch = user.password === password;
 
       if (!isMatch) {
-        console.log("Wrong password");
-        return res.status(400).send({
-          message: "Wrong password",
+        const wrongPasswordMessage = `Wrong password for user '${username}'`;
+        console.log(wrongPasswordMessage);
+        return res.status(200).send({
+          message: wrongPasswordMessage,
           success: false,
         });
       }
 
+      // Login success so set session value for user
       req.session.user = {
         userId: user.userId,
         username: user.username,
       };
 
+      const loginSuccessMessage = `Login successful for user '${username}'`;
+      console.log(loginSuccessMessage);
       res.status(200).send({
-        message: "Login successful",
+        message: loginSuccessMessage,
         success: true,
         user: req.session.user,
       });

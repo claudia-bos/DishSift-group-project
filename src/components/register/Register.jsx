@@ -29,6 +29,7 @@ const Register = () => {
         const res = await axios.post("/api/register", bodyObj);
 
         if (res.data.success) {
+          console.log(`Dispatching userId ${res.data.userId} to redux store`);
           dispatch({
             type: "USER_AUTH",
             payload: res.data.userId,
