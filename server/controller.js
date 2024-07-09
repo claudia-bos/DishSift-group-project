@@ -309,7 +309,7 @@ const handlerFunctions = {
   getAllFoods: async (req, res) => {
     const allFoods = await Food.findAll();
 
-    console.log("allFoods:", allFoods);
+    // console.log("allFoods:", allFoods);
 
     res.status(200).send({
       message: "finding base on food",
@@ -417,7 +417,7 @@ const handlerFunctions = {
       ]
     })
 
-    console.log('allRecipes:', allRecipes)
+    // console.log('allRecipes:', allRecipes)
 
     res.status(200).send(allRecipes)
   },
