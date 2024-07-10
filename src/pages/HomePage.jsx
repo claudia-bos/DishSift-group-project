@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Carousel from "../components/caroussel/Carousel.jsx";
 
-// TODO: update the recipe endpoint to fetch the recipe data for the caroussel
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
+
+  // console.log(recipes);
 
   useEffect(() => {
     const fecthRandomRecipes = async () => {
