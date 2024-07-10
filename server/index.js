@@ -30,15 +30,15 @@ app.use(
 /////////////////////////////////////////////////////////////////////////////
 //  Endpoints
 /////////////////////////////////////////////////////////////////////////////
-const { 
-  register, 
-  login, 
-  sessionCheck, 
-  logout, 
-  updateAccount, 
-  deleteAccount, 
-  addFavorite, 
-  getFavorites, 
+const {
+  register,
+  login,
+  sessionCheck,
+  logout,
+  updateAccount,
+  deleteAccount,
+  addFavorite,
+  getFavorites,
   removeFavorite,
   getAllFoods,
   getUserPantryFoods,
@@ -54,13 +54,13 @@ const {
   deleteRating,
   getRatingsByRecipeId,
   getRatingsByUserId,
-  highestRatedCaroussel
+  highestRatedCaroussel,
 } = handlerFunctions;
 
 app.post("/api/register", register);
 app.post("/api/login", login);
 app.get("/api/session-check", sessionCheck);
-app.get("/api/logout", logout);
+app.post("/api/logout", logout);
 app.put("/api/profile", updateAccount);
 app.delete("/api/profile", deleteAccount);
 
@@ -69,28 +69,27 @@ app.get("/api/getFavorites", getFavorites);
 app.delete("/api/favorites/:favoriteId", removeFavorite);
 
 // pantry endpoints
-app.get("/api/pantry/recipes/:id/:pageNum", getRecipesByUserPantry)
-app.get("/api/pantry/foods/all", getAllFoods)
-app.get("/api/pantry/foods/:id", getUserPantryFoods)
-app.post("/api/pantry/add", addFoodToPantry)
-app.delete("/api/pantry/delete/:id", removeFoodFromPantry)
+app.get("/api/pantry/recipes/:id/:pageNum", getRecipesByUserPantry);
+app.get("/api/pantry/foods/all", getAllFoods);
+app.get("/api/pantry/foods/:id", getUserPantryFoods);
+app.post("/api/pantry/add", addFoodToPantry);
+app.delete("/api/pantry/delete/:id", removeFoodFromPantry);
 
-app.get("/api/recipes/all/:pageNum", getAllRecipes)
-app.get("/api/recipes/:id", getRecipeByRecipeId)
+app.get("/api/recipes/all/:pageNum", getAllRecipes);
+app.get("/api/recipes/:id", getRecipeByRecipeId);
 
-app.get("/api/recipes/ingredients/:id", getRecipeIngredientsByRecipeId)
-app.get("/api/recipes/labels/:id", getRecipeLabelsByRecipeId)
+app.get("/api/recipes/ingredients/:id", getRecipeIngredientsByRecipeId);
+app.get("/api/recipes/labels/:id", getRecipeLabelsByRecipeId);
 
 // rating endpoints
-app.post("/api/recipes/ratings/new", createNewRating)
-app.put("/api/recipes/ratings/edit/:id", editRating)
-app.delete("/api/recipes/ratings/delete/:id", deleteRating)
-app.get("/api/recipes/ratings/:id", getRatingsByRecipeId)
-app.get("/api/recipes/ratings/user/:id", getRatingsByUserId)
+app.post("/api/recipes/ratings/new", createNewRating);
+app.put("/api/recipes/ratings/edit/:id", editRating);
+app.delete("/api/recipes/ratings/delete/:id", deleteRating);
+app.get("/api/recipes/ratings/:id", getRatingsByRecipeId);
+app.get("/api/recipes/ratings/user/:id", getRatingsByUserId);
 
 // caroussel endpoints
-app.get("/api/caroussel/highest-rated", highestRatedCaroussel)
-
+app.get("/api/caroussel/highest-rated", highestRatedCaroussel);
 
 /////////////////////////////////////////////////////////////////////////////
 //  Config server on port

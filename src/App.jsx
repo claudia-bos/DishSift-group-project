@@ -30,13 +30,13 @@ function App() {
     sessionCheck()
   }, [])
 
-
   return (
     <>
       <Header />
       <Outlet />
+      {/* <RecipePage /> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

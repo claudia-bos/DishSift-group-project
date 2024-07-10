@@ -366,6 +366,7 @@ const handlerFunctions = {
       limit: 20, // pageNum == 0 ? 21 : 20,
       order: [["recipeId", "ASC"]],
       // separate: true,
+
       include: [
         {
           model: RecipeIngredient,
