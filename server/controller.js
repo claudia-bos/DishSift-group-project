@@ -362,8 +362,8 @@ const handlerFunctions = {
     console.log("offset:", pageNum * 20);
 
     const pantryRecipes = await Recipe.findAll({
-      offset: pageNum == 0 ? 0 : pageNum * 20 + 1,
-      limit: pageNum == 0 ? 21 : 20,
+      offset: pageNum * 20, // pageNum == 0 ? 0 : pageNum * 20 + 1,
+      limit: 20, // pageNum == 0 ? 21 : 20,
       order: [["recipeId", "ASC"]],
       // separate: true,
       include: [
@@ -437,7 +437,7 @@ const handlerFunctions = {
         {
           model: RecipeIngredient,
           where: { recipeId: id },
-          attributes: [],
+          attributes: ["recipeId"],
         },
       ],
     });

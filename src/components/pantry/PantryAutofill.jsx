@@ -1,14 +1,24 @@
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 
-const PantryAutoFill = ({ food, inputText, setInputText }) => {
-  const userId = useSelector((state) => state.userId);
-
+const PantryAutoFill = ({
+  food,
+  inputText,
+  setInputText,
+  setPantryFoodData,
+  setPantryRecipeData,
+  userId,
+}) => {
   const handleClick = async () => {
     setInputText("");
     await axios.post("/api/pantry/add", {
       userId: userId,
       foodId: food.foodId,
+    });
+    await axios.get(`/api/pantry/recipes/${userId}/0`).then((res) => {
+      setPantryRecipeData(res.data);
+    });
+    await axios.get(`/api/pantry/foods/${userId}`).then((res) => {
+      setPantryFoodData(res.data);
     });
   };
 

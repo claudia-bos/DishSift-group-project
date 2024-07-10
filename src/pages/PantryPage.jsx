@@ -27,11 +27,21 @@ const PantryPage = () => {
   console.log("pantryFoodData:", pantryFoodData);
 
   const recipes = pantryRecipeData.map((el) => (
-    <PantryRecipes recipe={el} key={el.recipeId} />
+    <PantryRecipes
+      recipe={el}
+      key={el.recipeId}
+      pantryFoodData={pantryFoodData}
+    />
   ));
 
   const userFoods = pantryFoodData.map((el) => (
-    <PantryFoods food={el} key={el.foodId} />
+    <PantryFoods
+      food={el}
+      key={el.foodId}
+      setPantryFoodData={setPantryFoodData}
+      setPantryRecipeData={setPantryRecipeData}
+      userId={userId}
+    />
   ));
 
   return (
@@ -44,7 +54,11 @@ const PantryPage = () => {
       <div>
         <h1>User Foods</h1>
         <div>
-          <PantryInput setPantryFoodData={setPantryFoodData} />
+          <PantryInput
+            setPantryFoodData={setPantryFoodData}
+            setPantryRecipeData={setPantryRecipeData}
+            userId={userId}
+          />
         </div>
         {userFoods}
       </div>
