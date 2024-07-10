@@ -310,10 +310,7 @@ const handlerFunctions = {
 
     // console.log("allFoods:", allFoods);
 
-    res.status(200).send({
-      message: "finding base on food",
-      foods: allFoods,
-    });
+    res.status(200).send(allFoods);
   },
 
   // get user pantry items
@@ -326,6 +323,7 @@ const handlerFunctions = {
         {
           model: Pantry,
           where: { userId: id },
+          attributes: [],
         },
       ],
     });
@@ -361,31 +359,35 @@ const handlerFunctions = {
 
     console.log("id:", id);
     console.log("pageNum:", pageNum);
+    console.log("offset:", pageNum * 20);
 
     const pantryRecipes = await Recipe.findAll({
-      offset: pageNum * 20,
-      limit: 20,
+      offset: pageNum * 20, // pageNum == 0 ? 0 : pageNum * 20 + 1,
+      limit: 20, // pageNum == 0 ? 21 : 20,
       order: [["recipeId", "ASC"]],
+      // separate: true,
+
       include: [
         {
           model: RecipeIngredient,
           required: true,
-          attributes: [],
+          attributes: ["recipeId"],
+          // separate: true,
           include: [
             {
               model: Ingredient,
               required: true,
-              attributes: [],
+              attributes: ["foodId"],
               include: [
                 {
                   model: Food,
                   required: true,
-                  attributes: [],
+                  attributes: ["foodId"],
                   include: [
                     {
                       model: Pantry,
                       where: { userId: id },
-                      attributes: [],
+                      attributes: ["foodId"],
                     },
                   ],
                 },
@@ -398,7 +400,9 @@ const handlerFunctions = {
       distinct: true,
     });
 
-    // console.log('pantryRecipes:', pantryRecipes)
+    console.log("pantryRecipes:", pantryRecipes.length);
+
+    pantryRecipes.forEach((el) => console.log(el.recipeId));
 
     res.status(200).send(pantryRecipes);
   },
@@ -434,7 +438,7 @@ const handlerFunctions = {
         {
           model: RecipeIngredient,
           where: { recipeId: id },
-          attributes: [],
+          attributes: ["recipeId"],
         },
       ],
     });
