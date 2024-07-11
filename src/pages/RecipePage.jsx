@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const RecipePage = () => {
+  const userId = useSelector((state) => state.userId);
   const { recipeId } = useParams();
   const { state } = useLocation();
   console.log(state);
@@ -27,7 +29,7 @@ const RecipePage = () => {
 
   const handleAddToFavorites = async () => {
     try {
-      await axios.post("/api/favorites", { recipeId });
+      await axios.post("/api/favorites", { userId, recipeId });
       setIsFavorite(true);
     } catch (error) {
       console.error("Error adding to favorites:", error);

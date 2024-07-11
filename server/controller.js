@@ -119,6 +119,7 @@ const handlerFunctions = {
         message: "User is still logged in",
         success: true,
         userId: req.session.user.userId,
+        user: req.session.user,
       });
     } else {
       res.send({
@@ -172,11 +173,11 @@ const handlerFunctions = {
     try {
       const user = await User.findByPk(req.session.user.userId);
 
-      if (user) {
+      if (user && user.password === password) {
         await user.destroy();
         res.json({ message: "Account deleted successfully" });
       } else {
-        res.status(404).json({ error: "User not found" });
+        res.status(400).json({ error: "Invalid password" });
       }
     } catch (error) {
       res.status(500).json({ error: "Server error" });
