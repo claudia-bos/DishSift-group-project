@@ -41,7 +41,10 @@ const handlerFunctions = {
         password: password,
       });
 
-      req.session.userId = newUser.userId;
+      req.session.user = {
+        userId: newUser.userId,
+        username: newUser.username,
+      };
 
       res.send({
         message: createdMessage,
@@ -62,11 +65,10 @@ const handlerFunctions = {
    * A POST endpoint to login a user.
    */
   login: async (req, res) => {
-    const { username, password } = req.body;
-
     try {
-      const user = await User.findOne({ where: { username } });
+      const { username, password } = req.body;
 
+      const user = await User.findOne({ where: { username } });
       if (!user) {
         const userNotFoundMessage = `User '${username}' not found`;
         console.log(userNotFoundMessage);
@@ -171,15 +173,30 @@ const handlerFunctions = {
 
   deleteAccount: async (req, res) => {
     try {
+      const { password } = req.body;
       const user = await User.findByPk(req.session.user.userId);
 
       if (user && user.password === password) {
         await user.destroy();
-        res.json({ message: "Account deleted successfully" });
+        req.session.destroy((err) => {
+          if (err) {
+            console.log("Session destruction error:", err);
+            return res.status(500).json({
+              message: "Logout failed",
+              success: false,
+            });
+          }
+          res.clearCookie("connect.sid");
+          res.status(200).json({
+            message: "Account deleted and logged out successfully",
+            success: true,
+          });
+        });
       } else {
         res.status(400).json({ error: "Invalid password" });
       }
     } catch (error) {
+      console.log("Error deleting account:", error);
       res.status(500).json({ error: "Server error" });
     }
   },
@@ -223,10 +240,14 @@ const handlerFunctions = {
 
   removeFavorite: async (req, res) => {
     const { favoriteId } = req.params;
+    console.log(`Attempting to remove with ID: ${favoriteId}`);
     try {
-      const favorite = await Favorite.findOne({ where: { id: favoriteId } });
+      const favorite = await Favorite.findOne({
+        where: { favoriteId: favoriteId },
+      });
 
       if (!favorite) {
+        console.log(`Favorite with ID ${favoriteId} not found`);
         return res.status(404).json({
           message: "Favorite not found",
           success: false,
@@ -234,11 +255,13 @@ const handlerFunctions = {
       }
 
       await favorite.destroy();
+      console.log(`Favorite with ID ${favoriteId} removed successfully`);
       res.status(200).json({
         message: "Favorite removed successfully",
         success: true,
       });
     } catch (error) {
+      console.error("Error removing favorite:", error);
       res.status(500).json({ message: "Error removing favorite", error });
     }
   },

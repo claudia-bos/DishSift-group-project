@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 
 const ProfilePage = () => {
   const userId = useSelector((state) => state.userId);
+  const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [showSettings, setShowSettings] = useState(false);
@@ -18,6 +19,7 @@ const ProfilePage = () => {
     const fetchUser = async () => {
       try {
         const res = await axios.get("/api/session-check");
+        console.log(res.data);
         setUser(res.data.user);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -53,11 +55,16 @@ const ProfilePage = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      await axios.delete("/api/profile", {
+      const res = await axios.delete("/api/profile", {
         data: { password: deletePassword },
       });
-      alert("Account deleted successfully");
-      navigate("/home-page");
+      if (res.data.success) {
+        alert("Account deleted successfully");
+        dispatch({ type: "LOGOUT" });
+        navigate("/home-page");
+      } else {
+        alert("Invalid password. Account not deleted.");
+      }
     } catch (error) {
       console.error("Error deleting account:", error);
       alert("Invalid password. Account not deleted.");
@@ -67,7 +74,7 @@ const ProfilePage = () => {
   const handleRemoveFavorite = async (favoriteId) => {
     try {
       await axios.delete(`/api/favorites/${favoriteId}`);
-      setFavorites(favorites.filter((fav) => fav.id !== favoriteId));
+      setFavorites(favorites.filter((fav) => fav.favoriteId !== favoriteId));
     } catch (error) {
       console.error("Error removing favorites:", error);
     }
@@ -127,16 +134,22 @@ const ProfilePage = () => {
 
       <div>
         <h2>Favorite Recipes</h2>
-        <ul>
+        <div>
           {favorites.map((fav) => (
-            <li key={fav.favoriteId}>
-              {fav.recipe.label}
+            <div key={fav.favoriteId}>
+              <Link
+                to={`/recipe-page/${fav.recipeId}`}
+                state={{ recipe: fav.Recipe }}
+              >
+                {fav.recipe.label}
+              </Link>
+              <br />
               <button onClick={() => handleRemoveFavorite(fav.favoriteId)}>
                 Remove
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
