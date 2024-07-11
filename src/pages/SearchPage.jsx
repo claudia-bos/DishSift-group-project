@@ -3,7 +3,6 @@ import axios from "axios";
 // import { query } from "express";
 import SearchRecipes from "../components/search/SearchRecipes.jsx";
 import SearchPageButton from "../components/search/SearchPageButton.jsx";
-import { Recipe } from "../../database/model.js";
 
 const SearchPage = () => {
   const [allRecipeData, setAllRecipeData] = useState([]);
@@ -16,17 +15,17 @@ const SearchPage = () => {
   useEffect(() => {
     axios.get(`/api/recipes/all/${queryPageNum}`).then((res) => {
       setAllRecipeData(res.data);
-      // if (res.data.length === 20) {
-      //   handleNextButton(res.data);
-      // }
+      if (res.data.length === 20) {
+        handleNextButton(res.data);
+      }
     });
   }, []);
 
-  useEffect(() => {
-    if (allRecipeData.length === 20) {
-      handleNextButton(allRecipeData);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (allRecipeData.length === 20) {
+  //     handleNextButton(allRecipeData);
+  //   }
+  // }, []);
 
   const handleNextButton = async (thisQuery) => {
     console.log("You made it to the function");
@@ -51,7 +50,11 @@ const SearchPage = () => {
   ));
 
   const allQueryButtons = queryButtons.map((el) => (
-    <SearchPageButton pageNum={el} setAllRecipeData={setAllRecipeData} />
+    <SearchPageButton
+      pageNum={el}
+      key={el}
+      setAllRecipeData={setAllRecipeData}
+    />
   ));
 
   // console.log("allRecipeData:", allRecipeData);

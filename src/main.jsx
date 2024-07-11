@@ -15,8 +15,6 @@ import SearchPage from "./pages/SearchPage.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import RecipePage from "./pages/RecipePage.jsx";
-import { Buffer } from "buffer";
-window.Buffer = Buffer;
 
 const router = createBrowserRouter(
   createRoutesFromElements(
