@@ -10,7 +10,7 @@ import db, {
   Label,
   RecipeLabel,
 } from "../database/model.js";
-import { Sequelize } from "sequelize";
+import { Sequelize, Op } from "sequelize";
 
 const handlerFunctions = {
   /**
@@ -383,37 +383,38 @@ const handlerFunctions = {
 
     console.log("id:", id);
     console.log("pageNum:", pageNum);
-    console.log("offset:", pageNum * 20);
 
-    const pantryRecipes = await Recipe.findAll({
-      offset: pageNum * 20, // pageNum == 0 ? 0 : pageNum * 20 + 1,
-      limit: 20, // pageNum == 0 ? 21 : 20,
-      order: [["recipeId", "ASC"]],
-      // separate: true,
+    // const userFoods = await Food.findAll({
+    //   attributes: ["foodId"],
+    //   include: [
+    //     {
+    //       model: Pantry,
+    //       where: { userId: id },
+    //     },
+    //   ],
+    // });
+    // const userPantryFoodIds = userFoods.map((food) => food.foodId);
 
+    // console.log("userPantryFoodIds:", userPantryFoodIds);
+
+    const userRecipeIngredients = await RecipeIngredient.findAll({
+      attributes: ["recipeId"],
       include: [
         {
-          model: RecipeIngredient,
+          model: Ingredient,
           required: true,
-          attributes: ["recipeId"],
-          // separate: true,
+          attributes: ["foodId"],
           include: [
             {
-              model: Ingredient,
+              model: Food,
               required: true,
               attributes: ["foodId"],
               include: [
                 {
-                  model: Food,
+                  model: Pantry,
                   required: true,
+                  where: { userId: id },
                   attributes: ["foodId"],
-                  include: [
-                    {
-                      model: Pantry,
-                      where: { userId: id },
-                      attributes: ["foodId"],
-                    },
-                  ],
                 },
               ],
             },
@@ -424,11 +425,67 @@ const handlerFunctions = {
       distinct: true,
     });
 
-    console.log("pantryRecipes:", pantryRecipes.length);
+    const userRecipeIds = userRecipeIngredients.map((el) => el.recipeId);
 
-    pantryRecipes.forEach((el) => console.log(el.recipeId));
+    console.log("userRecipeIds:", userRecipeIds);
+    console.log("userRecipeIds.length:", userRecipeIds.length);
 
-    res.status(200).send(pantryRecipes);
+    const userPantryRecipes = await Recipe.findAll({
+      offset: pageNum * 20,
+      limit: 20,
+      where: {
+        recipeId: {
+          [Op.in]: userRecipeIds,
+        },
+      },
+    });
+
+    res.status(200).send(userPantryRecipes);
+
+    // const pantryRecipes = await Recipe.findAll({
+    //   offset: pageNum * 20, // pageNum == 0 ? 0 : pageNum * 20 + 1,
+    //   limit: 20, // pageNum == 0 ? 21 : 20,
+    //   order: [["recipeId", "ASC"]],
+    //   // separate: true,
+
+    //   include: [
+    //     {
+    //       model: RecipeIngredient,
+    //       required: true,
+    //       attributes: ["recipeId"],
+    //       // separate: true,
+    //       include: [
+    //         {
+    //           model: Ingredient,
+    //           required: true,
+    //           attributes: ["foodId"],
+    //           include: [
+    //             {
+    //               model: Food,
+    //               required: true,
+    //               attributes: ["foodId"],
+    //               include: [
+    //                 {
+    //                   model: Pantry,
+    //                   where: { userId: id },
+    //                   attributes: ["foodId"],
+    //                 },
+    //               ],
+    //             },
+    //           ],
+    //         },
+    //       ],
+    //     },
+    //   ],
+    //   subQuery: false,
+    //   distinct: true,
+    // });
+
+    // // console.log("pantryRecipes:", pantryRecipes.length);
+
+    // // pantryRecipes.forEach((el) => console.log(el.recipeId));
+
+    // res.status(200).send(pantryRecipes);
   },
 
   // get all recipes
