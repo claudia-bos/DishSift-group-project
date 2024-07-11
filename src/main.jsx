@@ -16,6 +16,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import RecipePage from "./pages/RecipePage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+// import Login from "./components/login/Login.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
       <Route path="search-page" element={<SearchPage />} />
       <Route path="recipe-page/:recipeId" element={<RecipePage />} />
       <Route path="profile-page" element={<ProfilePage />} />
+      <Route path="home-page" element={<HomePage />} />
     </Route>
   )
 );
