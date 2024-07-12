@@ -25,8 +25,6 @@ const RecipePage = () => {
       try {
         if (!recipe) {
           const res = await axios.get(`/api/recipes/${recipeId}`);
-          console.log("Recipe data fetched:", res.data); // Detailed debugging
-
           setRecipe(res.data);
         }
 
@@ -188,8 +186,8 @@ const RecipePage = () => {
       <div>
         <h2>Nutritional Information</h2>
         <div>
-          <div>Calories: {recipe.calories}</div>
-          <div>Total Weight: {recipe.totalWeight} grams</div>
+          <div>Calories: {Math.round(recipe.calories)}</div>
+          <div>Total Weight: {Math.round(recipe.totalWeight)} grams</div>
           <div>Total Time: {recipe.totalTime} minutes</div>
           <div>Meal Type: {recipe.mealType}</div>
           <div>Dish Type: {recipe.dishType}</div>

@@ -65,7 +65,7 @@ const Carousel = () => {
             <div key={index}>
               <img src="{recipe.image}" />
               <h3>
-                <Link to={`/recipe-page/${recipe.recipeId}`} state={{ recipe }}>
+                <Link to={`/recipe-page/${recipe.recipeId}`} state={recipe}>
                   {recipe.label}
                 </Link>
               </h3>
