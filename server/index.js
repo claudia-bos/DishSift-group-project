@@ -54,6 +54,7 @@ const {
   deleteRating,
   getRatingsByRecipeId,
   getRatingsByUserId,
+  getAllLabels,
   highestRatedCaroussel,
 } = handlerFunctions;
 
@@ -75,7 +76,7 @@ app.get("/api/pantry/foods/:id", getUserPantryFoods);
 app.post("/api/pantry/add", addFoodToPantry);
 app.delete("/api/pantry/delete/:id", removeFoodFromPantry);
 
-app.get("/api/recipes/all/:pageNum", getAllRecipes);
+app.post("/api/recipes/all/:pageNum", getAllRecipes);
 app.get("/api/recipes/:id", getRecipeByRecipeId);
 
 app.get("/api/recipes/ingredients/:id", getRecipeIngredientsByRecipeId);
@@ -87,6 +88,8 @@ app.put("/api/recipes/ratings/edit/:id", editRating);
 app.delete("/api/recipes/ratings/delete/:id", deleteRating);
 app.get("/api/recipes/ratings/:id", getRatingsByRecipeId);
 app.get("/api/recipes/ratings/user/:id", getRatingsByUserId);
+
+app.get("/api/labels/all", getAllLabels);
 
 // caroussel endpoints
 app.get("/api/caroussel/highest-rated", highestRatedCaroussel);

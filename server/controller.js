@@ -491,15 +491,63 @@ const handlerFunctions = {
   // get all recipes
   getAllRecipes: async (req, res) => {
     const { pageNum } = req.params;
-    const allRecipes = await Recipe.findAll({
-      offset: pageNum * 20,
-      limit: 20,
-      order: [["recipeId", "ASC"]],
+    const { inputText, filters } = req.body;
+
+    console.log("inputText:", inputText);
+    console.log("filters:", filters);
+
+    const matchedLabels = await Label.findAll({
+      where: {
+        labelName: {
+          [Op.in]: filters,
+        },
+      },
+      subQuery: false,
+      distinct: true,
     });
 
-    // console.log('allRecipes:', allRecipes)
+    if (matchedLabels.length === 0) {
+      const allRecipes = await Recipe.findAll({
+        where: {
+          label: { [Op.iLike]: `%${inputText}%` },
+        },
+        offset: pageNum * 20,
+        limit: 20,
+        order: [["recipeId", "ASC"]],
+      });
 
-    res.status(200).send(allRecipes);
+      res.status(200).send(allRecipes);
+    } else {
+      const matchedLabelIds = matchedLabels.map((el) => el.labelId);
+
+      console.log("matchedLabelIds:", matchedLabelIds);
+
+      const allRecipes = await Recipe.findAll({
+        where: {
+          label: { [Op.iLike]: `%${inputText}%` },
+        },
+        offset: pageNum * 20,
+        limit: 20,
+        order: [["recipeId", "ASC"]],
+        include: [
+          {
+            model: RecipeLabel,
+            where: {
+              labelId: {
+                [Op.in]: matchedLabelIds,
+              },
+            },
+          },
+        ],
+        subQuery: false,
+        distinct: true,
+      });
+
+      // console.log("allRecipes:", allRecipes);
+      // console.log("allRecipes.length:", allRecipes.length);
+
+      res.status(200).send(allRecipes);
+    }
   },
 
   // get recipe by recipe id
@@ -546,6 +594,13 @@ const handlerFunctions = {
     console.log("recipeLabels:", recipeLabels);
 
     res.status(200).send(recipeLabels);
+  },
+
+  // get all labels
+  getAllLabels: async (req, res) => {
+    const allLabels = await Label.findAll();
+
+    res.status(200).send(allLabels);
   },
 
   // recipe caroussels
