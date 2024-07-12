@@ -268,16 +268,21 @@ const handlerFunctions = {
 
   // create rating
   createNewRating: async (req, res) => {
-    const { userId, recipeId, comment, score } = req.body;
+    const { recipeId, score, comment } = req.body;
+    const userId = req.session.user.userId; // assuming the session contains user information
 
-    const newRating = await Rating.create({
-      userId: userId,
-      recipeId: recipeId,
-      comment: comment,
-      score: score,
-    });
+    try {
+      const newRating = await Rating.create({
+        userId: userId,
+        recipeId: recipeId,
+        comment: comment,
+        score: score,
+      });
 
-    res.status(200).send(newRating);
+      res.status(200).send(newRating);
+    } catch (error) {
+      res.status(500).json({ message: "Error submitting review", error });
+    }
   },
 
   // edit rating
@@ -285,14 +290,22 @@ const handlerFunctions = {
     const { id } = req.params;
     const { comment, score } = req.body;
 
-    const ratingToEdit = await Rating.findByPk(id);
+    try {
+      const ratingToEdit = await Rating.findByPk(id);
 
-    ratingToEdit.comment = comment;
-    ratingToEdit.score = score;
+      if (!ratingToEdit) {
+        return res.status(404).json({ message: "Rating not found" });
+      }
 
-    await ratingToEdit.save();
+      ratingToEdit.comment = comment;
+      ratingToEdit.score = score;
 
-    res.status(200).send(ratingToEdit);
+      await ratingToEdit.save();
+
+      res.status(200).send(ratingToEdit);
+    } catch (error) {
+      res.status(500).json({ message: "Error editing rating", error });
+    }
   },
 
   // delete rating
@@ -312,6 +325,10 @@ const handlerFunctions = {
 
     const recipeRatings = await Rating.findAll({
       where: { recipeId: id },
+      include: {
+        model: User, // Include the user data
+        attributes: ["username", "userId"], // Fetch only the username
+      },
     });
 
     res.status(200).send(recipeRatings);
@@ -321,11 +338,15 @@ const handlerFunctions = {
   getRatingsByUserId: async (req, res) => {
     const { id } = req.params;
 
-    const userRatings = await Rating.findAll({
-      where: { userId: id },
+    const recipeRatings = await Rating.findAll({
+      where: { recipeId: id },
+      include: {
+        model: User, // Include the user data
+        attributes: ["username"], // Fetch only the username
+      },
     });
 
-    res.status(200).send(userRatings);
+    res.status(200).send(recipeRatings);
   },
 
   // get all foods
@@ -559,7 +580,14 @@ const handlerFunctions = {
       group: ["recipeId"],
       limit: 5,
     });
-    res.status(200).send(highestRatedRecipeIds);
+
+    // Convert averageScore to number
+    const parsedRatings = highestRatedRecipeIds.map((rating) => ({
+      ...rating.dataValues,
+      averageScore: parseFloat(rating.dataValues.averageScore),
+    }));
+
+    res.status(200).send(parsedRatings);
   },
 };
 
