@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 //currentIndex starts at 0, meaning it will start showing from the first recipe
 //the handlerPrevButton 's will update the carousel so it will show the previous and the next recipes depending in where the current index is
@@ -25,7 +25,8 @@ const Carousel = () => {
             ...recipe,
             label: recipeDetails.data.label,
             image: recipeDetails.data.regularImage,
-            url: recipeDetails.data.sourceUrl,
+            sourceUrl: recipeDetails.data.sourceUrl,
+            averageScore: recipe.averageScore.toFixed(1), //format the rating to one decimal place
           };
           // console.log(detailedRecipe); // Log detailed recipe data
           return detailedRecipe;
@@ -64,20 +65,11 @@ const Carousel = () => {
             <div key={index}>
               <img src="{recipe.image}" />
               <h3>
-                <a href={recipe.url} target="_blank" rel="noopener noreferrer">
+                <Link to={`/recipe-page/${recipe.recipeId}`} state={{ recipe }}>
                   {recipe.label}
-                </a>
+                </Link>
               </h3>
               <p>Rating: {recipe.averageScore}</p>
-              <button
-                onClick={() => {
-                  navigate(`/recipe-page/${recipe.recipeId}`, {
-                    state: { recipe },
-                  });
-                }}
-              >
-                GO TO RECIPE
-              </button>
             </div>
           ))}
       </div>
