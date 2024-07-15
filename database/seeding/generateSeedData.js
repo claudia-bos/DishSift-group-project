@@ -97,7 +97,7 @@ const populateJSON = async (currentRecipeBatch) => {
 
 const downloadImageFile = async (url, downloadFolder, fileName) => {
   const filePath = path.join(downloadFolder, fileName);
-  const file = fs.createWriteStream(filePath);
+  const file = fs.createWriteStream(`${filePath}.jpg`);
 
   https
     .get(url, (response) => {
