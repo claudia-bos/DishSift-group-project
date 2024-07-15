@@ -8,14 +8,14 @@ import {
 } from "react-router-dom";
 import App from "./App.jsx";
 import HomePage from "./pages/HomePage.jsx";
-// import './index.css'
 import Register from "./components/register/Register.jsx";
 import PantryPage from "./pages/PantryPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
-import RecipePage from "./pages/RecipePage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import RecipePage from "./pages/RecipePage.jsx";
+import "./index.css";
 // import Login from "./components/login/Login.jsx";
 
 const router = createBrowserRouter(

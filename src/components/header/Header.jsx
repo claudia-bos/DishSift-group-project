@@ -22,33 +22,47 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <div>
+    <header className="flex items-center justify-between p-4 bg-primary-50">
+      <div className="flex-grow">
         <Link to="/">
-          <h1>DishSift</h1>
+          <h1 className="text-3xl font-bold text-center">DishSift</h1>
         </Link>
       </div>
-      <nav>
-        <div>
-          <span onClick={handleDropdownToggle}>Recipes</span>
+      <nav className="flex space-x-4 items-center">
+        <div className="relative">
+          <span onClick={handleDropdownToggle} className="cursor-pointer">
+            Recipes
+          </span>
           {dropdownVisible && (
-            <div>
-              <Link to="/search-page">All Recipes</Link>
+            <div className="absolute top-full mt-2 rounded">
+              <Link className="block px-1 py-2" to="/search-page">
+                All Recipes
+              </Link>
               <br />
-              <Link to="/pantry-page">Pantry Recipes</Link>
+              {userId && (
+                <>
+                  <Link className="block px-1 py-2" to="/pantry-page">
+                    Pantry Recipes
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>
 
-        <div>
+        <div className="flex space-x-4">
           {userId ? (
             <>
-              <Link to="/profile-page">Profile</Link>
+              <Link className="ml-4" to="/profile-page">
+                Profile
+              </Link>
               <LogoutButton />
             </>
           ) : (
             <>
-              <span onClick={handleLoginClick}>Log in</span>
+              <span className="cursor-pointer" onClick={handleLoginClick}>
+                Log in
+              </span>
               <br />
               <Link to="/register">Sign Up</Link>
               {showLogin && <Login closePopup={closePopup} />}
