@@ -24,7 +24,7 @@ const Carousel = () => {
           const detailedRecipe = {
             ...recipe,
             label: recipeDetails.data.label,
-            image: recipeDetails.data.regularImage,
+            image: recipeDetails.data.image,
             sourceUrl: recipeDetails.data.sourceUrl,
             averageScore: recipe.averageScore.toFixed(1), //format the rating to one decimal place
           };
@@ -63,7 +63,7 @@ const Carousel = () => {
           .slice(currentIndex, currentIndex + 4)
           .map((recipe, index) => (
             <div key={index}>
-              <img src="{recipe.image}" />
+              <img src={`${recipe.image}.jpg`} alt="recipe_image" />
               <h3>
                 <Link to={`/recipe-page/${recipe.recipeId}`} state={recipe}>
                   {recipe.label}

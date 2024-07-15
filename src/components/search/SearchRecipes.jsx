@@ -14,7 +14,7 @@ const SearchRecipes = ({ recipe }) => {
       >
         {recipe.label}
       </p>
-      <img src={recipe.image} alt="image" />
+      <img src={`${recipe.image}.jpg`} alt="recipe_image" />
     </div>
   );
 };

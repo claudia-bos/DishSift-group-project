@@ -2,11 +2,21 @@ import firstRecipeData from "./edaman_get_recipes_v2_no_query.json" assert { typ
 import { createWriteStream } from "fs";
 import JSONStream from "JSONStream";
 import axios from "axios";
+import path from "path";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+
+const https = require("https");
+const fs = require("fs");
 
 let iterations = 0;
 
 // total number of recipes
 let count = firstRecipeData.count;
+
+// for image creation
+let imageCount = 0;
 
 let writeStream = createWriteStream(
   `./database/seeding/recipeJSONs/all_recipes_${iterations}.json`
@@ -42,6 +52,12 @@ const populateJSON = async (currentRecipeBatch) => {
 
     batchRecipes.forEach((recipe) => {
       jsonStream.write(recipe);
+      imageCount++;
+      downloadImageFile(
+        recipe.recipe.image,
+        `./src/assets/recipe_images`,
+        `recipe_image_${imageCount}`
+      );
     });
 
     let nextUrl = currentRecipeBatch._links.next.href;
@@ -60,7 +76,6 @@ const populateJSON = async (currentRecipeBatch) => {
     count = res.data.count;
     console.log("Available recipes count:", count);
 
-
     if (iterations % 20 === 0) {
       jsonStream.end();
       writeStream.on("finish", () => {
@@ -78,6 +93,27 @@ const populateJSON = async (currentRecipeBatch) => {
   } catch (err) {
     console.log("***ERROR***:", err);
   }
+};
+
+const downloadImageFile = async (url, downloadFolder, fileName) => {
+  const filePath = path.join(downloadFolder, fileName);
+  const file = fs.createWriteStream(`${filePath}.jpg`);
+
+  https
+    .get(url, (response) => {
+      response.pipe(file);
+
+      file.on("finish", () => {
+        file.close(() => {
+          console.log("Download completed.");
+        });
+      });
+    })
+    .on("error", (err) => {
+      fs.unlink(filePath, () => {
+        console.error("Error downloading the file:", err.message);
+      });
+    });
 };
 
 populateJSON(firstRecipeData);
