@@ -190,19 +190,7 @@ Recipe.init(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    thumbnailImage: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    smallImage: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    regularImage: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    largeImage: {
+    image: {
       type: DataTypes.TEXT,
       allowNull: true,
     },

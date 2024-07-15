@@ -173,7 +173,7 @@ const RecipePage = () => {
   return (
     <div>
       <h1>{recipe.label}</h1>
-      <img src={recipe.largeImage} />
+      <img src={`${recipe.image}.jpg`} alt="recipe_image" />
       <p>
         <a href={recipe.sourceUrl} target="_blank" rel="noopener noreferrer">
           See full recipe here

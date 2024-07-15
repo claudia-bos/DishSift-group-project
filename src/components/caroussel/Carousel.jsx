@@ -29,7 +29,7 @@ const Carousel = () => {
           const detailedRecipe = {
             ...recipe,
             label: recipeDetails.data.label,
-            image: recipeDetails.data.regularImage,
+            image: recipeDetails.data.image,
             sourceUrl: recipeDetails.data.sourceUrl,
             averageScore: recipe.averageScore.toFixed(1), //format the rating to one decimal place
           };
@@ -75,7 +75,7 @@ const Carousel = () => {
               .map((recipe, index) => (
                 <div key={index} className="w-1/4 p-4 flex-shrink-0">
                   <div className="p-4">
-                    <img src="{recipe.image}" />
+                    <img src={`${recipe.image}.jpg`} alt="recipe_image" />
                     <h3 className="text-lg font-medium text-center mt-4">
                       <Link
                         to={`/recipe-page/${recipe.recipeId}`}
