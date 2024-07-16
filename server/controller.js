@@ -416,18 +416,19 @@ const handlerFunctions = {
 
   // get recipes by user pantry items
   getRecipesByUserPantry: async (req, res) => {
-    const { id, pageNum } = req.params;
+    try {
+      const { id, pageNum } = req.params;
 
-    console.log("id:", id);
-    console.log("pageNum:", pageNum);
+      console.log("id:", id);
+      console.log("pageNum:", pageNum);
 
-    const pantryId = await getPantryByUserId(id);
+      const pantryId = await getPantryByUserId(id);
 
-    const pageSize = 20;
-    const offset = pageNum * pageSize;
+      const pageSize = 20;
+      const offset = pageNum * pageSize;
 
-    // Query to get the total count of matched recipes
-    const countQuery = `
+      // Query to get the total count of matched recipes
+      const countQuery = `
       SELECT 
         COUNT(DISTINCT r."recipe_id") AS "totalMatchedRecipes"
       FROM 
@@ -441,15 +442,15 @@ const handlerFunctions = {
         u."user_id" = ${id}
     `;
 
-    const countResult = await db.query(countQuery, {
-      replacements: { id },
-      type: QueryTypes.SELECT,
-    });
+      const countResult = await db.query(countQuery, {
+        replacements: { id },
+        type: QueryTypes.SELECT,
+      });
 
-    const totalMatchedRecipes = countResult[0].totalMatchedRecipes;
+      const totalMatchedRecipes = countResult[0].totalMatchedRecipes;
 
-    // Query to get the paginated recipes
-    const query = `
+      // Query to get the paginated recipes
+      const query = `
       SELECT 
         r.*, 
         COUNT(ri."ingredient_id") FILTER (WHERE f."food_id" IS NOT NULL) AS "foodCount",
@@ -473,16 +474,19 @@ const handlerFunctions = {
       OFFSET ${offset};
     `;
 
-    const recipes = await db.query(query, {
-      replacements: { id, pageSize, offset },
-      type: QueryTypes.SELECT,
-      model: Recipe,
-      mapToModel: true,
-    });
+      const recipes = await db.query(query, {
+        replacements: { id, pageSize, offset },
+        type: QueryTypes.SELECT,
+        model: Recipe,
+        mapToModel: true,
+      });
 
-    res
-      .status(200)
-      .send({ recipes: recipes, totalMatchedRecipes: totalMatchedRecipes });
+      res
+        .status(200)
+        .send({ recipes: recipes, totalMatchedRecipes: totalMatchedRecipes });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   // get all recipes
