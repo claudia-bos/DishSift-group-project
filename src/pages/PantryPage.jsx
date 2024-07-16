@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import PantryRecipes from "../components/pantry/PantryRecipes.jsx";
 import PantryFoods from "../components/pantry/PantryFoods.jsx";
 import PantryInput from "../components/pantry/PantryInput.jsx";
-import PantryButton from "../components/pantry/PantryButton.jsx";
+import PageButtons from "../components/pageButtons/PageButtons.jsx";
 
-// TODO: Update with the correct API , it might need other changes in order to make it work
 const PantryPage = () => {
   const userId = useSelector((state) => state.userId);
 
   const [pantryRecipeData, setPantryRecipeData] = useState([]);
+  const [countOfRecipes, setCountOfRecipes] = useState(0);
   const [pantryFoodData, setPantryFoodData] = useState([]);
   const [queryButtons, setQueryButtons] = useState([]);
 
@@ -20,10 +20,9 @@ const PantryPage = () => {
   useEffect(() => {
     if (userId) {
       axios.get(`/api/pantry/recipes/${userId}/${queryPageNum}`).then((res) => {
-        setPantryRecipeData(res.data);
-        if (res.data.length === 20) {
-          handleNextButton(res.data);
-        }
+        console.log("Response:", res.data); // TODO: remove later
+        setPantryRecipeData(res.data.recipes);
+        setCountOfRecipes(res.data.totalMatchedRecipes);
       });
       axios.get(`/api/pantry/foods/${userId}`).then((res) => {
         setPantryFoodData(res.data);
@@ -34,26 +33,17 @@ const PantryPage = () => {
   // console.log("pantryRecipeData:", pantryRecipeData);
   // console.log("pantryFoodData:", pantryFoodData);
 
-  const handleNextButton = async (thisQuery) => {
-    if (thisQuery.length === 20) {
-      buttonCount.push(queryPageNum);
-      queryPageNum++;
-
-      const nextQuery = await axios.get(
-        `/api/pantry/recipes/${userId}/${queryPageNum}`
-      );
-      handleNextButton(nextQuery.data);
-    } else {
-      setQueryButtons([...buttonCount]);
-    }
+  const handlePageButtonPress = async (pageNum) => {
+    const newRecipeData = await axios.get(
+      `/api/pantry/recipes/${userId}/${pageNum}`
+    );
+    console.log("Response:", newRecipeData.data);
+    setPantryRecipeData(newRecipeData.data.recipes);
+    setCountOfRecipes(newRecipeData.data.totalMatchedRecipes);
   };
 
   const recipes = pantryRecipeData.map((el) => (
-    <PantryRecipes
-      recipe={el}
-      key={el.recipeId}
-      pantryFoodData={pantryFoodData}
-    />
+    <PantryRecipes recipe={el} key={el.recipeId} />
   ));
 
   const userFoods = pantryFoodData.map((el) => (
@@ -63,15 +53,6 @@ const PantryPage = () => {
       setPantryFoodData={setPantryFoodData}
       setPantryRecipeData={setPantryRecipeData}
       userId={userId}
-    />
-  ));
-
-  const allPantryButtons = queryButtons.map((el) => (
-    <PantryButton
-      userId={userId}
-      key={el}
-      pageNum={el}
-      setPantryRecipeData={setPantryRecipeData}
     />
   ));
 
@@ -92,7 +73,11 @@ const PantryPage = () => {
           />
         </div>
         <div>{userFoods}</div>
-        <div>{allPantryButtons}</div>
+        <PageButtons
+          itemsPerPage={20}
+          totalItemsCount={countOfRecipes}
+          buttonClickFunction={handlePageButtonPress}
+        />
       </div>
     </div>
   );
