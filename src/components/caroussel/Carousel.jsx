@@ -89,7 +89,7 @@ const Carousel = () => {
                       </Link>
                     </h3>
                     <div className="flex items-center justify-center mt-2">
-                      <StarIcon className="h-5 w-5" />
+                      <StarIcon className="h-5 w-5 text-secondary-400" />
                       <p className="text-xl ml-1">{recipe.averageScore}</p>
                     </div>
                   </div>

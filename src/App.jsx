@@ -35,11 +35,11 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className="text-primary-900">
       <Header />
       <Outlet />
       {/* <RecipePage /> */}
-    </>
+    </div>
   );
 }
 
