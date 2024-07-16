@@ -2,7 +2,13 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import PantryAutoFill from "./PantryAutofill";
 
-const PantryInput = ({ setPantryFoodData, setPantryRecipeData, userId }) => {
+const PantryInput = ({
+  setPantryFoodData,
+  setPantryRecipeData,
+  userId,
+  setCountOfRecipes,
+  setPantryPageNumber,
+}) => {
   const [allFoodData, setAllFoodData] = useState([]);
   const [inputText, setInputText] = useState("");
 
@@ -12,7 +18,7 @@ const PantryInput = ({ setPantryFoodData, setPantryRecipeData, userId }) => {
     });
   }, []);
 
-  console.log("allFoodData:", allFoodData);
+  // console.log("allFoodData:", allFoodData);
 
   const handleKeyPress = (e) => {
     setInputText(e.target.value);
@@ -27,13 +33,20 @@ const PantryInput = ({ setPantryFoodData, setPantryRecipeData, userId }) => {
       setInputText={setInputText}
       setPantryFoodData={setPantryFoodData}
       setPantryRecipeData={setPantryRecipeData}
+      setCountOfRecipes={setCountOfRecipes}
+      setPantryPageNumber={setPantryPageNumber}
       userId={userId}
     />
   ));
 
   return (
     <div>
-      <input type="text" defaultValue={inputText} onChange={handleKeyPress} />
+      <input
+        type="text"
+        defaultValue={inputText}
+        onChange={handleKeyPress}
+        className="pl-2 ring-1 focus:ring-2 ring-primary-800 focus:ring-primary-600 focus:outline-none rounded-md"
+      />
       {autoFillOptions}
     </div>
   );
