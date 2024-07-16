@@ -11,6 +11,7 @@ import db, {
   RecipeLabel,
 } from "../database/model.js";
 import { Sequelize, QueryTypes, Op } from "sequelize";
+import _lodash from "lodash";
 
 const getPantryByUserId = async (userId) => {
   try {
@@ -619,6 +620,171 @@ const handlerFunctions = {
     }));
 
     res.status(200).send(parsedRatings);
+  },
+
+  randomCaroussel: async (req, res) => {
+    const mealTypes = await Recipe.findAll({
+      attributes: [
+        Sequelize.fn("DISTINCT", Sequelize.col("meal_type")),
+        "mealType",
+      ],
+      order: [["mealType", "ASC"]],
+      where: {
+        mealType: { [Op.not]: null },
+      },
+    });
+
+    const dishTypes = await Recipe.findAll({
+      attributes: [
+        Sequelize.fn("DISTINCT", Sequelize.col("dish_type")),
+        "dishType",
+      ],
+      order: [["dishType", "ASC"]],
+      where: {
+        dishType: { [Op.not]: null },
+      },
+    });
+
+    const labels = await Label.findAll({
+      order: [["labelId", "ASC"]],
+    });
+
+    const foods = await Food.findAll({
+      order: [["foodId", "ASC"]],
+    });
+
+    const mealTypesArray = mealTypes.map((el) => el.mealType);
+    const dishTypesArray = dishTypes.map((el) => el.dishType);
+    const labelsArray = labels.map((el) => el.labelId);
+    const foodsArray = foods.map((el) => el.foodId);
+
+    const randomMealType =
+      mealTypesArray[_lodash.random(0, mealTypesArray.length - 1)];
+    const randomDishType =
+      dishTypesArray[_lodash.random(0, dishTypesArray.length - 1)];
+    const randomLabel = labelsArray[_lodash.random(0, labelsArray.length - 1)];
+    const randomFood = foodsArray[_lodash.random(0, foodsArray.length - 1)];
+
+    console.log("randomMealType:", randomMealType);
+    console.log("randomDishType:", randomDishType);
+    console.log("randomLabel:", randomLabel);
+    console.log("randomFood:", randomFood);
+
+    const queryType = _lodash.random(0, 3);
+    console.log("queryType:", queryType);
+
+    switch (queryType) {
+      case 0:
+        const recipesByMealType = await Recipe.findAll({
+          where: {
+            mealType: randomMealType,
+          },
+          limit: 5,
+          order: [[Sequelize.fn("RANDOM")]],
+        });
+        console.log("recipesByMealType:", recipesByMealType);
+        res.status(200).send({
+          recipes: recipesByMealType,
+          header: `Featured ${randomMealType.replace(
+            randomMealType.charAt(0),
+            randomMealType.charAt(0).toUpperCase()
+          )} Recipes`,
+        });
+        break;
+      case 1:
+        const recipesByDishType = await Recipe.findAll({
+          where: {
+            dishType: randomDishType,
+          },
+          limit: 5,
+          order: [[Sequelize.fn("RANDOM")]],
+        });
+        console.log("recipesByDishType:", recipesByDishType);
+        res.status(200).send({
+          recipes: recipesByDishType,
+          header: `Featured ${randomDishType.replace(
+            randomDishType.charAt(0),
+            randomDishType.charAt(0).toUpperCase()
+          )} Recipes`,
+        });
+        break;
+      case 2:
+        const recipesByLabel = await Recipe.findAll({
+          include: [
+            {
+              model: RecipeLabel,
+              attributes: ["labelId"],
+              required: true,
+              include: [
+                {
+                  model: Label,
+                  where: { labelId: randomLabel },
+                  attributes: ["labelName"],
+                  required: true,
+                },
+              ],
+            },
+          ],
+        });
+        const shuffledRecipesByLabel = _lodash.shuffle(recipesByLabel);
+        const fiveRecipesByLabel = shuffledRecipesByLabel.slice(0, 5);
+
+        console.log("fiveRecipesByLabel:", fiveRecipesByLabel);
+
+        res.status(200).send({
+          recipes: fiveRecipesByLabel,
+          header: `Featured ${fiveRecipesByLabel[0].recipe_labels[0].label.labelName} Recipes`,
+        });
+        break;
+      case 3:
+        const recipesByFood = await Recipe.findAll({
+          include: [
+            {
+              model: RecipeIngredient,
+              attributes: ["ingredientId"],
+              required: true,
+              include: [
+                {
+                  model: Ingredient,
+                  attributes: ["foodId"],
+                  required: true,
+                  include: [
+                    {
+                      model: Food,
+                      where: { foodId: randomFood },
+                      attributes: ["foodName"],
+                      required: true,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        });
+
+        const shuffledRecipesByFood = _lodash.shuffle(recipesByFood);
+        const fiveRecipesByFood = shuffledRecipesByFood.slice(0, 5);
+
+        console.log("fiveRecipesByFood:", fiveRecipesByFood);
+
+        res.status(200).send({
+          recipes: fiveRecipesByFood,
+          header: `Featured Recipes With ${fiveRecipesByFood[0].recipe_ingredients[0].ingredient.food.foodName}`,
+        });
+        break;
+      default:
+        const randomRecipes = await Recipe.findAll({
+          order: [Sequelize.fn("RANDOM")],
+          limit: 5,
+        });
+
+        console.log("randomRecipes:", randomRecipes);
+
+        res
+          .status(200)
+          .send({ recipes: randomRecipes, header: "Featured Recipes" });
+        break;
+    }
   },
 };
 

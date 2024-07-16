@@ -56,6 +56,7 @@ const {
   getRatingsByUserId,
   getAllLabels,
   highestRatedCaroussel,
+  randomCaroussel,
 } = handlerFunctions;
 
 app.post("/api/register", register);
@@ -93,6 +94,7 @@ app.get("/api/labels/all", getAllLabels);
 
 // caroussel endpoints
 app.get("/api/caroussel/highest-rated", highestRatedCaroussel);
+app.get("/api/caroussel/random", randomCaroussel);
 
 /////////////////////////////////////////////////////////////////////////////
 //  Config server on port
