@@ -8,6 +8,7 @@ const PantryInput = ({
   userId,
   setCountOfRecipes,
   setPantryPageNumber,
+  toggleThePage,
 }) => {
   const [allFoodData, setAllFoodData] = useState([]);
   const [inputText, setInputText] = useState("");
@@ -17,8 +18,6 @@ const PantryInput = ({
       setAllFoodData(res.data);
     });
   }, []);
-
-  // console.log("allFoodData:", allFoodData);
 
   const handleKeyPress = (e) => {
     setInputText(e.target.value);
@@ -35,6 +34,7 @@ const PantryInput = ({
       setPantryRecipeData={setPantryRecipeData}
       setCountOfRecipes={setCountOfRecipes}
       setPantryPageNumber={setPantryPageNumber}
+      toggleThePage={toggleThePage}
       userId={userId}
     />
   ));

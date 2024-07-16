@@ -13,6 +13,9 @@ const PantryPage = () => {
   const [countOfRecipes, setCountOfRecipes] = useState(0);
   const [pantryFoodData, setPantryFoodData] = useState([]);
   const [pantryPageNumber, setPantryPageNumber] = useState(0);
+  const [togglePage, setTogglePage] = useState(false);
+
+  const toggleThePage = () => setTogglePage(!togglePage);
 
   useEffect(() => {
     if (userId) {
@@ -27,7 +30,7 @@ const PantryPage = () => {
         setPantryFoodData(res.data);
       });
     }
-  }, [userId, pantryPageNumber]);
+  }, [userId, togglePage]);
 
   useEffect(() => {
     console.log("Pantry page number is now:", pantryPageNumber);
@@ -45,6 +48,7 @@ const PantryPage = () => {
       setPantryRecipeData={setPantryRecipeData}
       setCountOfRecipes={setCountOfRecipes}
       setPantryPageNumber={setPantryPageNumber}
+      toggleThePage={toggleThePage}
       userId={userId}
     />
   ));
@@ -64,6 +68,7 @@ const PantryPage = () => {
             setPantryRecipeData={setPantryRecipeData}
             setCountOfRecipes={setCountOfRecipes}
             setPantryPageNumber={setPantryPageNumber}
+            toggleThePage={toggleThePage}
             userId={userId}
           />
         </div>
@@ -73,6 +78,7 @@ const PantryPage = () => {
           totalItemsCount={countOfRecipes}
           desiredPageNumber={pantryPageNumber}
           setPantryPageNumber={setPantryPageNumber}
+          toggleThePage={toggleThePage}
         />
       </div>
     </div>
