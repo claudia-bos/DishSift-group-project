@@ -5,10 +5,9 @@ const PantryAutoFill = ({
   inputText,
   setInputText,
   setPantryFoodData,
-  setPantryRecipeData,
   userId,
-  setCountOfRecipes,
   setPantryPageNumber,
+  toggleThePage,
 }) => {
   const handleClick = async () => {
     setInputText("");
@@ -17,6 +16,7 @@ const PantryAutoFill = ({
       foodId: food.foodId,
     });
     setPantryPageNumber(0);
+    toggleThePage();
     await axios.get(`/api/pantry/foods/${userId}`).then((res) => {
       setPantryFoodData(res.data);
     });
