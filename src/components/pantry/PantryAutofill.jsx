@@ -15,7 +15,7 @@ const PantryAutoFill = ({
       foodId: food.foodId,
     });
     await axios.get(`/api/pantry/recipes/${userId}/0`).then((res) => {
-      setPantryRecipeData(res.data);
+      setPantryRecipeData(res.data.recipes);
     });
     await axios.get(`/api/pantry/foods/${userId}`).then((res) => {
       setPantryFoodData(res.data);

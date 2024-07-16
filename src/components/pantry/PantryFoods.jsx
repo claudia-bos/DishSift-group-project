@@ -14,7 +14,7 @@ const PantryFoods = ({
     });
 
     await axios.get(`/api/pantry/recipes/${userId}/0`).then((res) => {
-      setPantryRecipeData(res.data);
+      setPantryRecipeData(res.data.recipes);
     });
   };
   return (

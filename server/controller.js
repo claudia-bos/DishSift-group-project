@@ -10,7 +10,23 @@ import db, {
   Label,
   RecipeLabel,
 } from "../database/model.js";
-import { Sequelize, Op } from "sequelize";
+import { Sequelize, QueryTypes, Op } from "sequelize";
+
+const getPantryByUserId = async (userId) => {
+  try {
+    const pantry = await Pantry.findOne({
+      where: {
+        userId: userId,
+      },
+      attributes: ["pantryId"],
+    });
+
+    return pantry.pantryId;
+  } catch (error) {
+    console.error("Error getting pantry by user ID:", error);
+    throw error;
+  }
+};
 
 const handlerFunctions = {
   /**
@@ -405,108 +421,68 @@ const handlerFunctions = {
     console.log("id:", id);
     console.log("pageNum:", pageNum);
 
-    // const userFoods = await Food.findAll({
-    //   attributes: ["foodId"],
-    //   include: [
-    //     {
-    //       model: Pantry,
-    //       where: { userId: id },
-    //     },
-    //   ],
-    // });
-    // const userPantryFoodIds = userFoods.map((food) => food.foodId);
+    const pantryId = await getPantryByUserId(id);
 
-    // console.log("userPantryFoodIds:", userPantryFoodIds);
+    const pageSize = 20;
+    const offset = pageNum * pageSize;
 
-    const userRecipeIngredients = await RecipeIngredient.findAll({
-      attributes: ["recipeId"],
-      include: [
-        {
-          model: Ingredient,
-          required: true,
-          attributes: ["foodId"],
-          include: [
-            {
-              model: Food,
-              required: true,
-              attributes: ["foodId"],
-              include: [
-                {
-                  model: Pantry,
-                  required: true,
-                  where: { userId: id },
-                  attributes: ["foodId"],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      subQuery: false,
-      distinct: true,
+    // Query to get the total count of matched recipes
+    const countQuery = `
+      SELECT 
+        COUNT(DISTINCT r."recipe_id") AS "totalMatchedRecipes"
+      FROM 
+        "recipes" r
+        JOIN "recipe_ingredients" ri ON r."recipe_id" = ri."recipe_id"
+        JOIN "ingredients" i ON ri."ingredient_id" = i."ingredient_id"
+        JOIN "food" f ON i."food_id" = f."food_id"
+        JOIN "pantries" p ON f."food_id" = p."food_id"
+        LEFT JOIN "users" u ON u."user_id" = p."user_id"
+      WHERE 
+        u."user_id" = ${id}
+    `;
+
+    const countResult = await db.query(countQuery, {
+      replacements: { id },
+      type: QueryTypes.SELECT,
     });
 
-    const userRecipeIds = userRecipeIngredients.map((el) => el.recipeId);
+    const totalMatchedRecipes = countResult[0].totalMatchedRecipes;
 
-    console.log("userRecipeIds:", userRecipeIds);
-    console.log("userRecipeIds.length:", userRecipeIds.length);
+    // Query to get the paginated recipes
+    const query = `
+      SELECT 
+        r.*, 
+        COUNT(ri."ingredient_id") FILTER (WHERE f."food_id" IS NOT NULL) AS "foodCount",
+        (SELECT COUNT(*) FROM "recipe_ingredients" WHERE "recipe_id" = r."recipe_id") AS "totalIngredients",
+        (COUNT(ri.ingredient_id)::float / NULLIF((SELECT COUNT(*) FROM "recipe_ingredients" WHERE "recipe_id" = r."recipe_id"), 0)) as "foodCountRatio"
+      FROM 
+        "recipes" r
+        JOIN "recipe_ingredients" ri ON r."recipe_id" = ri."recipe_id"
+        LEFT JOIN "ingredients" i ON ri."ingredient_id" = i."ingredient_id"
+        LEFT JOIN "food" f ON i."food_id" = f."food_id"
+        LEFT JOIN "pantries" p ON f."food_id" = p."food_id"
+        LEFT JOIN "users" u ON u."user_id" = p."user_id"
+      WHERE 
+        u."user_id" = ${id}
+      GROUP BY 
+        r."recipe_id"
+      ORDER BY 
+        "foodCountRatio" DESC,
+        "foodCount" DESC
+      LIMIT ${pageSize}
+      OFFSET ${offset};
+    `;
 
-    const userPantryRecipes = await Recipe.findAll({
-      offset: pageNum * 20,
-      limit: 20,
-      where: {
-        recipeId: {
-          [Op.in]: userRecipeIds,
-        },
-      },
+    const recipes = await db.query(query, {
+      replacements: { id, pageSize, offset },
+      type: QueryTypes.SELECT,
+      model: Recipe,
+      mapToModel: true,
     });
 
-    res.status(200).send(userPantryRecipes);
-
-    // const pantryRecipes = await Recipe.findAll({
-    //   offset: pageNum * 20, // pageNum == 0 ? 0 : pageNum * 20 + 1,
-    //   limit: 20, // pageNum == 0 ? 21 : 20,
-    //   order: [["recipeId", "ASC"]],
-    //   // separate: true,
-
-    //   include: [
-    //     {
-    //       model: RecipeIngredient,
-    //       required: true,
-    //       attributes: ["recipeId"],
-    //       // separate: true,
-    //       include: [
-    //         {
-    //           model: Ingredient,
-    //           required: true,
-    //           attributes: ["foodId"],
-    //           include: [
-    //             {
-    //               model: Food,
-    //               required: true,
-    //               attributes: ["foodId"],
-    //               include: [
-    //                 {
-    //                   model: Pantry,
-    //                   where: { userId: id },
-    //                   attributes: ["foodId"],
-    //                 },
-    //               ],
-    //             },
-    //           ],
-    //         },
-    //       ],
-    //     },
-    //   ],
-    //   subQuery: false,
-    //   distinct: true,
-    // });
-
-    // // console.log("pantryRecipes:", pantryRecipes.length);
-
-    // // pantryRecipes.forEach((el) => console.log(el.recipeId));
-
-    // res.status(200).send(pantryRecipes);
+    res
+      .status(200)
+      .send({ recipes: recipes, totalMatchedRecipes: totalMatchedRecipes });
   },
 
   // get all recipes
