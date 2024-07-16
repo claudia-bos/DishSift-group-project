@@ -61,7 +61,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto mt-8">
+    <div className="relative w-full max-w-6xl mx-auto mt-32 z-10">
       <h2 className="text-3xl text-center mb-8">Most Popular Recipes</h2>
 
       <div className="relative flex items-center justify-between">
@@ -75,7 +75,11 @@ const Carousel = () => {
               .map((recipe, index) => (
                 <div key={index} className="w-1/4 p-4 flex-shrink-0">
                   <div className="p-4">
-                    <img src={`${recipe.image}.jpg`} alt="recipe_image" />
+                    <img
+                      src={`${recipe.image}.jpg`}
+                      alt="recipe_image"
+                      className="w-full h-auto rounded-sm shadow-lg"
+                    />
                     <h3 className="text-lg font-medium text-center mt-4">
                       <Link
                         to={`/recipe-page/${recipe.recipeId}`}
