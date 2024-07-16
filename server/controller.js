@@ -486,6 +486,7 @@ const handlerFunctions = {
         .send({ recipes: recipes, totalMatchedRecipes: totalMatchedRecipes });
     } catch (error) {
       console.log(error);
+      res.status(200).send({ recipes: [], totalMatchedRecipes: 0 });
     }
   },
 
