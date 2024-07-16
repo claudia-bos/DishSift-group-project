@@ -12,35 +12,26 @@ const PantryPage = () => {
   const [pantryRecipeData, setPantryRecipeData] = useState([]);
   const [countOfRecipes, setCountOfRecipes] = useState(0);
   const [pantryFoodData, setPantryFoodData] = useState([]);
-  const [queryButtons, setQueryButtons] = useState([]);
-
-  let queryPageNum = 0;
-  const buttonCount = [];
+  const [pantryPageNumber, setPantryPageNumber] = useState(0);
 
   useEffect(() => {
     if (userId) {
-      axios.get(`/api/pantry/recipes/${userId}/${queryPageNum}`).then((res) => {
-        console.log("Response:", res.data); // TODO: remove later
-        setPantryRecipeData(res.data.recipes);
-        setCountOfRecipes(res.data.totalMatchedRecipes);
-      });
+      axios
+        .get(`/api/pantry/recipes/${userId}/${pantryPageNumber}`)
+        .then((res) => {
+          console.log("Response:", res.data); // TODO: remove later
+          setPantryRecipeData(res.data.recipes);
+          setCountOfRecipes(res.data.totalMatchedRecipes);
+        });
       axios.get(`/api/pantry/foods/${userId}`).then((res) => {
         setPantryFoodData(res.data);
       });
     }
-  }, [userId]);
+  }, [userId, pantryPageNumber]);
 
-  // console.log("pantryRecipeData:", pantryRecipeData);
-  // console.log("pantryFoodData:", pantryFoodData);
-
-  const handlePageButtonPress = async (pageNum) => {
-    const newRecipeData = await axios.get(
-      `/api/pantry/recipes/${userId}/${pageNum}`
-    );
-    console.log("Response:", newRecipeData.data);
-    setPantryRecipeData(newRecipeData.data.recipes);
-    setCountOfRecipes(newRecipeData.data.totalMatchedRecipes);
-  };
+  useEffect(() => {
+    console.log("Pantry page number is now:", pantryPageNumber);
+  }, [pantryPageNumber]);
 
   const recipes = pantryRecipeData.map((el) => (
     <PantryRecipes recipe={el} key={el.recipeId} />
@@ -52,6 +43,8 @@ const PantryPage = () => {
       key={el.foodId}
       setPantryFoodData={setPantryFoodData}
       setPantryRecipeData={setPantryRecipeData}
+      setCountOfRecipes={setCountOfRecipes}
+      setPantryPageNumber={setPantryPageNumber}
       userId={userId}
     />
   ));
@@ -69,6 +62,8 @@ const PantryPage = () => {
           <PantryInput
             setPantryFoodData={setPantryFoodData}
             setPantryRecipeData={setPantryRecipeData}
+            setCountOfRecipes={setCountOfRecipes}
+            setPantryPageNumber={setPantryPageNumber}
             userId={userId}
           />
         </div>
@@ -76,7 +71,8 @@ const PantryPage = () => {
         <PageButtons
           itemsPerPage={20}
           totalItemsCount={countOfRecipes}
-          buttonClickFunction={handlePageButtonPress}
+          desiredPageNumber={pantryPageNumber}
+          setPantryPageNumber={setPantryPageNumber}
         />
       </div>
     </div>

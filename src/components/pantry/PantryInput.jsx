@@ -2,7 +2,13 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import PantryAutoFill from "./PantryAutofill";
 
-const PantryInput = ({ setPantryFoodData, setPantryRecipeData, userId }) => {
+const PantryInput = ({
+  setPantryFoodData,
+  setPantryRecipeData,
+  userId,
+  setCountOfRecipes,
+  setPantryPageNumber,
+}) => {
   const [allFoodData, setAllFoodData] = useState([]);
   const [inputText, setInputText] = useState("");
 
@@ -27,6 +33,8 @@ const PantryInput = ({ setPantryFoodData, setPantryRecipeData, userId }) => {
       setInputText={setInputText}
       setPantryFoodData={setPantryFoodData}
       setPantryRecipeData={setPantryRecipeData}
+      setCountOfRecipes={setCountOfRecipes}
+      setPantryPageNumber={setPantryPageNumber}
       userId={userId}
     />
   ));

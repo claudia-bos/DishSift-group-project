@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 const PageButtons = ({
   itemsPerPage,
   totalItemsCount,
-  buttonClickFunction,
+  desiredPageNumber,
+  setPantryPageNumber,
 }) => {
   // Here we use item offsets; we could also use page offsets
   const [itemOffset, setItemOffset] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const endOffset = itemOffset + itemsPerPage;
-  // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   const pageCount = Math.ceil(totalItemsCount / itemsPerPage);
 
   // Invoke when user clicks to request another page
@@ -20,9 +20,23 @@ const PageButtons = ({
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`
     );
-    buttonClickFunction(event.selected);
+    setCurrentPage(event.selected);
+    setPantryPageNumber(event.selected);
     setItemOffset(newOffset);
   };
+
+  const goToPage = (pageNumber) => {
+    const newOffset = (pageNumber * itemsPerPage) % totalItemsCount;
+    setItemOffset(newOffset);
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    if (desiredPageNumber !== undefined) {
+      console.log("Setting page number to:", desiredPageNumber);
+      goToPage(desiredPageNumber);
+    }
+  }, [desiredPageNumber]);
 
   return (
     <div className="flex justify-center w-screen text-primary-800">
@@ -33,6 +47,7 @@ const PageButtons = ({
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}
         marginPagesDisplayed={3}
+        forcePage={currentPage}
         pageCount={pageCount}
         renderOnZeroPageCount={null}
         containerClassName="flex items-center gap-2 p-2"

@@ -12,22 +12,6 @@ import db, {
 } from "../database/model.js";
 import { Sequelize, QueryTypes, Op } from "sequelize";
 
-const getPantryByUserId = async (userId) => {
-  try {
-    const pantry = await Pantry.findOne({
-      where: {
-        userId: userId,
-      },
-      attributes: ["pantryId"],
-    });
-
-    return pantry.pantryId;
-  } catch (error) {
-    console.error("Error getting pantry by user ID:", error);
-    throw error;
-  }
-};
-
 const handlerFunctions = {
   /**
    * A POST endpoint to register a new user. Will create the user
@@ -421,8 +405,6 @@ const handlerFunctions = {
 
       console.log("id:", id);
       console.log("pageNum:", pageNum);
-
-      const pantryId = await getPantryByUserId(id);
 
       const pageSize = 20;
       const offset = pageNum * pageSize;
