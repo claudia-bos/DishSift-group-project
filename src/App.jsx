@@ -5,7 +5,7 @@ import { Link, Outlet } from "react-router-dom";
 import Header from "./components/header/Header.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import "./App.css";
+import "./index.css";
 
 function App() {
   const userId = useSelector((state) => state.userId);

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  StarIcon,
+} from "@heroicons/react/24/solid";
 
 //currentIndex starts at 0, meaning it will start showing from the first recipe
 //the handlerPrevButton 's will update the carousel so it will show the previous and the next recipes depending in where the current index is
@@ -56,24 +61,46 @@ const Carousel = () => {
   };
 
   return (
-    <div>
-      <button onClick={handlePrevButton}>left</button>
-      <div>
-        {detailedRecipes
-          .slice(currentIndex, currentIndex + 4)
-          .map((recipe, index) => (
-            <div key={index}>
-              <img src={`${recipe.image}.jpg`} alt="recipe_image" />
-              <h3>
-                <Link to={`/recipe-page/${recipe.recipeId}`} state={recipe}>
-                  {recipe.label}
-                </Link>
-              </h3>
-              <p>Rating: {recipe.averageScore}</p>
-            </div>
-          ))}
+    <div className="relative w-full max-w-6xl mx-auto mt-32 z-10">
+      <h2 className="text-3xl text-center mb-8">Most Popular Recipes</h2>
+
+      <div className="relative flex items-center justify-between">
+        <button onClick={handlePrevButton}>
+          <ChevronLeftIcon className="h-6 w-6" />
+        </button>
+        <div className="w-full overflow-hidden">
+          <div className="flex">
+            {detailedRecipes
+              .slice(currentIndex, currentIndex + 4)
+              .map((recipe, index) => (
+                <div key={index} className="w-1/4 p-4 flex-shrink-0">
+                  <div className="p-4">
+                    <img
+                      src={`${recipe.image}.jpg`}
+                      alt="recipe_image"
+                      className="w-full h-auto rounded-sm shadow-lg"
+                    />
+                    <h3 className="text-lg font-medium text-center mt-4">
+                      <Link
+                        to={`/recipe-page/${recipe.recipeId}`}
+                        state={recipe}
+                      >
+                        {recipe.label}
+                      </Link>
+                    </h3>
+                    <div className="flex items-center justify-center mt-2">
+                      <StarIcon className="h-5 w-5" />
+                      <p className="text-xl ml-1">{recipe.averageScore}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+        <button onClick={handleNextButton}>
+          <ChevronRightIcon className="h-6 w-6" />
+        </button>
       </div>
-      <button onClick={handleNextButton}>right</button>
     </div>
   );
 };
