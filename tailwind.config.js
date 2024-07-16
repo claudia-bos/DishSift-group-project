@@ -33,7 +33,7 @@ export default {
           1000: "#501e0f",
         },
         other: {
-          blue: "#CBD5E1",
+          blue: "#ecf8fb",
           gray: "#D4D4D4",
           buttons: "#1b7692",
           hover: "#27acd4",
