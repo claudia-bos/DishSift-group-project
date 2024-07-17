@@ -22,7 +22,7 @@ const Header = () => {
   };
 
   return (
-    <header className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg">
+    <header className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg shadow-lg fixed top-0 z-10">
       <div className="flex-grow">
         <Link to="/">
           <h1 className="text-3xl font-medium text-center text-primary-0 drop-shadow-md">

@@ -54,11 +54,11 @@ const PantryPage = () => {
   ));
 
   return (
-    <div>
+    <div className="mt-24 mb-4 px-4">
       <h1>Pantry</h1>
       <div>
         <h1>Matched Recipes</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 px-8">
+        <div className="m-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-8">
           {recipes}
         </div>
       </div>
