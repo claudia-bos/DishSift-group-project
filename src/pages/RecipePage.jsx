@@ -173,24 +173,32 @@ const RecipePage = () => {
   return (
     <div>
       <h1>{recipe.label}</h1>
-      <img src={`${recipe.image}.jpg`} alt="recipe_image" />
-      <p>
-        <a href={recipe.sourceUrl} target="_blank" rel="noopener noreferrer">
-          See full recipe here
-        </a>
-      </p>
-      <button onClick={handleAddToFavorites}>
-        {isFavorite ? "Added to Favorites" : "Add to Favorites"}
-      </button>
-
       <div>
-        <h2>Nutritional Information</h2>
+        <img src={`${recipe.image}.jpg`} alt="recipe_image" />
         <div>
-          <div>Calories: {Math.round(recipe.calories)}</div>
-          <div>Total Weight: {Math.round(recipe.totalWeight)} grams</div>
-          <div>Total Time: {recipe.totalTime} minutes</div>
-          <div>Meal Type: {recipe.mealType}</div>
-          <div>Dish Type: {recipe.dishType}</div>
+          <p>
+            <a
+              href={recipe.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              See full recipe here
+            </a>
+          </p>
+          <button onClick={handleAddToFavorites}>
+            {isFavorite ? "Added to Favorites" : "Add to Favorites"}
+          </button>
+
+          <div>
+            <h2>Nutritional Information</h2>
+            <div>
+              <div>Calories: {Math.round(recipe.calories)}</div>
+              <div>Total Weight: {Math.round(recipe.totalWeight)} grams</div>
+              <div>Total Time: {recipe.totalTime} minutes</div>
+              <div>Meal Type: {recipe.mealType}</div>
+              <div>Dish Type: {recipe.dishType}</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -202,6 +210,7 @@ const RecipePage = () => {
           ))}
         </div>
       </div>
+
       <div>
         <h2>Health Labels</h2>
         <div>
@@ -210,6 +219,7 @@ const RecipePage = () => {
           ))}
         </div>
       </div>
+
       <div>
         <h2>Rate this Recipe</h2>
         <div>

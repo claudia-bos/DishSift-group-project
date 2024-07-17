@@ -46,7 +46,7 @@ const Login = ({ closePopup }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-other-blue backdrop-blur-sm flex justify-center items-center bg-opacity-50">
+    <div className="fixed inset-0 z-50 bg-gray-200 backdrop-blur-sm flex justify-center items-center bg-opacity-50">
       <div className="relative bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <button
           onClick={closePopup}
@@ -54,7 +54,7 @@ const Login = ({ closePopup }) => {
         >
           <XMarkIcon className="h-6 w-6" />
         </button>
-        <h2 className="text-2xl font-bold mb-6 text-center animate-pulse">
+        <h2 className="text-2xl font-bold mb-6 text-center animate-pulse text-other-buttons">
           Log In
         </h2>
 
@@ -62,7 +62,7 @@ const Login = ({ closePopup }) => {
           <div className="">
             <label
               htmlFor="username"
-              className="block text-sm font-medium text-black mb-1"
+              className="block text-sm font-medium text-primary-900 mb-1"
             >
               Username:
             </label>
@@ -74,14 +74,14 @@ const Login = ({ closePopup }) => {
               name="username"
               placeholder="Jhon11"
               required
-              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm focus:ring-indigo-500 sm:text-sm cursor-pointer"
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
             />
           </div>
 
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-black mb-1"
+              className="block text-sm font-medium text-primary-900 mb-1"
             >
               Password:
             </label>
@@ -93,7 +93,7 @@ const Login = ({ closePopup }) => {
               name="password"
               placeholder="********"
               required
-              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm focus:ring-indigo-500 sm:text-sm cursor-pointer"
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
             />
           </div>
 

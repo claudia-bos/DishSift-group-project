@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Login from "../login/Login.jsx";
 import LogoutButton from "../logoutbutton/LogoutButton.jsx";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
 
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -31,7 +32,7 @@ const Header = () => {
         </Link>
       </div>
       <nav className="flex space-x-4 items-center font-medium text-primary-0 drop-shadow-md">
-        <div className="relative">
+        <div className="relative mx-2">
           <span onClick={handleDropdownToggle} className="cursor-pointer">
             Recipes
           </span>
@@ -52,21 +53,23 @@ const Header = () => {
           )}
         </div>
 
-        <div className="flex space-x-4">
+        <div className="flex">
           {userId ? (
             <>
-              <Link className="ml-4" to="/profile-page">
-                Profile
+              <Link className="mx-2" to="/profile-page">
+                <UserCircleIcon className="h-6 w-6 mr-1" />
               </Link>
               <LogoutButton />
             </>
           ) : (
             <>
-              <span className="cursor-pointer" onClick={handleLoginClick}>
+              <span className="cursor-pointer mx-2" onClick={handleLoginClick}>
                 Log in
               </span>
               <br />
-              <Link to="/register">Sign Up</Link>
+              <Link to="/register" className="mx-2">
+                Sign Up
+              </Link>
               {showLogin && <Login closePopup={closePopup} />}
             </>
           )}

@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
+import {
+  Cog6ToothIcon,
+  UserIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 
 const ProfilePage = () => {
   const userId = useSelector((state) => state.userId);
@@ -85,45 +90,77 @@ const ProfilePage = () => {
   }
 
   return (
-    <div>
-      <h1>{user.username}'s Profile</h1>
+    <div className="flex justify-center items-start min-h-screen bg-gray-200 p-8 ">
+      <div className="w-1/3 pr-4">
+        <div className="flex items-center mb-4  text-primary-1000">
+          <UserIcon className="h-6 w-6 mr-1" />
+          <h1 className="text-2xl text-primary-1000 font-bold font-serif">
+            {user.username}'s Profile
+          </h1>
+        </div>
 
-      <div>
-        <button onClick={() => setShowSettings(!showSettings)}>Settings</button>
+        <div
+          className="flex items-center cursor-pointer text-primary-1000"
+          onClick={() => setShowSettings(!showSettings)}
+        >
+          <Cog6ToothIcon className="h-6 w-6 mr-1 mb-6 " />
+          <span className="font-serif text-xl text-zinc-500 hover:underline mb-6">
+            Settings
+          </span>
+        </div>
         {showSettings && (
-          <div>
-            <h2>Update Account</h2>
+          <div className="mb-8">
+            <h2 className="text-lg text-primary-1000 mb-2">Update Account</h2>
             <input
               type="text"
               placeholder="New Username"
               value={newUsername}
               onChange={(e) => setNewUsername(e.target.value)}
+              className="block w-72  mb-2 p-2 border border-other-gray rounded-md focus:outline-none"
             />
             <input
               type="password"
               placeholder="New Password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              className="block w-72  mb-2 p-2 border border-other-gray rounded-md focus:outline-none"
             />
-            <button onClick={handleUpdateAccount}>Update</button>
+            <button
+              onClick={handleUpdateAccount}
+              className="bg-primary-700 text-white px-4 py-2 rounded-md mb-6 hover:bg-other-hover"
+            >
+              Update
+            </button>
 
-            <h2>Delete Account</h2>
+            <h2 className="text-lg text-primary-1000 mb-2">Delete Account</h2>
             <input
               type="password"
               placeholder="Confirm Password"
               value={deletePassword}
               onChange={(e) => setDeletePassword(e.target.value)}
+              className="block w-72 mb-2 p-2 border border-other-gray rounded-md focus:outline-none"
             />
-            <button onClick={() => setShowDeleteConfirm(true)}>
-              Delete Account
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              className="bg-primary-700 text-white px-4 py-2 rounded-md mb-5 hover:bg-other-hover"
+            >
+              Delete
             </button>
             {showDeleteConfirm && (
-              <div>
-                <p>
+              <div className="mt-4">
+                <p className="mb-4 text-base text-zinc-500 font-serif ">
                   {user.username}, are you sure you want to delete your account?
                 </p>
-                <button onClick={handleDeleteAccount}>Yes, Delete</button>
-                <button onClick={() => setShowDeleteConfirm(false)}>
+                <button
+                  onClick={handleDeleteAccount}
+                  className="text-zinc-500 px-4 py-2 hover:underline font-serif "
+                >
+                  Yes, Delete
+                </button>
+                <button
+                  onClick={() => setShowDeleteConfirm(false)}
+                  className="text-zinc-500 px-4 py-2 hover:underline font-serif "
+                >
                   Cancel
                 </button>
               </div>
@@ -132,21 +169,29 @@ const ProfilePage = () => {
         )}
       </div>
 
-      <div>
-        <h2>Favorite Recipes</h2>
+      <div className="w-2/3 pl-4">
+        <h2 className="text-2xl text-primary-1000 font-bold font-serif mb-8">
+          Favorite Recipes
+        </h2>
         <div>
           {favorites.map((fav) => (
-            <div key={fav.favoriteId}>
+            <div
+              key={fav.favoriteId}
+              className="flex items-center justify-between mb-2"
+            >
+              <button
+                onClick={() => handleRemoveFavorite(fav.favoriteId)}
+                className="mr-4 text-secondary-1000 hover:text-secondary-1000"
+              >
+                <TrashIcon className="h-5 w-5" />
+              </button>
               <Link
                 to={`/recipe-page/${fav.recipeId}`}
                 state={{ recipe: fav.Recipe }}
+                className="text-secondary-1000 hover:underline flex-grow"
               >
                 {fav.recipe.label}
               </Link>
-              <br />
-              <button onClick={() => handleRemoveFavorite(fav.favoriteId)}>
-                Remove
-              </button>
             </div>
           ))}
         </div>

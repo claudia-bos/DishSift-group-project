@@ -53,41 +53,74 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
-          <label>Username:</label>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            type="username"
-            name="username"
-            id="username"
-            placeholder="Jhon11"
-            required
-          />
+    <div className=" justify-center items-center min-h-screen flex bg-gray-200">
+      <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-4 text-center animate-pulse text-other-buttons">
+          Sign Up
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-primary-900 mb-1"
+            >
+              Username:
+            </label>
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              type="username"
+              name="username"
+              id="username"
+              placeholder="Jhon11"
+              required
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
+            />
+          </div>
 
-          <label>Password:</label>
-          <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            name="password"
-            id="password"
-            placeholder="*******"
-            required
-          />
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-primary-900 mb-1"
+            >
+              Password:
+            </label>
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              name="password"
+              id="password"
+              placeholder="*******"
+              required
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
+            />
+          </div>
 
-          <label>Confirm Password:</label>
-          <input
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            type="password"
-            required
-          />
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-primary-900 mb-1"
+            >
+              Confirm Password:
+            </label>
+            <input
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type="password"
+              required
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
+            />
+          </div>
 
-          <button type="submit">Sign Up</button>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="flex w-full justify-center rounded-md bg-other-buttons px-3 py-1.5 text-base font-semibold text-white shadow-sm hover:bg-primary-700"
+            >
+              Sign Up
+            </button>
+          </div>
         </form>
       </div>
     </div>
