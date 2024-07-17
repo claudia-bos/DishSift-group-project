@@ -53,16 +53,16 @@ const Register = () => {
   };
 
   return (
-    <div className=" justify-center items-center min-h-screen flex bg-secondary-200">
+    <div className=" justify-center items-center min-h-screen flex bg-gray-200">
       <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4 text-center animate-pulse">
+        <h2 className="text-2xl font-bold mb-4 text-center animate-pulse text-other-buttons">
           Sign Up
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="username"
-              className="block text-sm font-medium text-black mb-1"
+              className="block text-sm font-medium text-primary-900 mb-1"
             >
               Username:
             </label>
@@ -74,14 +74,14 @@ const Register = () => {
               id="username"
               placeholder="Jhon11"
               required
-              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm focus:ring-indigo-500 sm:text-sm cursor-pointer"
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
             />
           </div>
 
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-black mb-1"
+              className="block text-sm font-medium text-primary-900 mb-1"
             >
               Password:
             </label>
@@ -93,14 +93,14 @@ const Register = () => {
               id="password"
               placeholder="*******"
               required
-              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm focus:ring-indigo-500 sm:text-sm cursor-pointer"
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
             />
           </div>
 
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block text-sm font-medium text-black mb-1"
+              className="block text-sm font-medium text-primary-900 mb-1"
             >
               Confirm Password:
             </label>
@@ -109,14 +109,14 @@ const Register = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               type="password"
               required
-              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm focus:ring-indigo-500 sm:text-sm cursor-pointer"
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
             />
           </div>
 
           <div className="flex justify-center">
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-other-buttons px-3 py-1.5 text-base font-semibold text-white shadow-sm hover:bg-other-hover"
+              className="flex w-full justify-center rounded-md bg-other-buttons px-3 py-1.5 text-base font-semibold text-white shadow-sm hover:bg-primary-700"
             >
               Sign Up
             </button>

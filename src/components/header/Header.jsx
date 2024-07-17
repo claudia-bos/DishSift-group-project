@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Login from "../login/Login.jsx";
 import LogoutButton from "../logoutbutton/LogoutButton.jsx";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
 
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -54,7 +55,7 @@ const Header = () => {
           {userId ? (
             <>
               <Link className="ml-4" to="/profile-page">
-                Profile
+                <UserCircleIcon className="h-6 w-6 mr-1" />
               </Link>
               <LogoutButton />
             </>
