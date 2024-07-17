@@ -3,6 +3,7 @@ import axios from "axios";
 const SearchPageButton = ({
   pageNum,
   setAllRecipeData,
+  setCountOfRecipes,
   inputText,
   filters,
 }) => {
@@ -11,7 +12,8 @@ const SearchPageButton = ({
       inputText: inputText,
       filters: filters,
     });
-    setAllRecipeData(newRecipeData.data);
+    setAllRecipeData(newRecipeData.data.recipes);
+    setCountOfRecipes(newRecipeData.data.totalMatchedRecipes);
   };
   return (
     <div>

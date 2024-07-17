@@ -7,7 +7,7 @@ const PantryInput = ({
   setPantryRecipeData,
   userId,
   setCountOfRecipes,
-  setPantryPageNumber,
+  setPageNumber,
   toggleThePage,
 }) => {
   const [allFoodData, setAllFoodData] = useState([]);
@@ -33,7 +33,7 @@ const PantryInput = ({
       setPantryFoodData={setPantryFoodData}
       setPantryRecipeData={setPantryRecipeData}
       setCountOfRecipes={setCountOfRecipes}
-      setPantryPageNumber={setPantryPageNumber}
+      setPageNumber={setPageNumber}
       toggleThePage={toggleThePage}
       userId={userId}
     />
