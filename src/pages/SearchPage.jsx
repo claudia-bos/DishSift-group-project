@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import { query } from "express";
 import SearchRecipes from "../components/search/SearchRecipes.jsx";
 import SearchPageButton from "../components/search/SearchPageButton.jsx";
 import SearchPageInput from "../components/search/SearchPageInput.jsx";
@@ -8,7 +7,6 @@ import SearchPageFilters from "../components/search/SearchPageFilters.jsx";
 
 const SearchPage = () => {
   const [allRecipeData, setAllRecipeData] = useState([]);
-  // const [queryPageNum, setQueryPageNum] = useState(0);
   const [queryButtons, setQueryButtons] = useState([]);
   const [labels, setLabels] = useState([]);
   const [inputText, setInputText] = useState("");
