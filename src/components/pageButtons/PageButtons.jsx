@@ -41,7 +41,7 @@ const PageButtons = ({
   }, [desiredPageNumber]);
 
   return (
-    <div className="flex justify-center w-screen text-primary-800">
+    <div className="flex justify-center w-full text-primary-800">
       <ReactPaginate
         breakLabel="..."
         previousLabel={<ChevronLeftIcon className="size-7" />}
