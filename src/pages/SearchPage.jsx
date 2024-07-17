@@ -12,77 +12,39 @@ const SearchPage = () => {
   const [labels, setLabels] = useState([]);
   const [inputText, setInputText] = useState("");
   const [filters, setFilters] = useState([]);
+  const [countOfRecipes, setCountOfRecipes] = useState(0);
+  const [searchPageNumber, setSearchPageNumber] = useState(0);
+  const [togglePage, setTogglePage] = useState(false);
 
-  let queryPageNum = 0;
-  const test = [];
+  const toggleThePage = () => setTogglePage(!togglePage);
 
   useEffect(() => {
     axios
-      .post(`/api/recipes/all/${queryPageNum}`, {
+      .post(`/api/recipes/all/${searchPageNumber}`, {
         inputText: inputText,
         filters: filters,
       })
       .then((res) => {
-        setAllRecipeData(res.data);
-        if (res.data.length === 20) {
-          handleNextButton(res.data);
-        }
+        setAllRecipeData(res.data.recipes);
+        setCountOfRecipes(res.data.totalRecipes);
+        window.scroll({ top: 0, left: 0, behavior: "smooth" });
       });
     axios.get(`/api/labels/all`).then((res) => {
       setLabels(res.data);
     });
-  }, []);
-
-  // useEffect(() => {
-  //   if (allRecipeData.length === 20) {
-  //     handleNextButton(allRecipeData);
-  //   }
-  // }, []);
-
-  const handleNextButton = async (thisQuery) => {
-    // console.log("You made it to the function");
-    // console.log("thisQuery: ", thisQuery);
-    if (thisQuery.length === 20) {
-      test.push(queryPageNum);
-      console.log("test:", test);
-      // setQueryButtons([...test]);
-      queryPageNum++;
-      console.log("queryPageNum:", queryPageNum);
-      const nextQuery = await axios.post(`/api/recipes/all/${queryPageNum}`, {
-        inputText: inputText,
-        filters: filters,
-      });
-      // console.log("nextQuery.data:", nextQuery.data);
-      handleNextButton(nextQuery.data);
-    } else {
-      setQueryButtons([...test]);
-      return console.log("Function should have stopped by now");
-    }
-  };
+  }, [togglePage]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Filtering recipes...");
-    queryPageNum = 0;
+    setSearchPageNumber(0);
     setQueryButtons([]);
-
-    const filteredRecipes = await axios.post(
-      `/api/recipes/all/${queryPageNum}`,
-      { inputText: inputText, filters: filters }
-    );
-    setAllRecipeData(filteredRecipes.data);
-
-    // console.log("filteredRecipes.data:", filteredRecipes.data);
-    // console.log("filteredRecipes.data.length:", filteredRecipes.data.length);
-
-    if (filteredRecipes.data.length === 20) {
-      handleNextButton(filteredRecipes.data);
-    }
+    toggleThePage();
   };
 
   const handleClearFilters = async () => {
     console.log("Clearing filters...");
-    queryPageNum = 0;
+    setSearchPageNumber(0);
     setQueryButtons([]);
     setInputText("");
     setFilters([]);
@@ -97,6 +59,7 @@ const SearchPage = () => {
       pageNum={el}
       key={el}
       setAllRecipeData={setAllRecipeData}
+      setCountOfRecipes={setCountOfRecipes}
       inputText={inputText}
       filters={filters}
     />
@@ -111,9 +74,6 @@ const SearchPage = () => {
     />
   ));
 
-  // console.log("allRecipeData:", allRecipeData);
-  // console.log("queryButtons:", queryButtons);
-
   return (
     <div className="pt-24">
       <h1>Search Page</h1>
@@ -125,6 +85,13 @@ const SearchPage = () => {
       <div className="m-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-8">
         {allRecipes}
       </div>
+      <PageButtons
+        itemsPerPage={20}
+        totalItemsCount={countOfRecipes}
+        desiredPageNumber={searchPageNumber}
+        setPageNumber={setSearchPageNumber}
+        toggleThePage={toggleThePage}
+      />
       <div>{allQueryButtons}</div>
     </div>
   );

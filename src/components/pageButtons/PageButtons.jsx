@@ -2,6 +2,20 @@ import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
+/**
+ *  A styled set of pagination page buttons.
+ *
+ *  @component
+ *
+ *  @param {object} props - the componet accepts props.
+ *  @param {Number} props.itemsPerPage - the number of items on a single page.
+ *  @param {Number} props.totalItemsCount - the number of total items across all pages.
+ *  @param {Number} props.desiredPageNumber - the page number to change to without clicking a page button.
+ *  @param {Function} props.setPageNumber - a function to set the page number state on a parent component.
+ *  @param {Function} props.toggleThePage - a function to toggle the state to trigger actions on a parent component.
+ *
+ *  @returns {JSX.Element} the rendered pagination page buttons
+ */
 const PageButtons = ({
   itemsPerPage,
   totalItemsCount,
@@ -12,6 +26,8 @@ const PageButtons = ({
   // Here we use item offsets; we could also use page offsets
   const [itemOffset, setItemOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+
+  console.log("PageButtons totalItemsCount:", totalItemsCount);
 
   const pageCount = Math.ceil(totalItemsCount / itemsPerPage);
 
