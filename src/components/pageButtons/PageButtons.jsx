@@ -6,7 +6,7 @@ const PageButtons = ({
   itemsPerPage,
   totalItemsCount,
   desiredPageNumber,
-  setPantryPageNumber,
+  setPageNumber,
   toggleThePage,
 }) => {
   // Here we use item offsets; we could also use page offsets
@@ -22,7 +22,7 @@ const PageButtons = ({
       `User requested page number ${event.selected}, which is offset ${newOffset}`
     );
     setCurrentPage(event.selected);
-    setPantryPageNumber(event.selected);
+    setPageNumber(event.selected);
     toggleThePage();
     setItemOffset(newOffset);
   };

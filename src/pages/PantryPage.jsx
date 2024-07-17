@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import PantryRecipes from "../components/pantry/PantryRecipes.jsx";
+import RecipeCard from "../components/recipeCard/RecipeCard.jsx";
 import PantryFoods from "../components/pantry/PantryFoods.jsx";
 import PantryInput from "../components/pantry/PantryInput.jsx";
 import PageButtons from "../components/pageButtons/PageButtons.jsx";
@@ -38,7 +38,7 @@ const PantryPage = () => {
   }, []);
 
   const recipes = pantryRecipeData.map((el) => (
-    <PantryRecipes recipe={el} key={el.recipeId} />
+    <RecipeCard recipe={el} showMatchedIngredients={true} key={el.recipeId} />
   ));
 
   const userFoods = pantryFoodData.map((el) => (
@@ -70,7 +70,7 @@ const PantryPage = () => {
             setPantryFoodData={setPantryFoodData}
             setPantryRecipeData={setPantryRecipeData}
             setCountOfRecipes={setCountOfRecipes}
-            setPantryPageNumber={setPantryPageNumber}
+            setPageNumber={setPantryPageNumber}
             toggleThePage={toggleThePage}
             userId={userId}
           />
@@ -80,7 +80,7 @@ const PantryPage = () => {
           itemsPerPage={20}
           totalItemsCount={countOfRecipes}
           desiredPageNumber={pantryPageNumber}
-          setPantryPageNumber={setPantryPageNumber}
+          setPageNumber={setPantryPageNumber}
           toggleThePage={toggleThePage}
         />
       </div>
