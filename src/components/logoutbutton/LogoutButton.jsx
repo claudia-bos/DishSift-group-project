@@ -21,7 +21,7 @@ const LogoutButton = () => {
   };
 
   return (
-    <div>
+    <div className="font-medium text-primary-0 drop-shadow-md">
       <button onClick={handleLogout}>Log Out</button>
     </div>
   );

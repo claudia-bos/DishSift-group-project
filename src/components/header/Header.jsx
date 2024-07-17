@@ -23,7 +23,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg shadow-lg fixed top-0 z-10">
+    <header className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg shadow-lg fixed top-0 z-20">
       <div className="flex-grow">
         <Link to="/">
           <h1 className="text-3xl font-medium text-center text-primary-0 drop-shadow-md">
@@ -31,8 +31,8 @@ const Header = () => {
           </h1>
         </Link>
       </div>
-      <nav className="flex space-x-4 items-center font-medium text-primary-0 drop-shadow-md">
-        <div className="relative mx-2">
+      <nav className="flex items-center">
+        <div className="relative mx-2 font-medium text-primary-0 drop-shadow-md">
           <span onClick={handleDropdownToggle} className="cursor-pointer">
             Recipes
           </span>
@@ -56,18 +56,27 @@ const Header = () => {
         <div className="flex">
           {userId ? (
             <>
-              <Link className="mx-2" to="/profile-page">
+              <Link
+                className="mx-2 font-medium text-primary-0 drop-shadow-md"
+                to="/profile-page"
+              >
                 <UserCircleIcon className="h-6 w-6 mr-1" />
               </Link>
               <LogoutButton />
             </>
           ) : (
             <>
-              <span className="cursor-pointer mx-2" onClick={handleLoginClick}>
+              <span
+                className="cursor-pointer mx-2 font-medium text-primary-0 drop-shadow-md"
+                onClick={handleLoginClick}
+              >
                 Log in
               </span>
               <br />
-              <Link to="/register" className="mx-2">
+              <Link
+                to="/register"
+                className="mx-2 font-medium text-primary-0 drop-shadow-md"
+              >
                 Sign Up
               </Link>
               {showLogin && <Login closePopup={closePopup} />}
