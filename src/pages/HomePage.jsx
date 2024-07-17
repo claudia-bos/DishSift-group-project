@@ -20,7 +20,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen pt-16 px-4 pb-4">
       <Carousel recipes={recipes} />
     </div>
   );

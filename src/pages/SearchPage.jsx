@@ -116,7 +116,7 @@ const SearchPage = () => {
   // console.log("queryButtons:", queryButtons);
 
   return (
-    <div>
+    <div className="pt-24">
       <h1>Search Page</h1>
       <form action="submit" onSubmit={handleSubmit}>
         <SearchPageInput inputText={inputText} setInputText={setInputText} />

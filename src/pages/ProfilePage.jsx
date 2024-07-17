@@ -90,7 +90,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="flex justify-center items-start min-h-screen bg-gray-200 p-8 ">
+    <div className="flex pt-24 justify-center items-start min-h-screen bg-gray-200 p-8 ">
       <div className="w-1/3 pr-4">
         <div className="flex items-center mb-4  text-primary-1000">
           <UserIcon className="h-6 w-6 mr-1" />
