@@ -29,8 +29,8 @@ const Header = () => {
           <h1 className="text-3xl font-bold text-center">DishSift</h1>
         </Link>
       </div>
-      <nav className="flex space-x-4 items-center">
-        <div className="relative">
+      <nav className="flex items-center">
+        <div className="relative mx-2">
           <span onClick={handleDropdownToggle} className="cursor-pointer">
             Recipes
           </span>
@@ -51,21 +51,23 @@ const Header = () => {
           )}
         </div>
 
-        <div className="flex space-x-4">
+        <div className="flex">
           {userId ? (
             <>
-              <Link className="ml-4" to="/profile-page">
+              <Link className="mx-2" to="/profile-page">
                 <UserCircleIcon className="h-6 w-6 mr-1" />
               </Link>
               <LogoutButton />
             </>
           ) : (
             <>
-              <span className="cursor-pointer" onClick={handleLoginClick}>
+              <span className="cursor-pointer mx-2" onClick={handleLoginClick}>
                 Log in
               </span>
               <br />
-              <Link to="/register">Sign Up</Link>
+              <Link to="/register" className="mx-2">
+                Sign Up
+              </Link>
               {showLogin && <Login closePopup={closePopup} />}
             </>
           )}
