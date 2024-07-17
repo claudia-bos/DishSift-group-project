@@ -3,18 +3,17 @@ import axios from "axios";
 const PantryFoods = ({
   food,
   setPantryFoodData,
-  setPantryRecipeData,
   userId,
+  setPantryPageNumber,
+  toggleThePage,
 }) => {
   const handleClick = async () => {
     await axios.delete(`/api/pantry/delete/${food.foodId}`);
 
     await axios.get(`/api/pantry/foods/${userId}`).then((res) => {
       setPantryFoodData(res.data);
-    });
-
-    await axios.get(`/api/pantry/recipes/${userId}/0`).then((res) => {
-      setPantryRecipeData(res.data.recipes);
+      setPantryPageNumber(0);
+      toggleThePage();
     });
   };
   return (

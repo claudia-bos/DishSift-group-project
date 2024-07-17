@@ -12,35 +12,30 @@ const PantryPage = () => {
   const [pantryRecipeData, setPantryRecipeData] = useState([]);
   const [countOfRecipes, setCountOfRecipes] = useState(0);
   const [pantryFoodData, setPantryFoodData] = useState([]);
-  const [queryButtons, setQueryButtons] = useState([]);
+  const [pantryPageNumber, setPantryPageNumber] = useState(0);
+  const [togglePage, setTogglePage] = useState(false);
 
-  let queryPageNum = 0;
-  const buttonCount = [];
+  const toggleThePage = () => setTogglePage(!togglePage);
 
   useEffect(() => {
     if (userId) {
-      axios.get(`/api/pantry/recipes/${userId}/${queryPageNum}`).then((res) => {
-        console.log("Response:", res.data); // TODO: remove later
-        setPantryRecipeData(res.data.recipes);
-        setCountOfRecipes(res.data.totalMatchedRecipes);
-      });
+      axios
+        .get(`/api/pantry/recipes/${userId}/${pantryPageNumber}`)
+        .then((res) => {
+          console.log("Response:", res.data); // TODO: remove later
+          setPantryRecipeData(res.data.recipes);
+          setCountOfRecipes(res.data.totalMatchedRecipes);
+          window.scroll({ top: 0, left: 0, behavior: "smooth" });
+        });
       axios.get(`/api/pantry/foods/${userId}`).then((res) => {
         setPantryFoodData(res.data);
       });
     }
-  }, [userId]);
+  }, [userId, togglePage]);
 
-  // console.log("pantryRecipeData:", pantryRecipeData);
-  // console.log("pantryFoodData:", pantryFoodData);
-
-  const handlePageButtonPress = async (pageNum) => {
-    const newRecipeData = await axios.get(
-      `/api/pantry/recipes/${userId}/${pageNum}`
-    );
-    console.log("Response:", newRecipeData.data);
-    setPantryRecipeData(newRecipeData.data.recipes);
-    setCountOfRecipes(newRecipeData.data.totalMatchedRecipes);
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const recipes = pantryRecipeData.map((el) => (
     <PantryRecipes recipe={el} key={el.recipeId} />
@@ -52,16 +47,21 @@ const PantryPage = () => {
       key={el.foodId}
       setPantryFoodData={setPantryFoodData}
       setPantryRecipeData={setPantryRecipeData}
+      setCountOfRecipes={setCountOfRecipes}
+      setPantryPageNumber={setPantryPageNumber}
+      toggleThePage={toggleThePage}
       userId={userId}
     />
   ));
 
   return (
-    <div>
+    <div className="mt-24 mb-4 px-4">
       <h1>Pantry</h1>
       <div>
         <h1>Matched Recipes</h1>
-        {recipes}
+        <div className="m-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-8">
+          {recipes}
+        </div>
       </div>
       <div>
         <h1>User Foods</h1>
@@ -69,6 +69,9 @@ const PantryPage = () => {
           <PantryInput
             setPantryFoodData={setPantryFoodData}
             setPantryRecipeData={setPantryRecipeData}
+            setCountOfRecipes={setCountOfRecipes}
+            setPantryPageNumber={setPantryPageNumber}
+            toggleThePage={toggleThePage}
             userId={userId}
           />
         </div>
@@ -76,7 +79,9 @@ const PantryPage = () => {
         <PageButtons
           itemsPerPage={20}
           totalItemsCount={countOfRecipes}
-          buttonClickFunction={handlePageButtonPress}
+          desiredPageNumber={pantryPageNumber}
+          setPantryPageNumber={setPantryPageNumber}
+          toggleThePage={toggleThePage}
         />
       </div>
     </div>
