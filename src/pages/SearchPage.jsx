@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SearchRecipes from "../components/search/SearchRecipes.jsx";
+import PageButtons from "../components/pageButtons/PageButtons.jsx";
+import RecipeCard from "../components/recipeCard/RecipeCard.jsx";
 import SearchPageButton from "../components/search/SearchPageButton.jsx";
 import SearchPageInput from "../components/search/SearchPageInput.jsx";
 import SearchPageFilters from "../components/search/SearchPageFilters.jsx";
@@ -88,7 +89,7 @@ const SearchPage = () => {
   };
 
   const allRecipes = allRecipeData.map((el) => (
-    <SearchRecipes recipe={el} key={el.recipeId} />
+    <RecipeCard recipe={el} key={el.recipeId} />
   ));
 
   const allQueryButtons = queryButtons.map((el) => (
@@ -121,7 +122,9 @@ const SearchPage = () => {
         {allLabels}
         <button onClick={handleClearFilters}>Clear Filters</button>
       </form>
-      <div>{allRecipes}</div>
+      <div className="m-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-8">
+        {allRecipes}
+      </div>
       <div>{allQueryButtons}</div>
     </div>
   );
