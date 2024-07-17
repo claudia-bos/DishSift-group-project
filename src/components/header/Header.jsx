@@ -22,13 +22,15 @@ const Header = () => {
   };
 
   return (
-    <header className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-50 via-primary-100 to-primary-50 drop-shadow-md">
+    <header className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg">
       <div className="flex-grow">
         <Link to="/">
-          <h1 className="text-3xl font-bold text-center">DishSift</h1>
+          <h1 className="text-3xl font-medium text-center text-primary-0 drop-shadow-md">
+            Dish Sift
+          </h1>
         </Link>
       </div>
-      <nav className="flex space-x-4 items-center">
+      <nav className="flex space-x-4 items-center font-medium text-primary-0 drop-shadow-md">
         <div className="relative">
           <span onClick={handleDropdownToggle} className="cursor-pointer">
             Recipes
