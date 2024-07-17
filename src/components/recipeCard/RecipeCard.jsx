@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
  *  A styled card component to show the recipe title and image.
  *
  *  @component
- *  @param {object} props - the componet accepts props
- *  @param {object} props.recipe - the recipe to include on the card
+ *
+ *  @param {object} props - the componet accepts props.
+ *  @param {object} props.recipe - the recipe to include on the card.
  *  @param {boolean} [props.showMatchedIngredients=false] - pass true to show the matched
- *    ingredient numbers
- *  @returns {JSX.Element} the rendered recipe card
+ *    ingredient numbers.
+ *
+ *  @returns {JSX.Element} the rendered recipe card.
  */
 const RecipeCard = ({ recipe, showMatchedIngredients = false }) => {
   const navigate = useNavigate();
