@@ -22,7 +22,6 @@ const PantryPage = () => {
       axios
         .get(`/api/pantry/recipes/${userId}/${pantryPageNumber}`)
         .then((res) => {
-          console.log("Response:", res.data); // TODO: remove later
           setPantryRecipeData(res.data.recipes);
           setCountOfRecipes(res.data.totalMatchedRecipes);
           window.scroll({ top: 0, left: 0, behavior: "smooth" });
