@@ -23,46 +23,52 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full h-[68px] flex items-center justify-between py-4 px-6 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg shadow-lg fixed top-0 z-20">
+    <header className="w-full h-[68px] flex items-center justify-between py-4 px-4 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg shadow-lg fixed top-0 z-20">
       <div className="w-full flex justify-end">
-        <div className="absolute flex justify-center w-full left-0 top-[15px]">
+        <div className="absolute flex left-8 md:left-0 md:justify-center w-full left-0 top-[15px]">
           <Link to="/" className="">
-            <h1 className="text-3xl font-medium text-center text-primary-0 drop-shadow-md">
+            <h1
+              className="text-3xl font-medium text-center text-primary-0 drop-shadow-md 
+                hover:before:scale-x-100 hover:before:origin-left relative before:w-full before:h-0.5 before:origin-right before:transition-transform before:duration-300 before:scale-x-0 before:bg-primary-50 before:absolute before:left-0 before:bottom-0"
+            >
               Dish Sift
             </h1>
           </Link>
         </div>
         <nav className="flex items-center">
-          <div className="relative mx-2 font-medium text-primary-0 drop-shadow-md">
+          <div className="group relative mx-4 font-medium text-primary-0 drop-shadow-md">
             <div
-              onClick={handleDropdownToggle}
+              onFocus={handleDropdownToggle}
               className="cursor-pointer
               hover:before:scale-x-100 hover:before:origin-left relative before:w-full before:h-0.5 before:origin-right before:transition-transform before:duration-300 before:scale-x-0 before:bg-primary-50 before:absolute before:left-0 before:bottom-0"
             >
               Recipes
             </div>
-            {dropdownVisible && (
-              <div className="absolute top-full mt-2 rounded">
-                <Link className="block px-1 py-2" to="/search-page">
+            {/* {dropdownVisible && ( */}
+            <div className="fixed top-full -left-3 hidden rounded-b-lg text-nowrap px-2 py-4 group-hover:block group-focus:block hover:block bg-gradient-to-br from-primary-800 to-primary-600">
+              <Link className="block px-1 pb-2" to="/search-page">
+                <div className="w-fit hover:before:scale-x-100 hover:before:origin-left relative before:w-full before:h-0.5 before:origin-right before:transition-transform before:duration-300 before:scale-x-0 before:bg-primary-50 before:absolute before:left-0 before:bottom-0">
                   All Recipes
-                </Link>
-                <br />
-                {userId && (
-                  <>
-                    <Link className="block px-1 py-2" to="/pantry-page">
+                </div>
+              </Link>
+              {userId && (
+                <>
+                  <Link className="block px-1 pt-2" to="/pantry-page">
+                    <div className="w-fit hover:before:scale-x-100 hover:before:origin-left relative before:w-full before:h-0.5 before:origin-right before:transition-transform before:duration-300 before:scale-x-0 before:bg-primary-50 before:absolute before:left-0 before:bottom-0">
                       Pantry Recipes
-                    </Link>
-                  </>
-                )}
-              </div>
-            )}
+                    </div>
+                  </Link>
+                </>
+              )}
+            </div>
+            {/* )} */}
           </div>
 
           <div className="flex">
             {userId ? (
               <>
                 <Link
-                  className="mx-2 font-medium text-primary-0 drop-shadow-md hover:text-primary-100"
+                  className="mx-4 font-medium text-primary-0 drop-shadow-md hover:text-primary-100"
                   to="/profile-page"
                 >
                   <UserCircleIcon className="h-6 w-6 mr-1" />
@@ -72,7 +78,7 @@ const Header = () => {
             ) : (
               <>
                 <span
-                  className="cursor-pointer mx-2 font-medium text-primary-0 drop-shadow-md  
+                  className="cursor-pointer mx-4 font-medium text-primary-0 drop-shadow-md  
                   hover:before:scale-x-100 hover:before:origin-left relative before:w-full before:h-0.5 before:origin-right before:transition-transform before:duration-300 before:scale-x-0 before:bg-primary-50 before:absolute before:left-0 before:bottom-0"
                   onClick={handleLoginClick}
                 >
@@ -81,7 +87,7 @@ const Header = () => {
                 <br />
                 <Link
                   to="/register"
-                  className="mx-2 font-medium text-primary-0 drop-shadow-md
+                  className="mx-4 font-medium text-primary-0 drop-shadow-md
                   hover:before:scale-x-100 hover:before:origin-left relative before:w-full before:h-0.5 before:origin-right before:transition-transform before:duration-300 before:scale-x-0 before:bg-primary-50 before:absolute before:left-0 before:bottom-0"
                 >
                   Sign Up
