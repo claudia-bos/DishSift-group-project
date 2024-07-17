@@ -25,6 +25,7 @@ const PantryPage = () => {
           console.log("Response:", res.data); // TODO: remove later
           setPantryRecipeData(res.data.recipes);
           setCountOfRecipes(res.data.totalMatchedRecipes);
+          window.scroll({ top: 0, left: 0, behavior: "smooth" });
         });
       axios.get(`/api/pantry/foods/${userId}`).then((res) => {
         setPantryFoodData(res.data);
@@ -33,8 +34,8 @@ const PantryPage = () => {
   }, [userId, togglePage]);
 
   useEffect(() => {
-    console.log("Pantry page number is now:", pantryPageNumber);
-  }, [pantryPageNumber]);
+    window.scrollTo(0, 0);
+  }, []);
 
   const recipes = pantryRecipeData.map((el) => (
     <PantryRecipes recipe={el} key={el.recipeId} />
