@@ -58,7 +58,9 @@ const PantryPage = () => {
       <h1>Pantry</h1>
       <div>
         <h1>Matched Recipes</h1>
-        {recipes}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 px-8">
+          {recipes}
+        </div>
       </div>
       <div>
         <h1>User Foods</h1>
