@@ -412,18 +412,18 @@ const handlerFunctions = {
 
       // Query to get the total count of matched recipes
       const countQuery = `
-      SELECT 
-        COUNT(DISTINCT r."recipe_id") AS "totalMatchedRecipes"
-      FROM 
-        "recipes" r
-        JOIN "recipe_ingredients" ri ON r."recipe_id" = ri."recipe_id"
-        JOIN "ingredients" i ON ri."ingredient_id" = i."ingredient_id"
-        JOIN "food" f ON i."food_id" = f."food_id"
-        JOIN "pantries" p ON f."food_id" = p."food_id"
-        LEFT JOIN "users" u ON u."user_id" = p."user_id"
-      WHERE 
-        u."user_id" = ${id}
-    `;
+        SELECT 
+          COUNT(DISTINCT r."recipe_id") AS "totalMatchedRecipes"
+        FROM 
+          "recipes" r
+          JOIN "recipe_ingredients" ri ON r."recipe_id" = ri."recipe_id"
+          JOIN "ingredients" i ON ri."ingredient_id" = i."ingredient_id"
+          JOIN "food" f ON i."food_id" = f."food_id"
+          JOIN "pantries" p ON f."food_id" = p."food_id"
+          LEFT JOIN "users" u ON u."user_id" = p."user_id"
+        WHERE 
+          u."user_id" = ${id}
+      `;
 
       const countResult = await db.query(countQuery, {
         replacements: { id },
@@ -478,6 +478,8 @@ const handlerFunctions = {
     const { pageNum } = req.params;
     const { inputText, filters } = req.body;
 
+    console.log("Query for page:", pageNum);
+
     console.log("inputText:", inputText);
     console.log("filters:", filters);
 
@@ -492,6 +494,15 @@ const handlerFunctions = {
     });
 
     if (matchedLabels.length === 0) {
+      // Query to get the total count of matched recipes
+      const countResult = await Recipe.findAll({
+        where: {
+          label: { [Op.iLike]: `%${inputText}%` },
+        },
+      });
+
+      const totalMatchedRecipes = countResult.length;
+
       const allRecipes = await Recipe.findAll({
         where: {
           label: { [Op.iLike]: `%${inputText}%` },
@@ -501,11 +512,34 @@ const handlerFunctions = {
         order: [["recipeId", "ASC"]],
       });
 
-      res.status(200).send(allRecipes);
+      res
+        .status(200)
+        .send({ recipes: allRecipes, totalRecipes: totalMatchedRecipes });
     } else {
       const matchedLabelIds = matchedLabels.map((el) => el.labelId);
 
       console.log("matchedLabelIds:", matchedLabelIds);
+
+      const countResult = await Recipe.findAll({
+        where: {
+          label: { [Op.iLike]: `%${inputText}%` },
+        },
+        order: [["recipeId", "ASC"]],
+        include: [
+          {
+            model: RecipeLabel,
+            where: {
+              labelId: {
+                [Op.in]: matchedLabelIds,
+              },
+            },
+          },
+        ],
+        subQuery: false,
+        distinct: true,
+      });
+
+      const totalMatchedRecipes = countResult.length;
 
       const allRecipes = await Recipe.findAll({
         where: {
@@ -528,10 +562,9 @@ const handlerFunctions = {
         distinct: true,
       });
 
-      // console.log("allRecipes:", allRecipes);
-      // console.log("allRecipes.length:", allRecipes.length);
-
-      res.status(200).send(allRecipes);
+      res
+        .status(200)
+        .send({ recipes: allRecipes, totalRecipes: totalMatchedRecipes });
     }
   },
 
