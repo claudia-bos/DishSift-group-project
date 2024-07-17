@@ -31,8 +31,6 @@ const Header = () => {
           </h1>
         </Link>
       </div>
-      {/* <nav className="flex space-x-4 items-center font-medium text-primary-0 drop-shadow-md">
-        <div className="relative mx-2"> */}
       <nav className="flex items-center">
         <div className="relative mx-2 font-medium text-primary-0 drop-shadow-md">
           <span onClick={handleDropdownToggle} className="cursor-pointer">
