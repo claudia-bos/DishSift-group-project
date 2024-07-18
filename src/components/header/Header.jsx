@@ -23,9 +23,9 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full h-[68px] flex items-center justify-between py-4 px-4 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg shadow-lg fixed top-0 z-20">
+    <header className="w-full h-[68px] px-12 flex items-center justify-between py-4 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg shadow-lg fixed top-0 z-20">
       <div className="w-full flex justify-end">
-        <div className="absolute flex left-8 md:left-0 md:justify-center w-full left-0 top-[15px]">
+        <div className="absolute flex left-16 md:left-0 md:justify-center w-full top-[15px]">
           <Link to="/" className="">
             <h1
               className="text-3xl font-medium text-center text-primary-0 drop-shadow-md 
