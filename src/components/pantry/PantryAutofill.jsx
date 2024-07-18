@@ -23,11 +23,8 @@ const PantryAutoFill = ({
   };
 
   return (
-    <div>
-      {inputText != "" &&
-        food.foodName.slice(0, inputText.length) === inputText && (
-          <p onClick={handleClick}>{food.foodName}</p>
-        )}
+    <div className="w-full py-2 px-4 rounded-lg hover:bg-primary-800 hover:text-primary-50 hover:cursor-pointer">
+      <p onClick={handleClick}>{food.foodName}</p>
     </div>
   );
 };

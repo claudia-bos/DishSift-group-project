@@ -372,6 +372,7 @@ const handlerFunctions = {
           attributes: [],
         },
       ],
+      order: [["foodName", "ASC"]],
     });
 
     res.status(200).send(userPantryFoods);

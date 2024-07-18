@@ -24,30 +24,35 @@ const PantryInput = ({
     console.log("inputText:", inputText);
   };
 
-  const autoFillOptions = allFoodData.map((el) => (
-    <PantryAutoFill
-      food={el}
-      key={el.foodId}
-      inputText={inputText}
-      setInputText={setInputText}
-      setPantryFoodData={setPantryFoodData}
-      setPantryRecipeData={setPantryRecipeData}
-      setCountOfRecipes={setCountOfRecipes}
-      setPageNumber={setPageNumber}
-      toggleThePage={toggleThePage}
-      userId={userId}
-    />
-  ));
+  const autoFillOptions = allFoodData.map(
+    (el) =>
+      inputText != "" &&
+      el.foodName.slice(0, inputText.length) === inputText && (
+        <PantryAutoFill
+          food={el}
+          key={el.foodId}
+          inputText={inputText}
+          setInputText={setInputText}
+          setPantryFoodData={setPantryFoodData}
+          setPantryRecipeData={setPantryRecipeData}
+          setCountOfRecipes={setCountOfRecipes}
+          setPageNumber={setPageNumber}
+          toggleThePage={toggleThePage}
+          userId={userId}
+        />
+      )
+  );
 
   return (
-    <div>
+    <div className="w-full">
       <input
         type="text"
-        defaultValue={inputText}
+        value={inputText}
         onChange={handleKeyPress}
+        placeholder="Add an ingredient"
         className="pl-2 ring-1 focus:ring-2 ring-primary-800 focus:ring-primary-600 focus:outline-none rounded-md"
       />
-      {autoFillOptions}
+      <div className="grid grid-cols-4 gap-2">{autoFillOptions}</div>
     </div>
   );
 };
