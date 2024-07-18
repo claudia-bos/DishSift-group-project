@@ -330,7 +330,7 @@ const RecipePage = () => {
                       />
                     ))}
                   </div>
-                  <p>{rev.comment}</p>
+                  <p className="mt-2">{rev.comment}</p>
                   {rev.user.userId === userId && (
                     <div className="mt-2 flex gap-2">
                       <button
