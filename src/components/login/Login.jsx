@@ -1,4 +1,3 @@
-// delete later
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -46,7 +45,7 @@ const Login = ({ closePopup }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-200 backdrop-blur-sm flex justify-center items-center bg-opacity-50">
+    <div className="fixed h-screen inset-0 z-50 bg-gray-200 backdrop-blur-sm flex justify-center items-center bg-opacity-50">
       <div className="relative bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <button
           onClick={closePopup}
