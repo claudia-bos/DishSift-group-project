@@ -35,7 +35,7 @@ function App() {
   }, []);
 
   return (
-    <div className="text-primary-900 antialiased selection:bg-secondary-300 selection:text-secondary-900">
+    <div className="text-primary-1000 antialiased selection:bg-secondary-300 selection:text-secondary-900">
       <Header />
       <Outlet />
       {/* <RecipePage /> */}
