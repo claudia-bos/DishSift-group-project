@@ -73,7 +73,7 @@ const Login = ({ closePopup }) => {
               name="username"
               placeholder="Jhon11"
               required
-              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-text focus:outline-none"
             />
           </div>
 
@@ -92,7 +92,7 @@ const Login = ({ closePopup }) => {
               name="password"
               placeholder="********"
               required
-              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-pointer focus:outline-none"
+              className="block w-full px-3 py-2 border border-other-gray rounded-md shadow-sm sm:text-sm cursor-text focus:outline-none"
             />
           </div>
 
