@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const PantryFoods = ({
   food,
@@ -17,8 +18,18 @@ const PantryFoods = ({
     });
   };
   return (
-    <div>
-      <p onClick={handleClick}>{food.foodName}</p>
+    <div className="flex items-center px-4 py-1 rounded-full drop-shadow-md text-secondary-1000 bg-secondary-300">
+      <div className="drop-shadow">
+        {food.foodName.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+          letter.toUpperCase()
+        )}
+      </div>
+      <div className="ml-2">
+        <FaRegTrashAlt
+          className=" text-sm drop-shadow hover:cursor-pointer hover:text-secondary-700"
+          onClick={handleClick}
+        />
+      </div>
     </div>
   );
 };
