@@ -50,9 +50,11 @@ const PantryInput = ({
         value={inputText}
         onChange={handleKeyPress}
         placeholder="Add an ingredient"
-        className="pl-2 ring-1 focus:ring-2 ring-primary-800 focus:ring-primary-600 focus:outline-none rounded-md"
+        className="px-2 ring-1 focus:ring-2 ring-primary-800 focus:ring-primary-600 focus:outline-none rounded-md"
       />
-      <div className="grid grid-cols-4 gap-2">{autoFillOptions}</div>
+      <div className="grid gap-2 grid-cols-2 mt-4 md:grid-cols-3 lg:grid-cols-4">
+        {autoFillOptions}
+      </div>
     </div>
   );
 };
