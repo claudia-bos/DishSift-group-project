@@ -589,7 +589,7 @@ const handlerFunctions = {
   },
 
   // recipe caroussels
-  highestRatedCaroussel: async (req, res) => {
+  highestRatedCarousel: async (req, res) => {
     const highestRatedRecipeIds = await Rating.findAll({
       attributes: [
         "recipeId",
@@ -606,10 +606,12 @@ const handlerFunctions = {
       averageScore: parseFloat(rating.dataValues.averageScore),
     }));
 
-    res.status(200).send(parsedRatings);
+    res
+      .status(200)
+      .send({ recipes: parsedRatings, header: "Highest Rated Recipes" });
   },
 
-  randomCaroussel: async (req, res) => {
+  randomCarousel: async (req, res) => {
     const mealTypes = await Recipe.findAll({
       attributes: [
         Sequelize.fn("DISTINCT", Sequelize.col("meal_type")),
@@ -660,6 +662,9 @@ const handlerFunctions = {
     const queryType = _lodash.random(0, 3);
     console.log("queryType:", queryType);
 
+    // response object
+    let response = {};
+
     switch (queryType) {
       case 0:
         const recipesByMealType = await Recipe.findAll({
@@ -670,13 +675,13 @@ const handlerFunctions = {
           order: [[Sequelize.fn("RANDOM")]],
         });
         console.log("recipesByMealType:", recipesByMealType);
-        res.status(200).send({
+        response = {
           recipes: recipesByMealType,
           header: `Featured ${randomMealType.replace(
             randomMealType.charAt(0),
             randomMealType.charAt(0).toUpperCase()
           )} Recipes`,
-        });
+        };
         break;
       case 1:
         const recipesByDishType = await Recipe.findAll({
@@ -687,13 +692,13 @@ const handlerFunctions = {
           order: [[Sequelize.fn("RANDOM")]],
         });
         console.log("recipesByDishType:", recipesByDishType);
-        res.status(200).send({
+        response = {
           recipes: recipesByDishType,
           header: `Featured ${randomDishType.replace(
             randomDishType.charAt(0),
             randomDishType.charAt(0).toUpperCase()
           )} Recipes`,
-        });
+        };
         break;
       case 2:
         const recipesByLabel = await Recipe.findAll({
@@ -718,10 +723,10 @@ const handlerFunctions = {
 
         console.log("fiveRecipesByLabel:", fiveRecipesByLabel);
 
-        res.status(200).send({
+        response = {
           recipes: fiveRecipesByLabel,
           header: `Featured ${fiveRecipesByLabel[0].recipe_labels[0].label.labelName} Recipes`,
-        });
+        };
         break;
       case 3:
         const recipesByFood = await Recipe.findAll({
@@ -754,10 +759,10 @@ const handlerFunctions = {
 
         console.log("fiveRecipesByFood:", fiveRecipesByFood);
 
-        res.status(200).send({
+        response = {
           recipes: fiveRecipesByFood,
           header: `Featured Recipes With ${fiveRecipesByFood[0].recipe_ingredients[0].ingredient.food.foodName}`,
-        });
+        };
         break;
       default:
         const randomRecipes = await Recipe.findAll({
@@ -767,11 +772,38 @@ const handlerFunctions = {
 
         console.log("randomRecipes:", randomRecipes);
 
-        res
-          .status(200)
-          .send({ recipes: randomRecipes, header: "Featured Recipes" });
+        response = { recipes: randomRecipes, header: "Featured Recipes" };
         break;
     }
+
+    // console.log("response:", response);
+
+    // add average scores for recipes
+    for await (let recipe of response.recipes) {
+      const averageScore = await Rating.findAll({
+        where: {
+          recipeId: recipe.recipeId,
+        },
+        attributes: [
+          [Sequelize.fn("AVG", Sequelize.col("score")), "averageScore"],
+        ],
+      });
+
+      console.log("averageScore:", averageScore[0].toJSON().averageScore);
+
+      if (averageScore[0].toJSON().averageScore === null) {
+        recipe.setDataValue("averageScore", 0);
+      } else {
+        recipe.setDataValue(
+          "averageScore",
+          parseFloat(averageScore[0].toJSON().averageScore)
+        );
+      }
+    }
+
+    console.log("response:", response);
+
+    res.status(200).send(response);
   },
 };
 
