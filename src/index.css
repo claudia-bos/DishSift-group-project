@@ -14,7 +14,7 @@
 
 .list-yellow-disc::before {
   content: "•";
-  color: #d45027;
+  color: #dd6946;
   position: absolute;
   left: 0;
 }
