@@ -43,8 +43,9 @@ const PantryInput = ({
     <div>
       <input
         type="text"
-        defaultValue={inputText}
+        value={inputText}
         onChange={handleKeyPress}
+        placeholder="Add an ingredient"
         className="pl-2 ring-1 focus:ring-2 ring-primary-800 focus:ring-primary-600 focus:outline-none rounded-md"
       />
       {autoFillOptions}
