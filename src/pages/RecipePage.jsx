@@ -63,6 +63,11 @@ const RecipePage = () => {
 
   // Handle adding to favorites
   const handleAddToFavorites = async () => {
+    if (!userId) {
+      alert("Please log in or sign up to add this recipe to favorites.");
+      return;
+    }
+
     if (isFavorite) {
       alert("You have already added this recipe to favorites.");
     } else {
@@ -330,7 +335,7 @@ const RecipePage = () => {
                       />
                     ))}
                   </div>
-                  <p>{rev.comment}</p>
+                  <p className="mt-2">{rev.comment}</p>
                   {rev.user.userId === userId && (
                     <div className="mt-2 flex gap-2">
                       <button
