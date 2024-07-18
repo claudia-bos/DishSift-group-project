@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { HeartIcon, StarIcon } from "@heroicons/react/24/solid";
 
 const RecipePage = () => {
   const userId = useSelector((state) => state.userId); // Get the userId from Redux store
@@ -56,11 +57,16 @@ const RecipePage = () => {
 
   // Handle adding to favorites
   const handleAddToFavorites = async () => {
-    try {
-      await axios.post("/api/favorites", { userId, recipeId });
-      setIsFavorite(true);
-    } catch (error) {
-      console.error("Error adding to favorites:", error);
+    if (isFavorite) {
+      alert("You have already added this recipe to favorites.");
+    } else {
+      try {
+        await axios.post("/api/favorites", { userId, recipeId });
+        setIsFavorite(true);
+      } catch (error) {
+        console.error("Error adding to favorites:", error);
+        alert("An error occurred while adding to favorites. Please try again.");
+      }
     }
   };
 
@@ -171,112 +177,155 @@ const RecipePage = () => {
   // console.log("userId from Redux store:", userId);
 
   return (
-    <div>
-      <h1>{recipe.label}</h1>
-      <div>
-        <img src={`${recipe.image}.jpg`} alt="recipe_image" />
-        <div>
-          <p>
+    <div className="max-w-full mx-auto px-4 pt-24  bg-gray-200">
+      <h1 className="text-3xl font-bold mb-5 text-primary-1000">
+        {recipe.label}
+      </h1>
+      <div className="flex flex-col lg:flex-row gap-8">
+        <div className="lg:w-1/2">
+          <img
+            src={`${recipe.image}.jpg`}
+            alt="recipe_image"
+            className="w-full rounded-md shadow-md"
+          />
+
+          <div className="mt-4 border rounded-md overflow-hidden">
+            <div className="bg-other-gray p-2">
+              <h2 className="text-lg font-semibold text-black">
+                Nutritional Information
+              </h2>
+            </div>
+            <div className="p-4 grid grid-cols-2 gap-3 text-stone-900 bg-slate-200">
+              <div>Calories: {Math.round(recipe.calories)}</div>
+              <div>Meal Type: {recipe.mealType}</div>
+              <div>Total Weight: {Math.round(recipe.totalWeight)}g</div>
+              <div>Dish Type: {recipe.dishType}</div>
+              <div>Total Time: {recipe.totalTime} mins</div>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <h2 className="text-xl font-medium text-black">Ingredients</h2>
+            <ul className="ml-4 mt-2 space-y-2">
+              {ingredients.map((ingredient) => (
+                <li key={ingredient.ingredientId} className="list-yellow-disc">
+                  <span>{ingredient.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="mt-5">
+            <h2 className="text-xl font-medium text-black">Health Tags</h2>
+            <div className="flex flex-wrap gap-2 mt-2 text-sm">
+              {labels.map((label) => (
+                <div
+                  key={label.labelId}
+                  className="text-primary-1000 p-2 rounded border-2 border-yellow-600"
+                >
+                  {label.labelName}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="lg:w-1/2">
+          <div className="mt-4 flex items-center text-xl">
+            <button
+              onClick={handleAddToFavorites}
+              className="flex items-center text-black"
+            >
+              <HeartIcon className="h-6 w-6 text-other-heartColor mr-1" />
+              {isFavorite ? "Added to Favorites" : "Add to Favorites"}
+            </button>
+          </div>
+
+          <p className="mt-4">
             <a
               href={recipe.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-primary-1000 underline"
             >
               See full recipe here
             </a>
           </p>
-          <button onClick={handleAddToFavorites}>
-            {isFavorite ? "Added to Favorites" : "Add to Favorites"}
-          </button>
 
-          <div>
-            <h2>Nutritional Information</h2>
-            <div>
-              <div>Calories: {Math.round(recipe.calories)}</div>
-              <div>Total Weight: {Math.round(recipe.totalWeight)} grams</div>
-              <div>Total Time: {recipe.totalTime} minutes</div>
-              <div>Meal Type: {recipe.mealType}</div>
-              <div>Dish Type: {recipe.dishType}</div>
+          <div className="mt-8">
+            <h2 className="text-xl font-medium text-black">Rate this Recipe</h2>
+            <div className="flex mt-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <StarIcon
+                  key={star}
+                  onClick={() => handleRatingChange(star)}
+                  className={`h-8 w-8 cursor-pointer ${
+                    star <= rating ? "text-yellow-500" : "text-gray-300"
+                  }`}
+                />
+              ))}
             </div>
           </div>
-        </div>
-      </div>
 
-      <div>
-        <h2>Ingredients</h2>
-        <div>
-          {ingredients.map((ingredient) => (
-            <div key={ingredient.ingredientId}>{ingredient.text}</div>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h2>Health Labels</h2>
-        <div>
-          {labels.map((label) => (
-            <div key={label.labelId}>{label.labelName}</div>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h2>Rate this Recipe</h2>
-        <div>
-          {[1, 2, 3, 4, 5].map((star) => (
-            <span
-              key={star}
-              onClick={() => handleRatingChange(star)}
-              style={{
-                cursor: "pointer",
-                color: star <= rating ? "black" : "lightgrey",
-                fontSize: "1.5rem",
-              }}
+          <div className="mt-8">
+            <h2 className="text-xl font-medium text-black">
+              {isEditing ? "Edit your Review" : "Leave a Review"}
+            </h2>
+            <form
+              onSubmit={isEditing ? handleEditReviewSubmit : handleReviewSubmit}
+              className="mt-2"
             >
-              {star}
-            </span>
-          ))}
-        </div>
-      </div>
+              <textarea
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+                placeholder="Tell us what you think..."
+                onFocus={handleFocus}
+                disabled={!userId}
+                className="w-full p-2 border rounded resize-none h-32 focus:outline-none border-other-gray"
+              ></textarea>
 
-      <div>
-        <h2>{isEditing ? "Edit your Review" : "Leave a Review"}</h2>
-        <form
-          onSubmit={isEditing ? handleEditReviewSubmit : handleReviewSubmit}
-        >
-          <textarea
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            placeholder="Tell us what you think..."
-            onFocus={handleFocus}
-            disabled={!userId}
-          ></textarea>
-          <button type="submit" disabled={!userId}>
-            {isEditing ? "Save Changes" : "Submit"}
-          </button>
-        </form>
-      </div>
+              <button
+                type="submit"
+                disabled={!userId}
+                className="mt-2 px-4 py-2 rounded text-white  bg-other-buttons hover:bg-other-hover"
+              >
+                {isEditing ? "Save Changes" : "Submit"}
+              </button>
+            </form>
+          </div>
 
-      <div>
-        <h2>Reviews</h2>
-        {reviews.length > 0 ? (
-          reviews.map((rev) => (
-            <div key={rev.ratingId}>
-              <strong>{rev.user.username}</strong> rated it {rev.score} stars
-              <p>{rev.comment}</p>
-              {rev.user.userId === userId && (
-                <div>
-                  <button onClick={() => initiateEdit(rev)}>Edit</button>
-                  <button onClick={() => handleReviewDelete(rev.ratingId)}>
-                    Delete
-                  </button>
+          <div className="mt-8">
+            <h2 className="text-sm font-semibold text-black">Coments</h2>
+            <hr className="border-gray-300 mb-4" />
+            {reviews.length > 0 ? (
+              reviews.map((rev) => (
+                <div key={rev.ratingId} className="mt-4 text-black">
+                  <strong>{rev.user.username}</strong> rated it {rev.score}{" "}
+                  stars
+                  <p>{rev.comment}</p>
+                  {rev.user.userId === userId && (
+                    <div className="mt-2 flex gap-2">
+                      <button
+                        onClick={() => initiateEdit(rev)}
+                        className="px-2 py-1 bg-other-buttons hover:bg-other-hover text-white rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleReviewDelete(rev.ratingId)}
+                        className="px-2 py-1 bg-other-buttons hover:bg-other-hover text-white rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))
-        ) : (
-          <p>No reviews yet.</p>
-        )}
+              ))
+            ) : (
+              <p>No coments yet.</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

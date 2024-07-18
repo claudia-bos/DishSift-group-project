@@ -37,6 +37,8 @@ export default {
           gray: "#D4D4D4",
           buttons: "#1b7692",
           hover: "#27acd4",
+          heartColor: "#ef4444",
+          heartHover: "#dc2626",
         },
         font: {
           garamond: ['"EB Garamond"', "serif"],
