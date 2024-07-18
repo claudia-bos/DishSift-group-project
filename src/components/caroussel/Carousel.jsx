@@ -171,7 +171,7 @@ const RecipeCarousel = ({ type }) => {
         showArrows={true}
         showThumbs={false}
         showStatus={false}
-        // autoPlay={true}
+        autoPlay={true}
         infiniteLoop={true}
         interval={8000}
       >
