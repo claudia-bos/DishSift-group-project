@@ -617,7 +617,9 @@ const handlerFunctions = {
 
   // get all labels
   getAllLabels: async (req, res) => {
-    const allLabels = await Label.findAll();
+    const allLabels = await Label.findAll({
+      order: [["labelName", "ASC"]],
+    });
 
     res.status(200).send(allLabels);
   },
