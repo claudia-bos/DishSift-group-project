@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Login from "../login/Login.jsx";
 import LogoutButton from "../logoutbutton/LogoutButton.jsx";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
+import logo from "../../assets/logos/Dish_Sift_Logo_White.png";
 
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -26,6 +27,7 @@ const Header = () => {
     <header className="w-full h-[68px] px-12 flex items-center justify-between py-4 bg-gradient-to-r from-primary-700 via-primary-900 to-primary-700 drop-shadow-lg shadow-lg fixed top-0 z-20">
       <div className="w-full flex justify-end">
         <div className="absolute flex left-16 md:left-0 md:justify-center w-full top-[15px]">
+          <img src={logo} alt="logo" className="h-fit w-fit" />
           <Link to="/" className="">
             <h1
               className="text-3xl font-medium text-center text-primary-0 drop-shadow-md 
