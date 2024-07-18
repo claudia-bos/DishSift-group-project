@@ -21,14 +21,14 @@
 
 6. Create database by running: `npm run db:create`
 
-   - If you want to seed the database run: `npm run db:seed`
+7. Seed the database: `npm run db:seed`
 
-7. Run the app `npm run dev`
+8. Run the app `npm run dev`
 
 ## Database Commands
 
-| Command             | Description                                |
-| ------------------- | ------------------------------------------ |
-| `npm run db:create` | Create database                            |
-| `npm run db:seed`   | Seed the database                          |
-| `npm run db:drop`   | Drop the DB                                |
+| Command             | Description       |
+| ------------------- | ----------------- |
+| `npm run db:create` | Create database   |
+| `npm run db:seed`   | Seed the database |
+| `npm run db:drop`   | Drop the DB       |
