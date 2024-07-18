@@ -333,7 +333,7 @@ const RecipePage = () => {
                       </span>
                     </div>
                     <div className="flex items-center mt-1 space-x-1">
-                      {[1, 2, 3, 4].map((star) => (
+                      {[1, 2, 3, 4, 5].map((star) => (
                         <StarIcon
                           key={star}
                           className={`h-4 w-4 ${
