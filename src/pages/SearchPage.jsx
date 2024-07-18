@@ -75,7 +75,7 @@ const SearchPage = () => {
   ));
 
   return (
-    <div className="pt-24">
+    <div className="pt-24 mb-4 px-4 scroll-smooth">
       <h1>Search Page</h1>
       <form action="submit" onSubmit={handleSubmit}>
         <SearchPageInput inputText={inputText} setInputText={setInputText} />
