@@ -191,173 +191,182 @@ const RecipePage = () => {
 
   return (
     <div className="max-w-full mx-auto px-4 pt-24  bg-gray-200">
-      <h1 className="text-4xl font-bold mb-5 text-primary-1000">
-        {recipe.label}
-      </h1>
-      <div className="flex flex-col lg:flex-row gap-8">
-        <div className="lg:w-1/2">
-          <img
-            src={`${recipe.image}.jpg`}
-            alt="recipe_image"
-            className="w-full rounded-md shadow-md"
-          />
+      <div className="mx-12 pb-8">
+        <h1 className="text-4xl font-bold mb-5 text-primary-1000">
+          {recipe.label}
+        </h1>
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="lg:w-1/2">
+            <img
+              src={`${recipe.image}.jpg`}
+              alt="recipe_image"
+              className="w-full rounded-md shadow-md"
+            />
 
-          <div className="mt-4 border rounded-md overflow-hidden">
-            <div className="bg-other-gray p-2">
-              <h2 className="text-lg font-semibold text-black">
-                Nutritional Information
-              </h2>
+            <div className="mt-4 border rounded-md overflow-hidden">
+              <div className="bg-other-gray p-2">
+                <h2 className="text-lg font-semibold text-black">
+                  Nutritional Information
+                </h2>
+              </div>
+              <div className="p-4 grid grid-cols-2 gap-3 text-stone-900 bg-slate-200">
+                <div>Calories: {Math.round(recipe.calories)}</div>
+                <div>Meal Type: {recipe.mealType}</div>
+                <div>Total Weight: {Math.round(recipe.totalWeight)}g</div>
+                <div>Dish Type: {recipe.dishType}</div>
+                <div>Total Time: {recipe.totalTime} mins</div>
+              </div>
             </div>
-            <div className="p-4 grid grid-cols-2 gap-3 text-stone-900 bg-slate-200">
-              <div>Calories: {Math.round(recipe.calories)}</div>
-              <div>Meal Type: {recipe.mealType}</div>
-              <div>Total Weight: {Math.round(recipe.totalWeight)}g</div>
-              <div>Dish Type: {recipe.dishType}</div>
-              <div>Total Time: {recipe.totalTime} mins</div>
+
+            <div className="mt-4">
+              <h2 className="text-xl font-medium text-black">Ingredients</h2>
+              <ul className="ml-4 mt-2 space-y-2">
+                {ingredients.map((ingredient) => (
+                  <li
+                    key={ingredient.ingredientId}
+                    className="list-yellow-disc"
+                  >
+                    <span>{ingredient.text}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
 
-          <div className="mt-4">
-            <h2 className="text-xl font-medium text-black">Ingredients</h2>
-            <ul className="ml-4 mt-2 space-y-2">
-              {ingredients.map((ingredient) => (
-                <li key={ingredient.ingredientId} className="list-yellow-disc">
-                  <span>{ingredient.text}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="mt-5">
-            <h2 className="text-xl font-medium text-black">Health Tags</h2>
-            <div className="flex flex-wrap gap-2 mt-2 text-sm">
-              {labels.map((label) => (
-                <div
-                  key={label.labelId}
-                  className="text-primary-1000 p-2 rounded border-2 border-secondary-500"
-                >
-                  {label.labelName}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="lg:w-1/2 lg:pr-14">
-          <div className="mt-4 flex items-center text-xl">
-            <button
-              onClick={handleAddToFavorites}
-              className="flex items-center text-black"
-            >
-              <HeartIcon className="h-6 w-6 text-other-heartColor mr-1" />
-              {isFavorite ? "Added to Favorites" : "Add to Favorites"}
-            </button>
-          </div>
-
-          <p className="mt-4">
-            <a
-              href={recipe.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary-1000 underline"
-            >
-              See full recipe here
-            </a>
-          </p>
-
-          <div className="mt-8">
-            <h2 className="text-xl font-medium text-black">Rate this Recipe</h2>
-            <div className="flex mt-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <StarIcon
-                  key={star}
-                  onClick={() => handleRatingChange(star)}
-                  className={`h-8 w-8 cursor-pointer ${
-                    star <= rating ? "text-secondary-500" : "text-gray-300"
-                  }`}
-                />
-              ))}
+            <div className="mt-5">
+              <h2 className="text-xl font-medium text-black">Health Tags</h2>
+              <div className="flex flex-wrap gap-2 mt-2 text-sm">
+                {labels.map((label) => (
+                  <div
+                    key={label.labelId}
+                    className="text-primary-1000 p-2 rounded border-2 border-secondary-500"
+                  >
+                    {label.labelName}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="mt-8">
-            <h2 className="text-xl font-medium text-black">
-              {isEditing ? "Edit your Review" : "Leave a Review"}
-            </h2>
-            <form
-              onSubmit={isEditing ? handleEditReviewSubmit : handleReviewSubmit}
-              className="mt-2"
-            >
-              <textarea
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-                placeholder="Tell us what you think..."
-                onFocus={handleFocus}
-                disabled={!userId}
-                className="w-full max-w-md p-2 border rounded resize-none h-24 focus:outline-none border-other-gray"
-              ></textarea>
-
+          <div className="lg:w-1/2 lg:pr-14">
+            <div className="mt-4 flex items-center text-xl">
               <button
-                type="submit"
-                disabled={!userId}
-                className="mt-2 block w-min px-4 py-2 rounded text-white  bg-other-buttons hover:bg-other-hover"
+                onClick={handleAddToFavorites}
+                className="flex items-center text-black"
               >
-                {isEditing ? "Save Changes" : "Submit"}
+                <HeartIcon className="h-6 w-6 text-other-heartColor mr-1" />
+                {isFavorite ? "Added to Favorites" : "Add to Favorites"}
               </button>
-            </form>
-          </div>
+            </div>
 
-          <div className="mt-8">
-            <h2 className="text-sm font-semibold text-black">Reviews</h2>
-            <hr className="border-gray-300 mb-4" />
-            {reviews.length > 0 ? (
-              reviews.map((rev) => (
-                <div key={rev.ratingId} className="mt-4 text-black">
-                  <div className="flex items-center mb-1">
-                    <UserCircleIcon className="h-5 w-5 mr-1" />
-                    <strong>{rev.user.username}</strong>
-                    {/* {rev.score}{" "} */}
-                    <span className="ml-2">
-                      {rev.createdAt.replace(
-                        /^(\d{4})(-)(\d{2})(-)(\d{2}).+/g,
-                        "$3/$5/$1"
-                      )}
-                    </span>
-                  </div>
-                  <div className="flex items-center mt-1 space-x-1">
-                    {[1, 2, 3, 4].map((star) => (
-                      <StarIcon
-                        key={star}
-                        className={`h-4 w-4 ${
-                          star <= rev.score
-                            ? "text-secondary-500"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <p className="mt-2">{rev.comment}</p>
-                  {rev.user.userId === userId && (
-                    <div className="mt-2 flex gap-2">
-                      <button
-                        onClick={() => initiateEdit(rev)}
-                        className="px-2 py-1 bg-other-buttons hover:bg-other-hover text-white rounded"
-                      >
-                        <PencilSquareIcon className="h-5 w-5 mr-1" />
-                      </button>
-                      <button
-                        onClick={() => handleReviewDelete(rev.ratingId)}
-                        className="px-2 py-1 bg-other-buttons hover:bg-other-hover text-white rounded"
-                      >
-                        <TrashIcon className="h-5 w-5 mr-1" />
-                      </button>
+            <p className="mt-4">
+              <a
+                href={recipe.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-1000 underline"
+              >
+                See full recipe here
+              </a>
+            </p>
+
+            <div className="mt-8">
+              <h2 className="text-xl font-medium text-black">
+                Rate this Recipe
+              </h2>
+              <div className="flex mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <StarIcon
+                    key={star}
+                    onClick={() => handleRatingChange(star)}
+                    className={`h-8 w-8 cursor-pointer ${
+                      star <= rating ? "text-secondary-500" : "text-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h2 className="text-xl font-medium text-black">
+                {isEditing ? "Edit your Review" : "Leave a Review"}
+              </h2>
+              <form
+                onSubmit={
+                  isEditing ? handleEditReviewSubmit : handleReviewSubmit
+                }
+                className="mt-2"
+              >
+                <textarea
+                  value={review}
+                  onChange={(e) => setReview(e.target.value)}
+                  placeholder="Tell us what you think..."
+                  onFocus={handleFocus}
+                  disabled={!userId}
+                  className="w-full max-w-md p-2 border rounded resize-none h-24 focus:outline-none border-other-gray"
+                ></textarea>
+
+                <button
+                  type="submit"
+                  disabled={!userId}
+                  className="mt-2 block w-min px-4 py-2 rounded text-white  bg-other-buttons hover:bg-other-hover"
+                >
+                  {isEditing ? "Save Changes" : "Submit"}
+                </button>
+              </form>
+            </div>
+
+            <div className="mt-8">
+              <h2 className="text-sm font-semibold text-black">Reviews</h2>
+              <hr className="border-gray-300 mb-4" />
+              {reviews.length > 0 ? (
+                reviews.map((rev) => (
+                  <div key={rev.ratingId} className="mt-4 text-black">
+                    <div className="flex items-center mb-1">
+                      <UserCircleIcon className="h-5 w-5 mr-1" />
+                      <strong>{rev.user.username}</strong>
+                      {/* {rev.score}{" "} */}
+                      <span className="ml-2">
+                        {rev.createdAt.replace(
+                          /^(\d{4})(-)(\d{2})(-)(\d{2}).+/g,
+                          "$3/$5/$1"
+                        )}
+                      </span>
                     </div>
-                  )}
-                </div>
-              ))
-            ) : (
-              <p>No coments yet.</p>
-            )}
+                    <div className="flex items-center mt-1 space-x-1">
+                      {[1, 2, 3, 4].map((star) => (
+                        <StarIcon
+                          key={star}
+                          className={`h-4 w-4 ${
+                            star <= rev.score
+                              ? "text-secondary-500"
+                              : "text-gray-300"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <p className="mt-2">{rev.comment}</p>
+                    {rev.user.userId === userId && (
+                      <div className="mt-2 flex gap-2">
+                        <button
+                          onClick={() => initiateEdit(rev)}
+                          className="px-2 py-1 bg-other-buttons hover:bg-other-hover text-white rounded"
+                        >
+                          <PencilSquareIcon className="h-5 w-5 mr-1" />
+                        </button>
+                        <button
+                          onClick={() => handleReviewDelete(rev.ratingId)}
+                          className="px-2 py-1 bg-other-buttons hover:bg-other-hover text-white rounded"
+                        >
+                          <TrashIcon className="h-5 w-5 mr-1" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p>No coments yet.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
