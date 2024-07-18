@@ -260,7 +260,7 @@ const RecipePage = () => {
                   key={star}
                   onClick={() => handleRatingChange(star)}
                   className={`h-8 w-8 cursor-pointer ${
-                    star <= rating ? "text-secondary-600" : "text-gray-300"
+                    star <= rating ? "text-secondary-500" : "text-gray-300"
                   }`}
                 />
               ))}
