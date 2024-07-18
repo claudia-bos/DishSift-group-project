@@ -48,6 +48,7 @@ const SearchPage = () => {
     setQueryButtons([]);
     setInputText("");
     setFilters([]);
+    toggleThePage();
   };
 
   const allRecipes = allRecipeData.map((el) => (
@@ -70,18 +71,31 @@ const SearchPage = () => {
       label={el.labelName}
       filters={filters}
       setFilters={setFilters}
+      toggleThePage={toggleThePage}
       key={el.labelId}
+      id={el.labelId}
     />
   ));
 
   return (
     <div className="pt-24 mb-4 px-4 scroll-smooth">
-      <h1>Search Page</h1>
-      <form action="submit" onSubmit={handleSubmit}>
-        <SearchPageInput inputText={inputText} setInputText={setInputText} />
-        {allLabels}
-        <button onClick={handleClearFilters}>Clear Filters</button>
-      </form>
+      <div className="mx-12 flex flex-col justify-center items-center text-center">
+        <div className="text-4xl mb-4">All Recipes</div>
+        <form className="w-full" action="submit" onSubmit={handleSubmit}>
+          <SearchPageInput inputText={inputText} setInputText={setInputText} />
+          <div className="my-4 px-8 py-4 rounded-lg bg-primary-50 drop-shadow-md">
+            <div className="w-full pt-2 pb-4 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 ">
+              {allLabels}
+            </div>
+            <button
+              className="py-1 px-4 my-2 rounded-md bg-other-buttons text-primary-50 hover:bg-primary-600"
+              onClick={handleClearFilters}
+            >
+              Clear Filters
+            </button>
+          </div>
+        </form>
+      </div>
       <div className="m-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-8">
         {allRecipes}
       </div>
