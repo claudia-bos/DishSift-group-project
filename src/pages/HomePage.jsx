@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Carousel from "../components/caroussel/Carousel.jsx";
+import RecipeCarousel from "../components/caroussel/Carousel.jsx";
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -20,8 +20,9 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen pt-16 px-4 pb-4">
-      <Carousel recipes={recipes} />
+    <div className="flex flex-col min-h-screen p-4 pt-28 gap-y-8">
+      <RecipeCarousel type={"highest-rated"} />
+      <RecipeCarousel type={"random"} />
     </div>
   );
 };
