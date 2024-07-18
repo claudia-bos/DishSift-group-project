@@ -63,6 +63,11 @@ const RecipePage = () => {
 
   // Handle adding to favorites
   const handleAddToFavorites = async () => {
+    if (!userId) {
+      alert("Please log in or sign up to add this recipe to favorites.");
+      return;
+    }
+
     if (isFavorite) {
       alert("You have already added this recipe to favorites.");
     } else {
