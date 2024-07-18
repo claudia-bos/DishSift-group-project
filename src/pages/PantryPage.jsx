@@ -55,12 +55,11 @@ const PantryPage = () => {
 
   return (
     <div className="mt-24 mb-4 px-4 scroll-smooth">
-      <div className="mx-12">
-        <h1 className="text-4xl">Pantry</h1>
+      <div className="mx-12 flex flex-col justify-center items-center text-center">
+        <div className="text-4xl">Pantry</div>
         <div className="flex flex-col">
           <span>
-            Here is where you can add your available ingredients and find
-            recipes that use your ingredients.
+            Let's see what we can make. What ingredients do you have on hand?
           </span>
           <span>
             Recipes are ordered by the percentage of a recipe's total
