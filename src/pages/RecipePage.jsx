@@ -221,7 +221,7 @@ const RecipePage = () => {
               {labels.map((label) => (
                 <div
                   key={label.labelId}
-                  className="text-primary-1000 p-2 rounded border-2 border-yellow-600"
+                  className="text-primary-1000 p-2 rounded border-2 border-secondary-500"
                 >
                   {label.labelName}
                 </div>
