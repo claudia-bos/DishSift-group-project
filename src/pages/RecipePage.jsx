@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { HeartIcon, StarIcon } from "@heroicons/react/24/solid";
+import {
+  HeartIcon,
+  StarIcon,
+  PencilSquareIcon,
+  TrashIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/solid";
 
 const RecipePage = () => {
   const userId = useSelector((state) => state.userId); // Get the userId from Redux store
@@ -101,6 +107,7 @@ const RecipePage = () => {
       const reviewsResponse = await axios.get(
         `/api/recipes/ratings/${recipeId}`
       );
+      console.log(reviewsResponse.data);
       setReviews(reviewsResponse.data);
     } catch (error) {
       console.error("Error submitting review:", error);
@@ -178,7 +185,7 @@ const RecipePage = () => {
 
   return (
     <div className="max-w-full mx-auto px-4 pt-24  bg-gray-200">
-      <h1 className="text-3xl font-bold mb-5 text-primary-1000">
+      <h1 className="text-4xl font-bold mb-5 text-primary-1000">
         {recipe.label}
       </h1>
       <div className="flex flex-col lg:flex-row gap-8">
@@ -230,7 +237,7 @@ const RecipePage = () => {
           </div>
         </div>
 
-        <div className="lg:w-1/2">
+        <div className="lg:w-1/2 lg:pr-14">
           <div className="mt-4 flex items-center text-xl">
             <button
               onClick={handleAddToFavorites}
@@ -281,13 +288,13 @@ const RecipePage = () => {
                 placeholder="Tell us what you think..."
                 onFocus={handleFocus}
                 disabled={!userId}
-                className="w-full p-2 border rounded resize-none h-32 focus:outline-none border-other-gray"
+                className="w-full max-w-md p-2 border rounded resize-none h-24 focus:outline-none border-other-gray"
               ></textarea>
 
               <button
                 type="submit"
                 disabled={!userId}
-                className="mt-2 px-4 py-2 rounded text-white  bg-other-buttons hover:bg-other-hover"
+                className="mt-2 block w-min px-4 py-2 rounded text-white  bg-other-buttons hover:bg-other-hover"
               >
                 {isEditing ? "Save Changes" : "Submit"}
               </button>
@@ -295,13 +302,34 @@ const RecipePage = () => {
           </div>
 
           <div className="mt-8">
-            <h2 className="text-sm font-semibold text-black">Coments</h2>
+            <h2 className="text-sm font-semibold text-black">Reviews</h2>
             <hr className="border-gray-300 mb-4" />
             {reviews.length > 0 ? (
               reviews.map((rev) => (
                 <div key={rev.ratingId} className="mt-4 text-black">
-                  <strong>{rev.user.username}</strong> rated it {rev.score}{" "}
-                  stars
+                  <div className="flex items-center mb-1">
+                    <UserCircleIcon className="h-5 w-5 mr-1" />
+                    <strong>{rev.user.username}</strong>
+                    {/* {rev.score}{" "} */}
+                    <span className="ml-2">
+                      {rev.createdAt.replace(
+                        /^(\d{4})(-)(\d{2})(-)(\d{2}).+/g,
+                        "$3/$5/$1"
+                      )}
+                    </span>
+                  </div>
+                  <div className="flex items-center mt-1 space-x-1">
+                    {[1, 2, 3, 4].map((star) => (
+                      <StarIcon
+                        key={star}
+                        className={`h-4 w-4 ${
+                          star <= rev.score
+                            ? "text-secondary-500"
+                            : "text-gray-300"
+                        }`}
+                      />
+                    ))}
+                  </div>
                   <p>{rev.comment}</p>
                   {rev.user.userId === userId && (
                     <div className="mt-2 flex gap-2">
@@ -309,13 +337,13 @@ const RecipePage = () => {
                         onClick={() => initiateEdit(rev)}
                         className="px-2 py-1 bg-other-buttons hover:bg-other-hover text-white rounded"
                       >
-                        Edit
+                        <PencilSquareIcon className="h-5 w-5 mr-1" />
                       </button>
                       <button
                         onClick={() => handleReviewDelete(rev.ratingId)}
                         className="px-2 py-1 bg-other-buttons hover:bg-other-hover text-white rounded"
                       >
-                        Delete
+                        <TrashIcon className="h-5 w-5 mr-1" />
                       </button>
                     </div>
                   )}
