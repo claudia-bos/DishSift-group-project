@@ -21,9 +21,8 @@ const PantryPage = () => {
 
   useEffect(() => {
     if (userId) {
-      window.scroll({ top: 0, left: 0, behavior: "smooth" });
-
       setLoadingResults(true);
+      window.scroll({ top: 0, left: 0, behavior: "smooth" });
       axios
         .get(`/api/pantry/recipes/${userId}/${pantryPageNumber}`)
         .then((res) => {
@@ -103,15 +102,15 @@ const PantryPage = () => {
           </div>
         )}
       </div>
-      {!loadingResults && (
-        <PageButtons
-          itemsPerPage={20}
-          totalItemsCount={countOfRecipes}
-          desiredPageNumber={pantryPageNumber}
-          setPageNumber={setPantryPageNumber}
-          toggleThePage={toggleThePage}
-        />
-      )}
+      {/* {!loadingResults && ( */}
+      <PageButtons
+        itemsPerPage={20}
+        totalItemsCount={countOfRecipes}
+        desiredPageNumber={pantryPageNumber}
+        setPageNumber={setPantryPageNumber}
+        toggleThePage={toggleThePage}
+      />
+      {/* )} */}
     </div>
   );
 };
