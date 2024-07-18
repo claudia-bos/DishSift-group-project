@@ -28,6 +28,7 @@ const RecipePage = () => {
 
   // Fetch recipe and reviews on component mount
   useEffect(() => {
+    window.scroll({ top: 0, left: 0 });
     const fetchRecipeAndReviews = async () => {
       try {
         if (!recipe) {
