@@ -80,7 +80,10 @@ const RecipeCarousel = ({ type }) => {
       key={el.recipeId}
     >
       <div className="flex flex-row justify-center place-items-center gap-x-3 p-4 h-fit w-full bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 drop-shadow-[0px_15px_15px_rgba(0,0,0,0.5)]">
-        <h2 className="h-full text-secondary-100 text-4xl font-bold drop-shadow-md">
+        <h2
+          className="h-full w-fit cursor-pointer text-secondary-100 text-4xl font-bold drop-shadow-md hover:before:scale-x-100 hover:before:origin-left relative before:w-full before:h-0.5 before:origin-right before:transition-transform before:duration-300 before:scale-x-0 before:bg-secondary-100 before:absolute before:left-0 before:bottom-0"
+          onClick={() => navigate(`/recipe-page/${el.recipeId}`)}
+        >
           {el.label}
         </h2>
         <div className="flex flex-row place-items-center">
@@ -106,7 +109,13 @@ const RecipeCarousel = ({ type }) => {
             <p className="">Calories: {el.calories.toFixed(2)}</p>
           </div>
           <p>
-            From {el.sourceName}: <a href={el.sourceUrl}>{el.sourceUrl}</a>
+            From {el.sourceName}:{" "}
+            <a
+              className="hover:text-secondary-300 hover:drop-shadow-md"
+              href={el.sourceUrl}
+            >
+              {el.sourceUrl}
+            </a>
           </p>
         </div>
       </div>
@@ -162,7 +171,7 @@ const RecipeCarousel = ({ type }) => {
         showArrows={true}
         showThumbs={false}
         showStatus={false}
-        autoPlay={true}
+        // autoPlay={true}
         infiniteLoop={true}
         interval={8000}
       >
